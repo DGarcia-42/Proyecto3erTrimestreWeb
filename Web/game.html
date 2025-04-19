@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruleta de Descuentos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wheel-container">
+        <h1 class="wheel-container__title">Ruleta de Descuentos</h1>
+        <p class="wheel-container__subtitle">¡Gira la ruleta y obtén descuentos exclusivos!</p>
+        
+        <div class="wheel-wrapper">
+            <div class="wheel" id="wheel">
+                <!-- Las secciones se generarán con JavaScript -->
+            </div>
+            <div class="wheel__marker"></div>
+        </div>
+        
+        <div class="wheel-controls">
+            <button class="wheel-controls__button" id="spinButton">¡GIRAR AHORA!</button>
+        </div>
+        
+        <div class="wheel-result" id="result">
+            <p class="wheel-result__text">¡Felicidades! Has ganado:</p>
+            <p class="wheel-result__discount" id="discountResult"></p>
+            <p class="wheel-result__text">Tu código de descuento:</p>
+            <p class="wheel-result__code" id="discountCode"></p>
+        </div>
+    </div>
+
+    <script src="dom.js"></script>
+</body>
+</html>
