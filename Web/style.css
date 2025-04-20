@@ -167,25 +167,31 @@ header nav a:hover, header nav a:focus {
     top: 20%;
     transform-origin: center;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
     color: white;
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
-    width: 120px;
+    width: 110px;
     text-align: center;
     white-space: nowrap;
     transform: rotate(0deg);
+    transition: transform 0.3s ease;
+}
+
+.wheel__section-text:hover {
+    transform: translateZ(5px) scale(1.05);
 }
 
 .wheel__marker {
     position: absolute;
     top: -15px;
-    left: 50%;
+    left: 44%;
     transform: translateX(-50%);
     width: 30px;
     height: 30px;
     background-color: #ff4d4d;
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     z-index: 10;
+    transform: rotate(180deg);
     filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
 }
 
@@ -357,115 +363,115 @@ header nav a:hover, header nav a:focus {
     }
     
     .wheel__section-text {
-        font-size: 12px;
-        width: 100px;
+        font-size: 10px;
+        width: 90px;
     }
 }
 
 /* Estilos específicos para cada tipo de premio */
 .discount-5 {
-    font-size: 16px;
+    font-size: 13px;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
 }
 
 .discount-10 {
-    font-size: 16px;
+    font-size: 13px;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
 }
 
 .discount-15 {
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 800;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
 }
 
 .discount-20 {
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 800;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
 }
 
 .discount-30 {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 900;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .free-shipping {
-    font-size: 16px;
+    font-size: 13px;
     font-style: italic;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
 }
 
 .surprise-gift {
-    font-size: 16px;
+    font-size: 13px;
     font-variant: small-caps;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
 }
 
 .coupon-2x1 {
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 800;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
 }
 
 /* Ajustes específicos para textos en las secciones según su clase */
 .wheel__section-text.discount-5 {
-    top: 25%;
-    left: 15%;
+    top: 40%;
+    left: 18%;
     margin-left: 10px;
-    transform: rotate(65.5deg);
+    transform: rotate(65.5deg) translateZ(9px);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .wheel__section-text.discount-10 {
-    top: 25%;
-    left: 20%;
-    transform: rotate(65.5deg);
+    top: 43%;
+    left: 29%;
+    transform: rotate(65.5deg) translateZ(2px);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .wheel__section-text.discount-15 {
-    top: 25%;
-    left: 20%;
-    transform: rotate(67.5deg);
+    top: 40%;
+    left: 23%;
+    transform: rotate(67.5deg) translateZ(2px);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .wheel__section-text.discount-20 {
-    top: 25%;
-    left: 20%;
-    transform: rotate(65.5deg);
+    top: 40%;
+    left: 23%;
+    transform: rotate(65.5deg) translateZ(2px);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .wheel__section-text.discount-30 {
-    top: 25%;
-    left: 20%;
-    transform: rotate(65.5deg);
+    top: 40%;
+    left: 23%;
+    transform: rotate(65.5deg) translateZ(2px);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .wheel__section-text.free-shipping {
-    top: 25%;
-    left: 20%;
-    transform: rotate(65.5deg);
+    top: 40%;
+    left: 27%;
+    transform: rotate(65.5deg) translateZ(2px);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .wheel__section-text.surprise-gift {
-    top: 25%;
-    left: 20%;
-    transform: rotate(65.5deg);
+    top: 42%;
+    left: 23%;
+    transform: rotate(65.5deg) translateZ(2px);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
 }
 
 .wheel__section-text.coupon-2x1 {
-    top: 25%;
-    left: 20%;
-    transform: rotate(65.5deg);
+    top: 35%;
+    left: 23%;
+    transform: rotate(65.5deg) translateZ(2px);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
 }
 

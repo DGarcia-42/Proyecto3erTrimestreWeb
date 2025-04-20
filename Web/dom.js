@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { text: "CUPÓN 2x1", color: "#3F51B5", class: "coupon-2x1" }
     ];
     
-    // Verificar si ya se ha girado la ruleta anteriormente
-    const hasSpun = localStorage.getItem('wheelSpun') === 'true';
-    
     // Solo ejecutar el código de la ruleta si estamos en la página game.html
     if (document.getElementById('wheel')) {
         const wheel = document.getElementById('wheel');
@@ -21,6 +18,46 @@ document.addEventListener('DOMContentLoaded', function() {
         const result = document.getElementById('result');
         const discountResult = document.getElementById('discountResult');
         const discountCode = document.getElementById('discountCode');
+        
+        // Verificar si ya se ha girado la ruleta anteriormente
+        const hasSpun = localStorage.getItem('wheelSpun') === 'true';
+        
+        // Función para reiniciar la ruleta
+        function resetWheel() {
+            // Limpiar localStorage
+            localStorage.removeItem('wheelSpun');
+            localStorage.removeItem('wheelDiscount');
+            localStorage.removeItem('wheelCode');
+            localStorage.removeItem('wheelClass');
+            
+            // Habilitar el botón de girar
+            spinButton.disabled = false;
+            
+            // Ocultar el resultado
+            result.classList.remove('wheel-result--visible');
+            
+            // Reiniciar la posición de la ruleta
+            wheel.style.transition = 'none';
+            wheel.style.transform = 'rotate(0deg)';
+            
+            // Eliminar clase de ganador del indicador
+            if (currentPrizeIndicator) {
+                currentPrizeIndicator.classList.remove('winning-prize');
+                currentPrizeIndicator.textContent = 'Premio actual: --';
+                currentPrizeIndicator.className = 'current-prize-indicator';
+                currentPrizeIndicator.style.backgroundColor = '#f5f5f5';
+                currentPrizeIndicator.style.color = '#333';
+            }
+            
+            return false; // Evitar que el enlace navegue
+        }
+        
+        // Crear botón para reiniciar la ruleta
+        const resetButton = document.createElement('button');
+        resetButton.className = 'wheel-controls__button wheel-controls__button--reset';
+        resetButton.textContent = 'VOLVER A JUGAR';
+        resetButton.style.display = hasSpun ? 'block' : 'none';
+        resetButton.addEventListener('click', resetWheel);
         
         // Si ya se ha girado la ruleta, deshabilitar el botón y mostrar el resultado guardado
         if (hasSpun) {
@@ -77,24 +114,32 @@ document.addEventListener('DOMContentLoaded', function() {
         currentPrizeIndicator.textContent = 'Premio actual: --';
         document.querySelector('.wheel-controls').insertBefore(currentPrizeIndicator, spinButton);
         
+        // Añadir el botón de reinicio después del botón de girar
+        document.querySelector('.wheel-controls').appendChild(resetButton);
+        
         // Función para actualizar el indicador de premio actual
         function updateCurrentPrize(currentDegrees) {
             const sectionDegrees = 360 / sections.length;
             const normalizedDegrees = currentDegrees % 360;
             const currentSectionIndex = Math.floor(normalizedDegrees / sectionDegrees);
-            const currentSection = sections[sections.length - 1 - currentSectionIndex];
             
-            currentPrizeIndicator.textContent = `Premio actual: ${currentSection.text}`;
-            currentPrizeIndicator.style.backgroundColor = currentSection.color;
-            currentPrizeIndicator.style.color = 'white';
+            // Asegurarse de que el índice esté dentro del rango
+            const adjustedIndex = (currentSectionIndex + sections.length) % sections.length;
+            const currentSection = sections[sections.length - 1 - adjustedIndex];
             
-            // Añadir la clase específica para este premio
-            currentPrizeIndicator.className = `current-prize-indicator ${currentSection.class}`;
+            if (currentSection) {
+                currentPrizeIndicator.textContent = `Premio actual: ${currentSection.text}`;
+                currentPrizeIndicator.style.backgroundColor = currentSection.color;
+                currentPrizeIndicator.style.color = 'white';
+                
+                // Añadir la clase específica para este premio
+                currentPrizeIndicator.className = `current-prize-indicator ${currentSection.class}`;
+            }
         }
         
         // Función para girar la ruleta
         spinButton.addEventListener('click', function() {
-            // Deshabilitar el botón permanentemente
+            // Deshabilitar el botón temporalmente
             spinButton.disabled = true;
             
             // Ocultar el resultado anterior
@@ -108,7 +153,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const sectionDegrees = 360 / sections.length;
             const landingDegrees = degrees % 360;
             const sectionIndex = Math.floor(landingDegrees / sectionDegrees);
-            const winningSection = sections[sections.length - 1 - sectionIndex];
+            
+            // Asegurarse de que el índice esté dentro del rango
+            const adjustedIndex = (sectionIndex + sections.length) % sections.length;
+            const winningSection = sections[sections.length - 1 - adjustedIndex];
             
             // Generar código de descuento
             const code = generateDiscountCode();
@@ -116,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Configurar animación para mostrar los premios por los que pasa
             let currentRotation = 0;
             const animationDuration = 5000; // 5 segundos
-            const updateInterval = 100; // Actualizar cada 100ms
             const startTime = Date.now();
             
             // Iniciar la animación de giro
@@ -149,6 +196,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     localStorage.setItem('wheelDiscount', winningSection.text);
                     localStorage.setItem('wheelCode', code);
                     localStorage.setItem('wheelClass', winningSection.class);
+                    
+                    // Mostrar el botón de reinicio
+                    resetButton.style.display = 'block';
                 }
             };
             
