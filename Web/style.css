@@ -17,10 +17,13 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #f8f8f7 ;
+    background-color: #f8f8f7;
     width: 100%;
     box-sizing: border-box;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -63,6 +66,32 @@ body {
 .header__nav-link:hover, .header__nav-link:focus {
     opacity: 0.9;
     transform: translateY(-1px);
+}
+
+
+.postheader {
+    width: 100%;
+    height: 100vh;
+    background-image: url('Imagenes/backgroundpostheader.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f8f7;
+}
+
+.postheader__title {
+    color: white;
+    font-size: 3rem;
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    padding: 10px 20px;
+    background-color: rgba(114, 38, 44, 0.7);
+    border-radius: 8px;
 }
 
 
