@@ -26,13 +26,11 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-
 .header__brand {
     height: 60px;
     flex: 0 0 auto;
     margin-right: auto;
 }
-
 
 .header__logo {
     height: 100px;
@@ -40,7 +38,6 @@ body {
     left: 50%;
     transform: translateX(-50%);
 }
-
 
 .header__nav {
     display: flex;
@@ -68,7 +65,6 @@ body {
     transform: translateY(-1px);
 }
 
-
 .postheader {
     width: 100%;
     height: 100vh;
@@ -92,6 +88,55 @@ body {
     padding: 10px 20px;
     background-color: rgba(114, 38, 44, 0.7);
     border-radius: 8px;
+}
+
+/* Estilos para la sección About Us */
+.about {
+    padding: 60px 20px;
+    background-color: #f8f8f7;
+}
+
+.about__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.about__header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about__title {
+    color: #72262C;
+    font-size: 2.5rem;
+    margin: 0;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.about__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #72262C;
+}
+
+.about__content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about__text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    text-align: justify;
 }
 
 
