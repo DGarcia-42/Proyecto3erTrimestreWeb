@@ -39,11 +39,79 @@ body {
     transform: translateX(-50%);
 }
 
-.header__nav {
-    display: flex;
-    gap: 10px;
+/* Estilos para el menú hamburguesa */
+.header__menu-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 1001;
+    position: relative;
+    display: block;
     margin-left: auto;
-    flex: 0 0 auto;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+}
+
+.header__menu-icon {
+    display: block;
+    position: relative;
+    width: 20px;
+    height: 2px;
+    background-color: #72262C;
+    transition: all 0.3s ease;
+}
+
+.header__menu-icon::before,
+.header__menu-icon::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background-color: #72262C;
+    transition: all 0.3s ease;
+}
+
+.header__menu-icon::before {
+    transform: translateY(-6px);
+}
+
+.header__menu-icon::after {
+    transform: translateY(6px);
+}
+
+.header__menu-toggle.active .header__menu-icon {
+    background-color: transparent;
+}
+
+.header__menu-toggle.active .header__menu-icon::before {
+    transform: translateY(0) rotate(45deg);
+}
+
+.header__menu-toggle.active .header__menu-icon::after {
+    transform: translateY(0) rotate(-45deg);
+}
+
+.header__nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 250px;
+    height: 100vh;
+    background-color: #f8f8f7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    padding: 20px;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.header__nav.active {
+    right: 0;
 }
 
 .header__nav-link {
@@ -58,6 +126,7 @@ body {
     font-size: 11px;
     letter-spacing: 0.5px;
     white-space: nowrap;
+    margin: 10px 0;
 }
 
 .header__nav-link:hover, .header__nav-link:focus {
