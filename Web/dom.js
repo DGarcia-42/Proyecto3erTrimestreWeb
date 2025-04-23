@@ -52,20 +52,163 @@ function initShoppingCart() {
     const cartContainer = document.querySelector('.header__hidden');
     const cartIcon = document.querySelector('.header__carrito');
     const closeButtons = document.querySelectorAll('.header__close');
+    const emptyCartMessage = document.getElementById('carritoVacio');
     
     if (!cartButtons.length || !cartCount) return;
     
     let count = 0;
+    let cartItems = {}; // Objeto para almacenar los productos y sus cantidades
+    let total = 0; // Para calcular el total de la compra
+    
+    // Crear o actualizar el elemento de total
+    function updateTotal() {
+        let totalElement = document.getElementById('cartTotal');
+        
+        if (!totalElement) {
+            // Si no existe, crear el elemento de total
+            totalElement = document.createElement('div');
+            totalElement.id = 'cartTotal';
+            totalElement.className = 'header__total';
+            
+            // Crear el botón de confirmar compra
+            const checkoutBtn = document.createElement('button');
+            checkoutBtn.className = 'header__checkout-btn';
+            checkoutBtn.textContent = 'Confirmar Compra';
+            checkoutBtn.addEventListener('click', function() {
+                window.location.href = 'confirmar-compra.html';
+            });
+            
+            // Crear contenedor para el total y el botón
+            const totalContainer = document.createElement('div');
+            totalContainer.className = 'header__total-container';
+            totalContainer.appendChild(totalElement);
+            totalContainer.appendChild(checkoutBtn);
+            
+            // Añadir al carrito
+            cartContainer.appendChild(totalContainer);
+        }
+        
+        // Actualizar el texto del total
+        totalElement.textContent = `Total: ${total.toFixed(2)}€`;
+        
+        // Mostrar/ocultar el total y el botón según haya productos
+        const totalContainer = document.querySelector('.header__total-container');
+        if (count > 0 && totalContainer) {
+            totalContainer.style.display = 'flex';
+        } else if (totalContainer) {
+            totalContainer.style.display = 'none';
+        }
+    }
+    
+    // Función para verificar y actualizar el estado del carrito
+    function updateCartStatus() {
+        const products = cartContainer.querySelectorAll('.header__product');
+        if (products.length === 0 && emptyCartMessage) {
+            emptyCartMessage.style.display = 'block';
+            total = 0;
+        } else if (emptyCartMessage) {
+            emptyCartMessage.style.display = 'none';
+        }
+        updateTotal();
+    }
+    
+    // Función para actualizar la visualización de un producto en el carrito
+    function updateProductDisplay(productName, quantity, price) {
+        // Buscar si el producto ya existe en el carrito
+        let productElement = null;
+        const products = cartContainer.querySelectorAll('.header__product');
+        
+        products.forEach(product => {
+            const nameElement = product.querySelector('.header__Name');
+            if (nameElement && nameElement.textContent === productName) {
+                productElement = product;
+            }
+        });
+        
+        if (productElement) {
+            // Si existe, actualizar cantidad
+            const quantityElement = productElement.querySelector('.header__quantity');
+            quantityElement.textContent = quantity;
+            
+            // Actualizar precio total del producto
+            const priceNum = parseFloat(price.replace('€', '').trim());
+            const totalProductPrice = priceNum * quantity;
+            const priceElement = productElement.querySelector('.header__Price');
+            priceElement.textContent = `${totalProductPrice.toFixed(2)}€`;
+        } else {
+            // Si no existe, crear nuevo elemento
+            const priceNum = parseFloat(price.replace('€', '').trim());
+            productElement = document.createElement('div');
+            productElement.className = 'header__product';
+            productElement.innerHTML = `
+                <div class="header__info">
+                    <div class="header__product-row">
+                        <span class="header__quantity">${quantity}</span>
+                        <p class="header__Name">${productName}</p>
+                    </div>
+                    <p class="header__Price">${(priceNum * quantity).toFixed(2)}€</p>
+                </div>
+                <img src="Imagenes/X.png" alt="X" class="header__close">
+            `;
+            
+            // Añadir funcionalidad al botón de cerrar
+            const closeButton = productElement.querySelector('.header__close');
+            closeButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // Eliminar el producto del carrito
+                delete cartItems[productName];
+                count -= quantity;
+                cartCount.textContent = count;
+                productElement.remove();
+                
+                // Recalcular el total
+                total -= priceNum * quantity;
+                updateCartStatus();
+            });
+            
+            // Añadir al carrito
+            cartContainer.appendChild(productElement);
+        }
+    }
+    
+    // Inicializar el estado del carrito al cargar
+    updateCartStatus();
     
     // Añadir productos al carrito
     cartButtons.forEach(button => {
         button.addEventListener('click', () => {
+            // Mostrar mensaje de confirmación
+            const product = button.closest('.Tienda__product');
+            const productName = product.querySelector('.Tienda__Name').textContent;
+            const productPrice = product.querySelector('.Tienda__Price').textContent;
+            
+            // Extraer el precio como número
+            const priceNum = parseFloat(productPrice.replace('€', '').trim());
+            
+            // Actualizar cantidad en el objeto de productos
+            if (cartItems[productName]) {
+                cartItems[productName].quantity++;
+            } else {
+                cartItems[productName] = {
+                    price: productPrice,
+                    quantity: 1
+                };
+            }
+            
+            // Actualizar total
+            total += priceNum;
+            
+            // Actualizar contador global
             count++;
             cartCount.textContent = count;
             
-            // Mostrar mensaje de confirmación
-            const product = button.closest('.Tienda__Info');
-            const productName = product.querySelector('.Tienda__Name').textContent;
+            // Actualizar visualización del producto
+            updateProductDisplay(productName, cartItems[productName].quantity, productPrice);
+            
+            // Mostrar el carrito
+            cartContainer.classList.add('active');
+            updateCartStatus();
             
             // Opcional: crear una notificación temporal
             const notification = document.createElement('div');
@@ -87,19 +230,42 @@ function initShoppingCart() {
     
     // Mostrar/ocultar carrito al hacer clic en el icono
     if (cartIcon && cartContainer) {
-        cartIcon.addEventListener('click', () => {
+        cartIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
             cartContainer.classList.toggle('active');
+        });
+        
+        // Cerrar el carrito al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (!cartContainer.contains(e.target) && e.target !== cartIcon) {
+                cartContainer.classList.remove('active');
+            }
         });
     }
     
-    // Eliminar productos del carrito
+    // Eliminar productos del carrito (para los elementos que ya existen en el HTML)
     closeButtons.forEach(button => {
         button.addEventListener('click', (e) => {
+            e.stopPropagation();
             const product = e.target.closest('.header__product');
             if (product && count > 0) {
-                count--;
+                const productName = product.querySelector('.header__Name').textContent;
+                const quantity = cartItems[productName] ? cartItems[productName].quantity : 1;
+                const priceText = product.querySelector('.header__Price').textContent;
+                const priceNum = parseFloat(priceText.replace('€', '').trim()) / quantity; // Precio por unidad
+                
+                // Actualizar contador y total
+                count -= quantity;
+                total -= priceNum * quantity;
                 cartCount.textContent = count;
+                
+                // Eliminar el producto del objeto
+                if (cartItems[productName]) {
+                    delete cartItems[productName];
+                }
+                
                 product.remove();
+                updateCartStatus();
             }
         });
     });
@@ -425,19 +591,21 @@ function generarTextoCompletoBlog() {
     `;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar el acordeón de FAQ si existe en la página
-    initFAQAccordion();
-    
-    // Inicializar el menú hamburguesa
+// Añadir inicialización de todas las funciones al cargar el documento
+document.addEventListener('DOMContentLoaded', function() {
     initHamburgerMenu();
-    
-    // Inicializar el carrito de compras para la página de tienda
     initShoppingCart();
     
-    // Inicializar botones de cargar más
-    initLoadMoreButtons();
+    // Inicializar otras funciones si están disponibles en la página actual
+    if (document.querySelector('.faq__question')) {
+        initFAQAccordion();
+    }
     
-    // Inicializar botones de leer más
-    initReadMoreButtons();
+    if (document.querySelector('.news__card-link') || document.querySelector('.blog__read-link')) {
+        initReadMoreButtons();
+    }
+    
+    if (document.getElementById('loadMoreNews') || document.getElementById('loadMorePosts')) {
+        initLoadMoreButtons();
+    }
 });

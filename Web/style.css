@@ -43,9 +43,28 @@ body {
     height: 60px;
     flex: 0 0 auto;
     margin-left: auto;
-    margin-right: 50px;
+    margin-right: 80px;
     position: relative;
     z-index: 1000;
+    cursor: pointer;
+}
+
+/* Estilos para el contador del carrito */
+.header__count {
+    position: absolute;
+    right: 85px;
+    top: 15px;
+    background-color: #72262C;
+    color: white;
+    font-size: 14px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    z-index: 1001;
 }
 
 /* Estilos para el menú hamburguesa */
@@ -55,9 +74,6 @@ body {
     cursor: pointer;
     padding: 5px;
     z-index: 1001;
-    position: relative;
-    display: block;
-    margin-left: auto;
     position: absolute;
     right: 20px;
     top: 15px;
@@ -1342,7 +1358,7 @@ body {
     display: none;
     position: absolute;
     top: 70px;
-    right: 20px;
+    right: 80px;
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -1353,6 +1369,25 @@ body {
 
 .header__hidden.active {
     display: block;
+}
+
+.header__empty {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.header__empty p {
+    margin: 0;
+    font-weight: bold;
+    color: #72262C;
+    font-size: 16px;
+}
+
+.header__empty-text {
+    color: #666;
+    font-weight: normal;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
 .header__product {
@@ -1366,26 +1401,48 @@ body {
 .header__info {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
-.header__number {
-    font-weight: bold;
-    margin-right: 10px;
+.header__product-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.header__quantity {
+    background-color: #72262C;
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 50%;
+    margin-right: 8px;
+    font-size: 12px;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .header__Name {
     font-weight: bold;
     margin: 0;
+    font-size: 14px;
 }
 
 .header__Price {
-    margin: 5px 0 0;
-    color: #666;
+    margin: 3px 0 0;
+    color: #72262C;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 .header__close {
     cursor: pointer;
     transition: transform 0.2s;
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
 }
 
 .header__close:hover {
@@ -1470,6 +1527,51 @@ body {
 
 .faq__item.active .faq__icon {
     transform: rotate(45deg);
+}
+
+/* Estilos para el carrito de compras */
+.header__hidden {
+    /* Estilos existentes se mantienen */
+}
+
+/* Estilos para el contenedor del total */
+.header__total-container {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px 0;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilos para el texto del total */
+.header__total {
+    font-weight: bold;
+    font-size: 16px;
+    color: #212322;
+}
+
+/* Estilos para el botón de confirmar compra */
+.header__checkout-btn {
+    background-color: #72262C;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.header__checkout-btn:hover {
+    background-color: #5a1e23;
+    transform: translateY(-2px);
+}
+
+.header__checkout-btn:active {
+    transform: translateY(0);
 }
 
 
