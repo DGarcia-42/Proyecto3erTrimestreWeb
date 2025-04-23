@@ -907,6 +907,570 @@ body {
 }
 
 
+/* Estilos para la sección de noticias */
+.news {
+    padding: 80px 20px;
+    background-color: #f8f8f7;
+}
+
+.news__container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.news__header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.news__title {
+    color: #72262C;
+    font-size: 2.5rem;
+    margin: 0;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.news__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #72262C;
+}
+
+.news__subtitle {
+    font-size: 1.2rem;
+    color: #212322;
+    margin-top: 15px;
+}
+
+/* Noticia destacada */
+.news__featured {
+    display: flex;
+    margin-bottom: 60px;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.news__featured-image {
+    flex: 1;
+    min-height: 400px;
+    overflow: hidden;
+}
+
+.news__image-main {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.news_featured:hover .news_image-main {
+    transform: scale(1.05);
+}
+
+.news__featured-content {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.news__date {
+    color: #72262C;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.news__article-title {
+    font-size: 1.8rem;
+    color: #212322;
+    margin: 0 0 20px 0;
+}
+
+.news__excerpt {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.news__readmore {
+    align-self: flex-start;
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: #72262C;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.news__readmore:hover {
+    background-color: #5a1e23;
+    transform: translateY(-3px);
+}
+
+/* Grid de noticias */
+.news__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.news__card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.news__card:hover {
+    transform: translateY(-10px);
+}
+
+.news__card-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.news__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.news_card:hover .news_image {
+    transform: scale(1.05);
+}
+
+.news__card-content {
+    padding: 20px;
+}
+
+.news__card-title {
+    font-size: 1.2rem;
+    margin: 10px 0;
+    color: #212322;
+}
+
+.news__card-excerpt {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.news__card-link {
+    color: #72262C;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.news__card-link:hover {
+    color: #5a1e23;
+}
+
+/* Botón de cargar más */
+.news__more {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.news__button {
+    padding: 12px 30px;
+    background-color: #72262C;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.news__button:hover {
+    background-color: #5a1e23;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(114, 38, 44, 0.2);
+}
+
+/* Estilos para la sección de blog */
+.blog {
+    padding: 80px 20px;
+    background-color: #f8f8f7;
+}
+
+.blog__container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.blog__header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.blog__title {
+    color: #72262C;
+    font-size: 2.5rem;
+    margin: 0;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.blog__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #72262C;
+}
+
+.blog__subtitle {
+    font-size: 1.2rem;
+    color: #212322;
+    margin-top: 15px;
+}
+
+.blog__content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.blog__article {
+    display: flex;
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.blog__article-image {
+    flex: 1;
+    max-width: 40%;
+    overflow: hidden;
+}
+
+.blog__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.blog_article:hover .blog_img {
+    transform: scale(1.05);
+}
+
+.blog__article-content {
+    flex: 2;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog__tag {
+    background-color: #72262C;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 15px;
+    align-self: flex-start;
+}
+
+.blog__article-title {
+    font-size: 1.5rem;
+    color: #212322;
+    margin: 0 0 15px 0;
+}
+
+.blog__article-excerpt {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.blog__meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.blog__read-link {
+    align-self: flex-start;
+    color: #72262C;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.blog__read-link:hover {
+    color: #5a1e23;
+}
+
+.blog__more {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.blog__button {
+    padding: 12px 30px;
+    background-color: #72262C;
+    color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.blog__button:hover {
+    background-color: #5a1e23;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(114, 38, 44, 0.2);
+}
+
+/* Estilos para la sección de newsletter */
+.newsletter {
+    background-color: #72262C;
+    padding: 80px 20px;
+    text-align: center;
+    color: white;
+}
+
+.newsletter__container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.newsletter__title {
+    font-size: 2.2rem;
+    margin: 0 0 20px 0;
+}
+
+.newsletter__text {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.newsletter__form {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+    gap: 10px;
+}
+
+.newsletter__input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.newsletter__button {
+    padding: 0 20px;
+    background-color: white;
+    color: #72262C;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.newsletter__button:hover {
+    background-color: #eaeae5;
+    transform: translateY(-3px);
+}
+
+/* Estilos para la notificación de producto añadido al carrito */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 1000;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Estilos para mejorar la interacción con el carrito */
+.header__hidden {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    width: 300px;
+    padding: 15px;
+    z-index: 100;
+}
+
+.header__hidden.active {
+    display: block;
+}
+
+.header__product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.header__info {
+    display: flex;
+    flex-direction: column;
+}
+
+.header__number {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.header__Name {
+    font-weight: bold;
+    margin: 0;
+}
+
+.header__Price {
+    margin: 5px 0 0;
+    color: #666;
+}
+
+.header__close {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.header__close:hover {
+    transform: scale(1.1);
+}
+
+.header__carrito {
+    cursor: pointer;
+}
+
+/* Mejorar interacción de los botones de la tienda */
+.Tienda__Button {
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.Tienda__Button:hover {
+    background-color: #222;
+    transform: translateY(-2px);
+}
+
+.Tienda__Button:active {
+    transform: translateY(1px);
+}
+
+/* Mejorar interacción con las cartas de noticias */
+.news__card, .blog__article {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.news__card:hover, .blog__article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Animación para las secciones de texto desplegables */
+.news__card-full-text, .blog__article-full-text, .news__full-text {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.news__card-full-text:not(.hidden), 
+.blog__article-full-text:not(.hidden), 
+.news__full-text:not(.hidden) {
+    max-height: 2000px; /* valor alto para asegurar que todo el contenido se muestre */
+    transition: max-height 1s ease-in;
+}
+
+/* Estilos para las preguntas frecuentes */
+.faq__item {
+    transition: all 0.3s ease;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.faq__question {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.faq__answer {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 15px;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+}
+
+.faq__item.active .faq__answer {
+    max-height: 500px;
+    padding: 15px;
+    transition: max-height 0.5s ease-in, padding 0.3s ease;
+}
+
+.faq__icon {
+    transition: transform 0.3s ease;
+}
+
+.faq__item.active .faq__icon {
+    transform: rotate(45deg);
+}
 
 
 
