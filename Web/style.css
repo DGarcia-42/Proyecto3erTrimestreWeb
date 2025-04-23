@@ -810,14 +810,163 @@ body {
 
 
 /* Estilos para la sección de tienda */
-.Tienda {
+.Shop {
     padding: 80px 20px;
     background-color: #f8f8f7;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.Tienda__title {
+.Shop__container {
+    display: flex;
+    gap: 30px;
+}
+
+.Shop__filters {
+    flex: 0 0 250px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    align-self: flex-start;
+    position: sticky;
+    top: 100px;
+}
+
+.Shop__filters-title {
+    color: #72262C;
+    font-size: 1.3rem;
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #f2f2f2;
+}
+
+.Shop__filter-group {
+    margin-bottom: 25px;
+}
+
+.Shop__filter-subtitle {
+    color: #212322;
+    font-size: 1.1rem;
+    margin: 0 0 15px 0;
+}
+
+.Shop__filter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.Shop__filter-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #333;
+    transition: color 0.2s;
+}
+
+.Shop__filter-option:hover {
+    color: #72262C;
+}
+
+.Shop__filter-option input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.Shop__filter-checkbox {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    transition: all 0.2s;
+}
+
+.Shop__filter-option:hover .Shop__filter-checkbox {
+    border-color: #72262C;
+}
+
+.Shop__filter-option input[type="checkbox"]:checked + .Shop__filter-checkbox::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 5px;
+    height: 10px;
+    border: solid #72262C;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.Shop__filter-price {
+    padding: 5px 0;
+}
+
+.Shop__price-range {
+    width: 100%;
+}
+
+.Shop__price-range input[type="range"] {
+    width: 100%;
+    height: 5px;
+    border-radius: 5px;
+    background: #e9e9e9;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.Shop__price-range input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: #72262C;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.Shop__price-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.Shop__filter-button, .Shop__filter-reset {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.Shop__filter-button {
+    background-color: #72262C;
+    color: white;
+}
+
+.Shop__filter-button:hover {
+    background-color: #5a1e23;
+}
+
+.Shop__filter-reset {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+.Shop__filter-reset:hover {
+    background-color: #e0e0e0;
+}
+
+.Shop__title {
     color: #72262C;
     font-size: 2.5rem;
     margin: 0;
@@ -826,7 +975,7 @@ body {
     text-align: center;
 }
 
-.Tienda__subtitle {
+.Shop__subtitle {
     color: #72262C;
     font-size: 1.5rem;
     margin: 0 0 30px 0;
@@ -835,13 +984,13 @@ body {
     text-align: center;
 }
 
-.Tienda__products {
+.Shop__products {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 30px;
 }
 
-.Tienda__product {
+.Shop__product {
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
@@ -851,12 +1000,16 @@ body {
     flex-direction: column;
 }
 
-.Tienda__product:hover {
+.Shop__product--hidden {
+    display: none;
+}
+
+.Shop__product:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
-.Tienda__Container {
+.Shop__Container {
     width: 100%;
     height: 300px;
     background-color: #ffffff;
@@ -867,46 +1020,46 @@ body {
     border-bottom: 1px solid #f2f2f2;
 }
 
-.Tienda__Image {
+.Shop__Image {
     max-width: 100%;
     max-height: 280px;
     object-fit: contain;
     transition: transform 0.5s ease;
 }
 
-.Tienda__product:hover .Tienda__Image {
+.Shop__product:hover .Shop__Image {
     transform: scale(1.05);
 }
 
-.Tienda__Info {
+.Shop__Info {
     padding: 20px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
-.Tienda__Name {
+.Shop__Name {
     color: #72262C;
     font-size: 1.2rem;
     margin: 0 0 10px 0;
     font-weight: bold;
 }
 
-.Tienda__Description {
+.Shop__Description {
     color: #212322;
     font-size: 0.9rem;
     margin: 0 0 15px 0;
     flex-grow: 1;
 }
 
-.Tienda__Price {
+.Shop__Price {
     color: #72262C;
     font-size: 1.5rem;
     font-weight: bold;
     margin: 0 0 15px 0;
 }
 
-.Tienda__Button {
+.Shop__Button {
     width: 100%;
     padding: 10px;
     background-color: #72262C;
@@ -918,7 +1071,26 @@ body {
     transition: background-color 0.3s ease;
 }
 
-.Tienda__Button:hover {
+.Shop__Button:hover {
+    background-color: #5a1e23;
+}
+
+.Shop__Button--more {
+    width: auto;
+    padding: 10px 20px;
+    margin: 30px auto;
+    background-color: #72262C;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    grid-column: 1 / -1;
+    justify-self: center;
+}
+
+.Shop__Button--more:hover {
     background-color: #5a1e23;
 }
 
@@ -1453,17 +1625,17 @@ body {
     cursor: pointer;
 }
 
-/* Mejorar interacción de los botones de la tienda */
-.Tienda__Button {
+/* Mejorar interacción de los botones de la Shop */
+.Shop__Button {
     transition: background-color 0.3s, transform 0.2s;
 }
 
-.Tienda__Button:hover {
+.Shop__Button:hover {
     background-color: #222;
     transform: translateY(-2px);
 }
 
-.Tienda__Button:active {
+.Shop__Button:active {
     transform: translateY(1px);
 }
 
@@ -1573,6 +1745,134 @@ body {
 .header__checkout-btn:active {
     transform: translateY(0);
 }
+
+/* Estilos para la sección Joinus */
+.Joinus {
+    padding: 80px 20px;
+    background-color: #f8f8f7;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.Joinus__title {
+    color: #72262C;
+    font-size: 2.5rem;
+    margin: 0;
+    padding-bottom: 15px;
+    position: relative;
+    text-align: center;
+}
+
+.Joinus__subtitle {
+    color: #212322;
+    font-size: 1.2rem;
+    margin: 0 0 40px 0;
+    text-align: center;
+    font-weight: normal;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Joinus_container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.Joinus_form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.Joinus_input,
+.Joinus_select {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+.Joinus_input:focus,
+.Joinus_select:focus {
+    border-color: #72262C;
+    outline: none;
+}
+
+.Joinus_input::placeholder {
+    color: #999;
+}
+
+.Joinus_input[type="file"] {
+    padding: 10px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.Joinus_label {
+    font-weight: bold;
+    margin-bottom: -15px;
+    color: #444;
+    display: block;
+}
+
+/* Estilos para checkbox y radio buttons */
+
+.Joinus_group {
+    display: flex;
+    gap: 20px;
+    margin-top: 5px;
+}
+
+.Joinus_option,
+.Joinus_option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+/* Corregir el estilo de los inputs de tipo checkbox que ya existen */
+.Joinus_input[type="checkbox"] {
+    margin-right: 10px;
+    margin-left: 20px;
+    width: 16px;
+    height: 16px;
+    accent-color: #72262C;
+}
+
+.Joinus_button {
+    background-color: #72262C;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.Joinus_button:hover {
+    background-color: #5a1e23;
+    transform: translateY(-3px);
+}
+
+.Joinus_button:active {
+    transform: translateY(1px);
+}
+
+
 
 
 

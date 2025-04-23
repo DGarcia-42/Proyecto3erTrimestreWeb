@@ -47,7 +47,7 @@ function initHamburgerMenu() {
 
 // Inicializar carrito de compras
 function initShoppingCart() {
-    const cartButtons = document.querySelectorAll('.Tienda__Button');
+    const cartButtons = document.querySelectorAll('.Shop__Button');
     const cartCount = document.getElementById('cartCount');
     const cartContainer = document.querySelector('.header__hidden');
     const cartIcon = document.querySelector('.header__carrito');
@@ -179,9 +179,9 @@ function initShoppingCart() {
     cartButtons.forEach(button => {
         button.addEventListener('click', () => {
             // Mostrar mensaje de confirmación
-            const product = button.closest('.Tienda__product');
-            const productName = product.querySelector('.Tienda__Name').textContent;
-            const productPrice = product.querySelector('.Tienda__Price').textContent;
+            const product = button.closest('.Shop__product');
+            const productName = product.querySelector('.Shop__Name').textContent;
+            const productPrice = product.querySelector('.Shop__Price').textContent;
             
             // Extraer el precio como número
             const priceNum = parseFloat(productPrice.replace('€', '').trim());
@@ -608,4 +608,40 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('loadMoreNews') || document.getElementById('loadMorePosts')) {
         initLoadMoreButtons();
     }
+    
+    // Inicializar el botón "Ver más" si existe
+    const moreBtn = document.querySelector('.Shop__Button--more');
+    if (moreBtn) {
+        moreBtn.addEventListener('click', showMore);
+    }
 });
+
+function showMore() {
+    var moreProducts = document.querySelectorAll(".Shop__product--hidden");
+    var btnText = document.querySelector(".Shop__Button--more");
+  
+    if (moreProducts.length > 0) {
+        moreProducts.forEach(product => {
+            product.classList.remove("Shop__product--hidden");
+            product.classList.add("Shop__product");
+        });
+        
+        if (btnText) {
+            btnText.textContent = "Ver menos";
+        }
+    } else {
+        var productsToHide = document.querySelectorAll(".Shop__product[id='hidden']");
+        productsToHide.forEach(product => {
+            product.classList.remove("Shop__product");
+            product.classList.add("Shop__product--hidden");
+        });
+        
+        if (btnText) {
+            btnText.textContent = "Ver más";
+        }
+    }
+}
+
+
+
+
