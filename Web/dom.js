@@ -45,6 +45,97 @@ function initHamburgerMenu() {
     }
 }
 
+// Función para inicializar los filtros de la tienda
+function initShopFilters() {
+    const filterButton = document.querySelector('.Shop__filter-button');
+    const resetButton = document.querySelector('.Shop__filter-reset');
+    const priceRange = document.getElementById('priceRange');
+    const priceValue = document.getElementById('priceValue');
+    const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
+    const products = document.querySelectorAll('.Shop__product');
+    
+    // Si no hay elementos de filtro o productos, no continuar
+    if (!filterButton || !products.length) return;
+    
+    // Mostrar el valor actual del slider de precio
+    if (priceRange && priceValue) {
+        priceRange.addEventListener('input', function() {
+            priceValue.textContent = `${this.value}€`;
+        });
+    }
+    
+    // Aplicar filtros al hacer clic en el botón
+    if (filterButton) {
+        filterButton.addEventListener('click', applyFilters);
+    }
+    
+    // Resetear filtros
+    if (resetButton) {
+        resetButton.addEventListener('click', function() {
+            // Resetear checkboxes
+            categoryCheckboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            
+            // Resetear slider de precio
+            if (priceRange) {
+                priceRange.value = 100;
+                if (priceValue) {
+                    priceValue.textContent = '100€';
+                }
+            }
+            
+            // Mostrar todos los productos
+            products.forEach(product => {
+                product.style.display = 'flex';
+            });
+        });
+    }
+    
+    // Función para aplicar los filtros
+    function applyFilters() {
+        // Obtener categorías seleccionadas
+        const selectedCategories = [];
+        categoryCheckboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                selectedCategories.push(checkbox.value);
+            }
+        });
+        
+        // Obtener precio máximo
+        const maxPrice = priceRange ? parseInt(priceRange.value) : 100;
+        
+        // Filtrar productos
+        products.forEach(product => {
+            const productName = product.querySelector('.Shop__Name').textContent.toLowerCase();
+            const productPrice = parseInt(product.querySelector('.Shop__Price').textContent.replace('€', '').trim());
+            
+            // Determinar la categoría del producto basado en su nombre
+            let productCategory = '';
+            if (productName.includes('camiseta')) {
+                productCategory = 'camisetas';
+            } else if (productName.includes('sudadera')) {
+                productCategory = 'sudaderas';
+            } else if (productName.includes('chaqueta')) {
+                productCategory = 'chaquetas';
+            } else if (productName.includes('top')) {
+                productCategory = 'tops';
+            }
+            
+            // Aplicar filtros combinados (categoría y precio)
+            const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(productCategory);
+            const matchesPrice = productPrice <= maxPrice;
+            
+            // Mostrar u ocultar según los filtros
+            if (matchesCategory && matchesPrice) {
+                product.style.display = 'flex';
+            } else {
+                product.style.display = 'none';
+            }
+        });
+    }
+}
+
 // Inicializar carrito de compras
 function initShoppingCart() {
     const cartButtons = document.querySelectorAll('.Shop__Button');
@@ -148,10 +239,48 @@ function initShoppingCart() {
                     </div>
                     <p class="header__Price">${(priceNum * quantity).toFixed(2)}€</p>
                 </div>
-                <img src="Imagenes/X.png" alt="X" class="header__close">
+                <div class="header__buttons">
+                    <button class="header__decrease">-</button>
+                    <img src="Imagenes/X.png" alt="X" class="header__close">
+                </div>
             `;
             
-            // Añadir funcionalidad al botón de cerrar
+            // Añadir funcionalidad al botón de disminuir
+            const decreaseButton = productElement.querySelector('.header__decrease');
+            decreaseButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                
+                // Disminuir la cantidad del producto
+                if (cartItems[productName] && cartItems[productName].quantity > 1) {
+                    cartItems[productName].quantity--;
+                    count--;
+                    cartCount.textContent = count;
+                    
+                    // Actualizar la visualización
+                    const quantityElement = productElement.querySelector('.header__quantity');
+                    quantityElement.textContent = cartItems[productName].quantity;
+                    
+                    // Actualizar el precio
+                    const priceNum = parseFloat(price.replace('€', '').trim());
+                    total -= priceNum;
+                    const priceElement = productElement.querySelector('.header__Price');
+                    const newTotalPrice = priceNum * cartItems[productName].quantity;
+                    priceElement.textContent = `${newTotalPrice.toFixed(2)}€`;
+                    
+                    updateCartStatus();
+                } else if (cartItems[productName] && cartItems[productName].quantity === 1) {
+                    // Si solo queda 1, eliminar el producto completamente
+                    delete cartItems[productName];
+                    count--;
+                    cartCount.textContent = count;
+                    total -= priceNum;
+                    productElement.remove();
+                    
+                    updateCartStatus();
+                }
+            });
+            
+            // Añadir funcionalidad al botón de cerrar (eliminar todo el producto)
             const closeButton = productElement.querySelector('.header__close');
             closeButton.addEventListener('click', function(e) {
                 e.stopPropagation();
@@ -607,6 +736,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (document.getElementById('loadMoreNews') || document.getElementById('loadMorePosts')) {
         initLoadMoreButtons();
+    }
+    
+    
+    if (document.querySelector('.Shop__filters')) {
+        initShopFilters();
     }
     
     // Inicializar el botón "Ver más" si existe
