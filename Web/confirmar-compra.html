@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Compra</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <img src="Imagenes/cuernosycolanegros.png" alt="Marca" class="header__brand">
+        <img src="Imagenes/Logonegro.png" alt="Logo de la marca" class="header__logo">
+        <button class="header__menu-toggle" id="menuToggle">
+            <span class="header__menu-icon"></span>
+        </button>
+        <nav class="header__nav" id="navMenu">
+            <a href="index.html" class="header__nav-link">INICIO</a>
+            <a href="shop.html" class="header__nav-link">TIENDA</a>
+            <a href="aboutus.html" class="header__nav-link">SOBRE NOSOTROS</a>
+            <a href="news.html" class="header__nav-link">NOTICIAS Y BLOG</a>
+            <a href="joinus.html" class="header__nav-link">ÚNETE A NOSOTROS</a>
+        </nav>
+    </header>
+
+    <section class="checkout">
+        <h1 class="checkout__title">Confirmación de Compra</h1>
+        
+        <div class="checkout__container">
+            <div class="checkout__form-section">
+                <form id="checkoutForm" class="checkout__form">
+                    <div class="checkout__personal-info">
+                        <h2 class="checkout__subtitle">Datos Personales</h2>
+                        <div class="checkout__form-row">
+                            <div class="checkout__form-group">
+                                <label for="nombre" class="checkout__label">Nombre*</label>
+                                <input type="text" id="nombre" name="nombre" class="checkout__input" required>
+                            </div>
+                            <div class="checkout__form-group">
+                                <label for="apellido" class="checkout__label">Apellido*</label>
+                                <input type="text" id="apellido" name="apellido" class="checkout__input" required>
+                            </div>
+                        </div>
+                        <div class="checkout__form-row">
+                            <div class="checkout__form-group">
+                                <label for="email" class="checkout__label">Correo Electrónico*</label>
+                                <input type="email" id="email" name="email" class="checkout__input" required>
+                            </div>
+                            <div class="checkout__form-group">
+                                <label for="telefono" class="checkout__label">Teléfono*</label>
+                                <input type="tel" id="telefono" name="telefono" class="checkout__input" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkout__shipping-info">
+                        <h2 class="checkout__subtitle">Dirección de Envío</h2>
+                        <div class="checkout__form-group">
+                            <label for="direccion" class="checkout__label">Dirección*</label>
+                            <input type="text" id="direccion" name="direccion" class="checkout__input" required>
+                        </div>
+                        <div class="checkout__form-row">
+                            <div class="checkout__form-group">
+                                <label for="ciudad" class="checkout__label">Ciudad*</label>
+                                <input type="text" id="ciudad" name="ciudad" class="checkout__input" required>
+                            </div>
+                            <div class="checkout__form-group">
+                                <label for="codigo-postal" class="checkout__label">Código Postal*</label>
+                                <input type="text" id="codigo-postal" name="codigo-postal" class="checkout__input" required>
+                            </div>
+                        </div>
+                        <div class="checkout__form-group">
+                            <label for="pais" class="checkout__label">País*</label>
+                            <select id="pais" name="pais" class="checkout__select" required>
+                                <option value="">Selecciona un país</option>
+                                <option value="es">España</option>
+                                <option value="fr">Francia</option>
+                                <option value="it">Italia</option>
+                                <option value="pt">Portugal</option>
+                                <option value="de">Alemania</option>
+                                <option value="uk">Reino Unido</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="checkout__discount">
+                        <h2 class="checkout__subtitle">Código de Descuento</h2>
+                        <div class="checkout__form-group">
+                            <label for="descuento" class="checkout__label">Código (Opcional)</label>
+                            <div class="checkout__discount-row">
+                                <input type="text" id="descuento" name="descuento" class="checkout__input">
+                                <button type="button" id="aplicarDescuento" class="checkout__discount-btn">Aplicar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkout__payment">
+                        <h2 class="checkout__subtitle">Método de Pago</h2>
+                        <div class="checkout__payment-methods">
+                            <div class="checkout__payment-option">
+                                <input type="radio" id="tarjeta" name="metodo-pago" value="tarjeta" class="checkout__payment-radio" checked>
+                                <label for="tarjeta" class="checkout__payment-label">
+                                    <img src="Imagenes/Credito.png" alt="Tarjeta de crédito" class="checkout__payment-icon">
+                                    <span>Tarjeta de Crédito/Débito</span>
+                                </label>
+                            </div>
+                            <div class="checkout__payment-option">
+                                <input type="radio" id="paypal" name="metodo-pago" value="paypal" class="checkout__payment-radio">
+                                <label for="paypal" class="checkout__payment-label">
+                                    <img src="Imagenes/Paypal.png" alt="PayPal" class="checkout__payment-icon">
+                                    <span>PayPal</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Detalles de tarjeta (mostrados condicionalmente) -->
+                        <div id="detallesTarjeta" class="checkout__card-details">
+                            <div class="checkout__form-group">
+                                <label for="numero-tarjeta" class="checkout__label">Número de Tarjeta*</label>
+                                <input type="text" id="numero-tarjeta" name="numero-tarjeta" class="checkout__input" placeholder="XXXX XXXX XXXX XXXX" required>
+                            </div>
+                            <div class="checkout__form-row">
+                                <div class="checkout__form-group">
+                                    <label for="fecha-expiracion" class="checkout__label">Fecha de Expiración*</label>
+                                    <input type="text" id="fecha-expiracion" name="fecha-expiracion" placeholder="MM/AA" class="checkout__input" required>
+                                </div>
+                                <div class="checkout__form-group">
+                                    <label for="cvv" class="checkout__label">CVV*</label>
+                                    <input type="text" id="cvv" name="cvv" class="checkout__input" placeholder="123" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="checkout__submit-btn">Finalizar Compra</button>
+                </form>
+            </div>
+            
+            <div class="checkout__summary">
+                <h2 class="checkout__subtitle">Resumen del Pedido</h2>
+                <div id="checkout-items" class="checkout__items">
+                    <!-- Los productos del carrito se mostrarán aquí -->
+                    <div class="checkout__empty-cart" id="checkoutEmpty">
+                        <p>No hay productos en tu carrito</p>
+                        <a href="shop.html" class="checkout__shop-link">Ir a la tienda</a>
+                    </div>
+                </div>
+                
+                <div class="checkout__totals">
+                    <div class="checkout__total-row">
+                        <span>Subtotal:</span>
+                        <span id="subtotal">0.00€</span>
+                    </div>
+                    <div class="checkout__total-row">
+                        <span>Gastos de envío:</span>
+                        <span id="shipping">4.95€</span>
+                    </div>
+                    <div class="checkout__total-row checkout__discount-row" id="discount-row">
+                        <span>Descuento:</span>
+                        <span id="discount">0.00€</span>
+                    </div>
+                    <div class="checkout__total-row checkout__final-total">
+                        <span>Total:</span>
+                        <span id="total">4.95€</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__left">
+                <img src="Imagenes/cuernosycolablancos.png" alt="Logo Spicy Gallery" class="footer__logo">
+                <p class="footer__copyright">© 2025 Spicy Gallery. Todos los derechos reservados.</p>
+            </div>
+            
+            <div class="footer__center">
+                <h3 class="footer__column-title">Newsletter</h3>
+                <div class="footer__newsletter">
+                    <h4 class="footer__newsletter-subtitle">Suscríbete a nuestra newsletter</h4>
+                    <form class="footer__form">
+                        <input type="email" placeholder="Tu email" class="footer__input">
+                        <button type="submit" class="footer__button">Suscribirme</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer__right">
+                <h3 class="footer__column-title">Síguenos</h3>
+                <div class="footer__social">
+                    <img src="Imagenes/logotiktok.png" alt="TikTok" class="footer__social-link">
+                    <img src="Imagenes/logofacebook.png" alt="Facebook" class="footer__social-link">
+                    <img src="Imagenes/logotwitter.png" alt="Twitter" class="footer__social-link">
+                    <img src="Imagenes/logoinstagram.png" alt="Instagram" class="footer__social-link">
+                </div>
+            </div>
+        </div>
+        <div class="footer__legal-container">
+            <div class="footer__legal">
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Cookies</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="dom.js"></script>
+    <script>
+
+    </script>
+</body>
+</html>
