@@ -2349,6 +2349,71 @@ body {
     color: #72262C;
 }
 
+/* Estilos para la sección de introducción de Joinus */
+.join-section {
+    padding: 60px 20px;
+    background-color: #f8f8f7;
+    margin: 40px 0;
+}
+
+.join-section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.join-intro {
+    padding: 30px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.join-intro-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.join-intro-header h2 {
+    color: #72262C;
+    font-size: 2rem;
+    margin: 0 auto;
+    padding-bottom: 15px;
+    position: relative;
+    max-width: 800px;
+}
+
+.join-intro-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: #72262C;
+}
+
+.join-intro p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    text-align: center;
+    color: #212322;
+    margin: 1.5rem auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: rgba(248, 248, 247, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.join-intro p:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(114, 38, 44, 0.2);
+}
+
 
 
 
