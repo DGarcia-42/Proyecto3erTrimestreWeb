@@ -309,6 +309,18 @@ body {
     font-size: 1.8rem;
     margin-top: 0;
     margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.brand-info__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 3px;
+    background-color: #72262C;
 }
 
 .brand-info__text 
@@ -975,6 +987,17 @@ body {
     text-align: center;
 }
 
+.Shop__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #72262C;
+}
+
 .Shop__subtitle {
     color: #72262C;
     font-size: 1.5rem;
@@ -983,6 +1006,7 @@ body {
     position: relative;
     text-align: center;
 }
+
 
 .Shop__products {
     display: grid;
@@ -1805,6 +1829,17 @@ body {
     text-align: center;
 }
 
+.Joinus__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #72262C;
+}
+
 .Joinus__subtitle {
     color: #212322;
     font-size: 1.2rem;
@@ -1914,14 +1949,14 @@ body {
     transform: translateY(1px);
 }
 
-/* Estilos para la sección Introduction */
-.Introduction {
+/* Estilos para la sección introduction */
+.introduction {
     padding: 60px 20px;
     background-color: #f8f8f7;
     text-align: center;
 }
 
-.Introduction__title {
+.introduction__title {
     color: #72262C;
     font-size: 3rem;
     margin: 0;
@@ -1929,7 +1964,7 @@ body {
     position: relative;
 }
 
-.Introduction__title::after {
+.introduction__title::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -1940,15 +1975,15 @@ body {
     background-color: #72262C;
 }
 
-.Introduction__subtitle {
+.introduction__subtitle {
     color: #212322;
     font-size: 1.5rem;
     margin-top: 15px;
     font-weight: normal;
 }
 
-/* Estilos para la sección ViewShop */
-.ViewShop {
+/* Estilos para la sección viewShop */
+.viewShop {
     padding: 80px 20px;
     background-color: #f8f8f7;
     text-align: center;
@@ -1956,7 +1991,7 @@ body {
     margin: 0 auto;
 }
 
-.ViewShop__title {
+.viewShop__title {
     color: #72262C;
     font-size: 2.5rem;
     margin: 0;
@@ -1964,7 +1999,7 @@ body {
     position: relative;
 }
 
-.ViewShop__title::after {
+.viewShop__title::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -1975,7 +2010,7 @@ body {
     background-color: #72262C;
 }
 
-.ViewShop__subtitle {
+.viewShop__subtitle {
     color: #212322;
     font-size: 1.2rem;
     margin: 15px auto 40px;
@@ -1983,7 +2018,7 @@ body {
     line-height: 1.6;
 }
 
-.ViewShop__button {
+.viewShop__button {
     padding: 15px 30px;
     background-color: #72262C;
     color: white;
@@ -1997,19 +2032,19 @@ body {
     letter-spacing: 1px;
 }
 
-.ViewShop__button:hover {
+.viewShop__button:hover {
     background-color: #5a1e23;
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(114, 38, 44, 0.2);
 }
 
-.ViewShop__button:active {
+.viewShop__button:active {
     transform: translateY(-1px);
     box-shadow: 0 2px 5px rgba(114, 38, 44, 0.2);
 }
 
 /* Estilos para el contenedor de tarjetas de productos */
-.ViewShop__container {
+.viewShop__container {
     display: flex;
     justify-content: center;
     gap: 30px;
@@ -2018,7 +2053,7 @@ body {
 }
 
 /* Estilos para las tarjetas de productos */
-.ViewShop__card {
+.viewShop__card {
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
@@ -2029,26 +2064,26 @@ body {
     flex-direction: column;
 }
 
-.ViewShop__card:hover {
+.viewShop__card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
 }
 
-.ViewShop__card-image {
+.viewShop__card-image {
     width: 100%;
     height: 280px;
     object-fit: cover;
     border-bottom: 1px solid #f2f2f2;
 }
 
-.ViewShop__card-title {
+.viewShop__card-title {
     color: #72262C;
     font-size: 1.3rem;
     margin: 15px 0 10px;
     padding: 0 15px;
 }
 
-.ViewShop__card-description {
+.viewShop__card-description {
     font-size: 0.95rem;
     color: #212322;
     margin: 0 0 20px;
@@ -2377,7 +2412,7 @@ body {
 
 .join-intro-header h2 {
     color: #72262C;
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin: 0 auto;
     padding-bottom: 15px;
     position: relative;
@@ -2390,23 +2425,25 @@ body {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
+    width: 750px;
     height: 3px;
     background-color: #72262C;
 }
 
 .join-intro p {
     font-size: 1.2rem;
-    line-height: 1.8;
+    line-height: 2.4;
     text-align: center;
     color: #212322;
-    margin: 1.5rem auto;
-    max-width: 800px;
-    padding: 20px;
+    margin: 2.5rem auto;
+    max-width: 1000px;
+    padding: 40px;
     background-color: rgba(248, 248, 247, 0.8);
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    letter-spacing: 1px;
+    word-spacing: 3px;
 }
 
 .join-intro p:hover {

@@ -536,49 +536,187 @@ function initFilters() {
 // Funcionalidad "Ver más"
 function initLoadMore() {
     const moreBtn = document.querySelector('.Shop__Button--more');
-    if (!moreBtn) return;
+    if (moreBtn) {
+        moreBtn.addEventListener('click', () => {
+            const hiddenProducts = document.querySelectorAll('.Shop__product--hidden');
+            
+            if (hiddenProducts.length > 0) {
+                // Mostrar productos ocultos
+                hiddenProducts.forEach(product => {
+                    product.classList.remove('Shop__product--hidden');
+                    product.classList.add('Shop__product');
+                });
+                moreBtn.textContent = 'Ver menos';
+            } else {
+                // Ocultar productos
+                const productsToHide = document.querySelectorAll('.Shop__product[id="hidden"]');
+                productsToHide.forEach(product => {
+                    product.classList.remove('Shop__product');
+                    product.classList.add('Shop__product--hidden');
+                });
+                moreBtn.textContent = 'Ver más';
+            }
+        });
+    }
     
-    moreBtn.addEventListener('click', () => {
-        const hiddenProducts = document.querySelectorAll('.Shop__product--hidden');
-        
-        if (hiddenProducts.length > 0) {
-            // Mostrar productos ocultos
-            hiddenProducts.forEach(product => {
-                product.classList.remove('Shop__product--hidden');
-                product.classList.add('Shop__product');
-            });
-            moreBtn.textContent = 'Ver menos';
-        } else {
-            // Ocultar productos
-            const productsToHide = document.querySelectorAll('.Shop__product[id="hidden"]');
-            productsToHide.forEach(product => {
-                product.classList.remove('Shop__product');
-                product.classList.add('Shop__product--hidden');
-            });
-            moreBtn.textContent = 'Ver más';
-        }
-    });
-    
-    // Cargar más noticias/posts
+    // Cargar más noticias
     const loadMoreNewsBtn = document.getElementById('loadMoreNews');
-    const loadMorePostsBtn = document.getElementById('loadMorePosts');
-    
     if (loadMoreNewsBtn) {
+        let clicked = false;
         loadMoreNewsBtn.addEventListener('click', function() {
+            if (clicked) return;
+            clicked = true;
+            
             this.textContent = 'CARGANDO...';
             setTimeout(() => {
-                this.textContent = 'CARGAR MÁS NOTICIAS';
-                this.style.display = 'none';
+                // Crear nuevas noticias
+                const newsGrid = document.querySelector('.news__grid');
+                
+                if (newsGrid) {
+                    // Añadir nuevas noticias
+                    const newsItems = [
+                        {
+                            image: 'Imagenes/Noticia6.png',
+                            date: '15 de Junio, 2023',
+                            title: 'Nueva colección sostenible',
+                            excerpt: 'Lanzamos nuestra primera línea de ropa fabricada con materiales 100% reciclados.',
+                            fullText: '<p>Nos enorgullece presentar nuestra nueva colección "Eco Spicy", elaborada íntegramente con materiales reciclados y procesos sostenibles. Cada prenda está confeccionada con tejidos provenientes de botellas de plástico recicladas y algodón orgánico.<br><br>Esta colección representa nuestro compromiso con el medio ambiente y marca el inicio de una nueva era en Spicy Gallery. Además de su enfoque sostenible, la colección mantiene nuestro distintivo estilo urbano y la calidad que nos caracteriza.<br><br>La colección incluye sudaderas, camisetas y accesorios, todos diseñados pensando en la durabilidad y el menor impacto ambiental posible.</p>'
+                        },
+                        {
+                            image: 'Imagenes/Noticia7.png',
+                            date: '5 de Junio, 2023',
+                            title: 'Festival de Moda Urbana',
+                            excerpt: 'Spicy Gallery organizará el primer festival de moda urbana en Barcelona.',
+                            fullText: '<p>Este verano, Barcelona será el epicentro de la moda urbana con el primer Spicy Urban Festival. Un evento que combinará moda, música, arte urbano y cultura streetwear.<br><br>Durante tres días, el recinto del Fórum acogerá desfiles, exposiciones de artistas emergentes, conciertos de hip-hop y trap, y pop-up stores de marcas independientes. Spicy Gallery presentará en exclusiva su colección de otoño durante el evento.<br><br>Las entradas estarán disponibles a partir del 1 de julio, con descuentos especiales para los miembros de nuestra comunidad. ¡No te pierdas el evento del año!</p>'
+                        }
+                    ];
+                    
+                    newsItems.forEach(item => {
+                        const newsCard = document.createElement('article');
+                        newsCard.className = 'news__card';
+                        
+                        newsCard.innerHTML = `
+                            <div class="news__card-image">
+                                <img src="${item.image}" alt="${item.title}" class="news__image">
+                            </div>
+                            <div class="news__card-content">
+                                <span class="news__date">${item.date}</span>
+                                <h3 class="news__card-title">${item.title}</h3>
+                                <p class="news__card-excerpt">${item.excerpt}</p>
+                                <a href="#" class="news__card-link">Leer más</a>
+                                <div class="news__card-full-text hidden">
+                                    ${item.fullText}
+                                </div>
+                            </div>
+                        `;
+                        
+                        newsGrid.appendChild(newsCard);
+                    });
+                    
+                    // Inicializar botones de leer más para los nuevos elementos
+                    const newLinks = newsGrid.querySelectorAll('.news__card-link:not([data-initialized])');
+                    newLinks.forEach(link => {
+                        link.setAttribute('data-initialized', 'true');
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const card = this.closest('.news__card-content');
+                            const fullText = card.querySelector('.news__card-full-text');
+                            
+                            if (fullText) {
+                                fullText.classList.toggle('hidden');
+                                this.textContent = fullText.classList.contains('hidden') ? 'Leer más' : 'Leer menos';
+                            }
+                        });
+                    });
+                    
+                    this.textContent = 'NO HAY MÁS NOTICIAS';
+                    this.disabled = true;
+                }
             }, 1000);
         });
     }
     
+    // Cargar más artículos del blog
+    const loadMorePostsBtn = document.getElementById('loadMorePosts');
     if (loadMorePostsBtn) {
+        let clicked = false;
         loadMorePostsBtn.addEventListener('click', function() {
+            if (clicked) return;
+            clicked = true;
+            
             this.textContent = 'CARGANDO...';
             setTimeout(() => {
-                this.textContent = 'VER MÁS ARTÍCULOS';
-                this.style.display = 'none';
+                // Crear nuevos artículos de blog
+                const blogContent = document.querySelector('.blog__content');
+                
+                if (blogContent) {
+                    // Añadir nuevos artículos
+                    const blogItems = [
+                        {
+                            image: 'Imagenes/Blog4.png',
+                            tag: 'Tendencias',
+                            title: 'Los colores que dominarán la próxima temporada',
+                            excerpt: 'Descubre cuáles serán los tonos más importantes y cómo incorporarlos a tu guardarropa streetwear.',
+                            date: '15 de Abril, 2023',
+                            author: 'Por: Ana Martínez',
+                            fullText: '<p><strong>La paleta del futuro</strong><br>La próxima temporada viene cargada de contrastes y matices inesperados. Los tonos neón se mezclan con colores tierra, creando una paleta que refleja tanto la energía urbana como la conexión con lo natural.<br><br><strong>Tendencias cromáticas principales</strong><br>1. <u>Verde Digital:</u> Un tono vibrante que representa la fusión entre tecnología y naturaleza.<br><br>2. <u>Naranja Sunset:</u> Un color cálido que evoca los atardeceres urbanos y aporta energía a cualquier look.<br><br>3. <u>Azul Cyber:</u> Un tono eléctrico que representa la era digital.<br><br>4. <u>Beige Tech:</u> Un neutro modernizado que sirve como base perfecta.<br><br><strong>Cómo combinar los nuevos tonos</strong><br>- Contrasta el Verde Digital con negro para un look futurista<br>- Mezcla el Naranja Sunset con tonos grises para equilibrar su intensidad<br>- Usa el Azul Cyber como acento en looks monocromáticos<br>- El Beige Tech funciona como base versátil<br><br>La clave está en experimentar con estos colores mientras mantienes tu estilo personal. No temas a las combinaciones audaces - el streetwear trata de romper reglas y establecer nuevas tendencias.</p>'
+                        },
+                        {
+                            image: 'Imagenes/Blog5.png',
+                            tag: 'Cultura',
+                            title: 'El arte urbano y su influencia en la moda actual',
+                            excerpt: 'Exploramos cómo el grafiti y el arte callejero están modelando las últimas tendencias en diseño de ropa.',
+                            date: '8 de Abril, 2023',
+                            author: 'Por: Carlos Ruiz',
+                            fullText: '<p><strong>Del muro a la pasarela</strong><br>El arte urbano ha evolucionado desde sus orígenes subversivos hasta convertirse en una fuerza creativa que influye directamente en el diseño de moda contemporáneo. Los elementos gráficos, las técnicas de color y la actitud rebelde del grafiti se traducen ahora en prendas que son verdaderas obras de arte portátiles.<br><br><strong>Elementos clave del arte urbano en la moda</strong><br>1. <u>Tipografías:</u> Los estilos de letra del grafiti inspiran estampados y logos.<br><br>2. <u>Técnicas de color:</u> Los degradados y superposiciones característicos del arte urbano se replican en tejidos.<br><br>3. <u>Simbolismo:</u> Iconografía urbana que transmite mensajes de resistencia y autenticidad.<br><br>4. <u>Texturas:</u> Efectos que emulan las superficies del arte callejero.<br><br><strong>La fusión perfecta</strong><br>El arte urbano no solo influye en la estética de la ropa, sino que también aporta una dimensión cultural y narrativa al streetwear. Cada prenda se convierte en un lienzo que cuenta una historia y representa una forma de vida.<br><br>En Spicy Gallery, celebramos esta fusión entre arte y moda, creando piezas que son tanto expresión artística como declaración de estilo.</p>'
+                        }
+                    ];
+                    blogItems.forEach(item => {
+                        const blogArticle = document.createElement('article');
+                        blogArticle.className = 'blog__article';
+                        
+                        blogArticle.innerHTML = `
+                            <div class="blog__article-image">
+                                <img src="${item.image}" alt="${item.title}" class="blog__img">
+                            </div>
+                            <div class="blog__article-content">
+                                <span class="blog__tag">${item.tag}</span>
+                                <h3 class="blog__article-title">${item.title}</h3>
+                                <p class="blog__article-excerpt">${item.excerpt}</p>
+                                <div class="blog__meta">
+                                    <span class="blog__date">${item.date}</span>
+                                    <span class="blog__author">${item.author}</span>
+                                </div>
+                                <a href="#" class="blog__read-link">Leer artículo completo</a>
+                                <div class="blog__article-full-text hidden">
+                                    ${item.fullText}
+                                </div>
+                            </div>
+                        `;
+                        
+                        blogContent.appendChild(blogArticle);
+                    });
+                    
+                    // Inicializar botones de leer más para los nuevos elementos
+                    const newLinks = blogContent.querySelectorAll('.blog__read-link:not([data-initialized])');
+                    newLinks.forEach(link => {
+                        link.setAttribute('data-initialized', 'true');
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const article = this.closest('.blog__article-content');
+                            const fullText = article.querySelector('.blog__article-full-text');
+                            
+                            if (fullText) {
+                                fullText.classList.toggle('hidden');
+                                this.textContent = fullText.classList.contains('hidden') ? 
+                                    'Leer artículo completo' : 'Mostrar menos';
+                            }
+                        });
+                    });
+                    
+                    this.textContent = 'NO HAY MÁS ARTÍCULOS';
+                    this.disabled = true;
+                }
             }, 1000);
         });
     }
@@ -587,7 +725,8 @@ function initLoadMore() {
 // Botones de leer más
 function initReadMoreButtons() {
     // Noticias
-    document.querySelectorAll('.news__card-link').forEach(link => {
+    document.querySelectorAll('.news__card-link:not([data-initialized])').forEach(link => {
+        link.setAttribute('data-initialized', 'true');
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const card = this.closest('.news__card-content');
@@ -601,8 +740,9 @@ function initReadMoreButtons() {
     });
     
     // Noticia destacada
-    const featuredReadMore = document.querySelector('.news__readmore');
+    const featuredReadMore = document.querySelector('.news__readmore:not([data-initialized])');
     if (featuredReadMore) {
+        featuredReadMore.setAttribute('data-initialized', 'true');
         featuredReadMore.addEventListener('click', function(e) {
             e.preventDefault();
             const content = this.closest('.news__featured-content');
@@ -611,7 +751,7 @@ function initReadMoreButtons() {
             if (!fullText) {
                 const fullTextDiv = document.createElement('div');
                 fullTextDiv.className = 'news__full-text';
-                fullTextDiv.innerHTML = '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquet nisl, nec aliquet nisl nisl sit amet nisl. Sed euismod, nisl vel ultricies lacinia, nisl nisl aliquet nisl, nec aliquet nisl nisl sit amet nisl.</p>';
+                fullTextDiv.innerHTML = '<p>Nueva colección Spicy Urban es el resultado de años de investigación sobre tendencias urbanas globales. Nuestro equipo de diseño ha viajado por ciudades como Tokio, Berlín, Nueva York y Ciudad de México para capturar la esencia del streetwear contemporáneo y transformarla en piezas que son tanto funcionales como vanguardistas.<br><br>La colección incluye 35 piezas unisex, desde sudaderas y camisetas hasta accesorios y calzado, todas con el distintivo toque irreverente de Spicy Gallery. Los materiales son premium, con un enfoque en la durabilidad y el confort, dos valores esenciales para la vida urbana.<br><br>Además del lanzamiento online, organizaremos pop-ups en varias ciudades durante el verano, donde los visitantes podrán experimentar la colección completa con instalaciones inmersivas y eventos exclusivos.</p>';
                 content.querySelector('.news__excerpt').after(fullTextDiv);
                 this.textContent = 'Leer menos';
             } else {
@@ -622,7 +762,8 @@ function initReadMoreButtons() {
     }
     
     // Blog
-    document.querySelectorAll('.blog__read-link').forEach(link => {
+    document.querySelectorAll('.blog__read-link:not([data-initialized])').forEach(link => {
+        link.setAttribute('data-initialized', 'true');
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const article = this.closest('.blog__article-content');
