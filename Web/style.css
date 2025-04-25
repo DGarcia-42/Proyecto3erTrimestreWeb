@@ -1183,8 +1183,9 @@ body {
     transition: transform 0.3s ease;
 }
 
-.news_featured:hover .news_image-main {
+.news__featured:hover .news__image-main {
     transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 .news__featured-content {
@@ -1264,8 +1265,9 @@ body {
     transition: transform 0.3s ease;
 }
 
-.news_card:hover .news_image {
+.news__card:hover .news__image {
     transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 .news__card-content {
@@ -1391,8 +1393,9 @@ body {
     transition: transform 0.3s ease;
 }
 
-.blog_article:hover .blog_img {
+.blog__article:hover .blog__img {
     transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 .blog__article-content {
@@ -1471,61 +1474,6 @@ body {
     background-color: #5a1e23;
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(114, 38, 44, 0.2);
-}
-
-/* Estilos para la sección de newsletter */
-.newsletter {
-    background-color: #72262C;
-    padding: 80px 20px;
-    text-align: center;
-    color: white;
-}
-
-.newsletter__container {
-    max-width: 700px;
-    margin: 0 auto;
-}
-
-.newsletter__title {
-    font-size: 2.2rem;
-    margin: 0 0 20px 0;
-}
-
-.newsletter__text {
-    font-size: 1.1rem;
-    margin-bottom: 30px;
-    line-height: 1.6;
-}
-
-.newsletter__form {
-    display: flex;
-    max-width: 500px;
-    margin: 0 auto;
-    gap: 10px;
-}
-
-.newsletter__input {
-    flex: 1;
-    padding: 12px 15px;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-}
-
-.newsletter__button {
-    padding: 0 20px;
-    background-color: white;
-    color: #72262C;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.newsletter__button:hover {
-    background-color: #eaeae5;
-    transform: translateY(-3px);
 }
 
 /* Estilos para la notificación de producto añadido al carrito */

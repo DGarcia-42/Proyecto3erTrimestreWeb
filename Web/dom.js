@@ -749,12 +749,19 @@ function initReadMoreButtons() {
             const fullText = content.querySelector('.news__full-text');
             
             if (!fullText) {
+                // Si no existe el div de texto completo, lo creamos
                 const fullTextDiv = document.createElement('div');
-                fullTextDiv.className = 'news__full-text';
-                fullTextDiv.innerHTML = '<p>Nueva colección Spicy Urban es el resultado de años de investigación sobre tendencias urbanas globales. Nuestro equipo de diseño ha viajado por ciudades como Tokio, Berlín, Nueva York y Ciudad de México para capturar la esencia del streetwear contemporáneo y transformarla en piezas que son tanto funcionales como vanguardistas.<br><br>La colección incluye 35 piezas unisex, desde sudaderas y camisetas hasta accesorios y calzado, todas con el distintivo toque irreverente de Spicy Gallery. Los materiales son premium, con un enfoque en la durabilidad y el confort, dos valores esenciales para la vida urbana.<br><br>Además del lanzamiento online, organizaremos pop-ups en varias ciudades durante el verano, donde los visitantes podrán experimentar la colección completa con instalaciones inmersivas y eventos exclusivos.</p>';
+                fullTextDiv.className = 'news__full-text hidden';
+                fullTextDiv.innerHTML = `<p>La colección Spicy Urban representa nuestra visión más audaz hasta la fecha. Inspirada en la vida urbana y la arquitectura contemporánea, cada pieza combina funcionalidad con detalles de alta costura.<br><br>
+                    Los tejidos premium, siluetas exageradas y detalles artesanales definen esta colección que difumina la línea entre streetwear y lujo. Hemos colaborado con diseñadores emergentes y utilizado técnicas innovadoras de confección para crear prendas que son tanto una declaración de estilo como piezas funcionales para el día a día.<br><br>
+                    La colección incluye desde camisetas oversize con estampados exclusivos hasta chaquetas estructuradas con detalles metálicos, pasando por pantalones cargo reinventados y accesorios que complementan el look urbano-contemporáneo.<br><br>
+                    Descubre todas las piezas en nuestra tienda online o visita los puntos de venta seleccionados para experimentar la calidad y el diseño de cerca.</p>`;
+                
                 content.querySelector('.news__excerpt').after(fullTextDiv);
+                setTimeout(() => fullTextDiv.classList.remove('hidden'), 10);
                 this.textContent = 'Leer menos';
             } else {
+                // Si ya existe el div, lo mostramos u ocultamos
                 fullText.classList.toggle('hidden');
                 this.textContent = fullText.classList.contains('hidden') ? 'Leer más' : 'Leer menos';
             }
