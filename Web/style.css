@@ -1925,6 +1925,14 @@ body {
 
 .introduction__subtitle {
     color: #212322;
+    font-size: 1.2rem;
+    margin: 15px auto 40px;
+    max-width: 800px;
+    line-height: 1.6;
+}
+
+.introduction__text {
+    color: #212322;
     font-size: 1.5rem;
     margin-top: 15px;
     font-weight: normal;
