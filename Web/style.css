@@ -757,11 +757,16 @@ body {
 
 /* Estilos para el footer */
 .footer {
-    background-color: var(--footer-bg);
-    color: var(--footer-text);
+    background-color: #212322;
+    color: white;
     padding: 20px;
     position: relative;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .footer {
+    background-color: #212322 !important;
+    color: white !important;
 }
 
 .footer__container {
@@ -806,14 +811,23 @@ body {
 .footer__copyright {
     margin: 0;
     font-size: 10px;
+    color: white !important;
+}
+
+.dark-mode .footer__copyright {
+    color: white !important;
 }
 
 .footer__column-title {
-    color: white;
+    color: white !important;
     margin-top: 0;
     margin-bottom: 20px;
     font-size: 1.3rem;
     font-weight: bold;
+}
+
+.dark-mode .footer__column-title {
+    color: white !important;
 }
 
 .footer__social {
@@ -826,10 +840,15 @@ body {
 .footer__social-link {
     width: 50px;
     transition: color 0.3s ease;
+    color: white !important;
+}
+
+.dark-mode .footer__social-link {
+    color: white !important;
 }
 
 .footer__social-link:hover {
-    color: #72262C;
+    color: var(--accent-color) !important;
 }
 
 .footer__newsletter {
@@ -839,6 +858,11 @@ body {
 .footer__newsletter-subtitle {
     font-size: 1rem;
     margin: 0 0 15px;
+    color: white !important;
+}
+
+.dark-mode .footer__newsletter-subtitle {
+    color: white !important;
 }
 
 .footer__form {
@@ -852,33 +876,42 @@ body {
     padding: 10px;
     border: none;
     border-radius: 4px;
-    background-color: var(--footer-input-bg);
-    color: var(--footer-text);
+    background-color: #333 !important;
+    color: white !important;
     width: 100%;
+}
+
+.dark-mode .footer__input {
+    background-color: #333 !important;
+    color: white !important;
 }
 
 .footer__button {
     padding: 10px;
     border: none;
     border-radius: 4px;
-    background-color: #72262C;
+    background-color: var(--accent-color);
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .footer__button:hover {
-    background-color: #5a1e23;
+    background-color: var(--accent-color-hover);
 }
 
 .footer__legal-container {
     max-width: 1200px;
     margin: 0 auto;
     padding-top: 20px;
-    border-top: 1px solid #333;
+    border-top: 1px solid #444;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.dark-mode .footer__legal-container {
+    border-top: 1px solid #444;
 }
 
 .footer__legal {
@@ -887,14 +920,18 @@ body {
 }
 
 .footer__legal a {
-    color: #e5e5e5;
+    color: white !important;
     text-decoration: none;
     font-size: 0.9rem;
     transition: color 0.3s ease;
 }
 
+.dark-mode .footer__legal a {
+    color: white !important;
+}
+
 .footer__legal a:hover {
-    color: #72262C;
+    color: var(--accent-color) !important;
 }
 
 
@@ -2029,6 +2066,8 @@ body {
     font-size: 1.5rem;
     margin-top: 15px;
     font-weight: normal;
+    margin-left: 100px;
+    margin-right: 100px;
 }
 
 /* Estilos para la sección viewShop */
@@ -2518,6 +2557,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    left: 90px;
+    top: 20px;
+    z-index: 1001;
 }
 
 .theme-toggle:hover {
