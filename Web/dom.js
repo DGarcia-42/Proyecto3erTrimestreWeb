@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initCheckoutPage();
     initAccordions();
     initLoadMore();
+    initLanguageSwitch();
     
     // Inicializar el tema y el icono correspondiente
     initTheme();
@@ -857,5 +858,529 @@ function initTheme() {
         if (themeToggleBtn) {
             themeToggleBtn.innerHTML = '🌙';
         }
+    }
+}
+
+// Función para el cambio de idioma
+function initLanguageSwitch() {
+    const languageFlags = document.querySelectorAll('.header__language-flag');
+    
+    if (!languageFlags.length) return;
+    
+    // Cargar diccionarios
+    const translations = {
+        es: {
+            // Navegación
+            "INICIO": "INICIO",
+            "TIENDA": "TIENDA",
+            "SOBRE NOSOTROS": "SOBRE NOSOTROS",
+            "NOTICIAS Y BLOG": "NOTICIAS Y BLOG",
+            "ÚNETE A NOSOTROS": "ÚNETE A NOSOTROS",
+            
+            // Header y secciones principales
+            "Dare to be Spicy": "Dare to be Spicy",
+            "Spicy Gallery": "Spicy Gallery",
+            
+            // Secciones de inicio
+            "Tienda": "Tienda",
+            "Echa un vistazo a nuestros productos más vendidos": "Echa un vistazo a nuestros productos más vendidos",
+            "Camiseta": "Camiseta",
+            "Camiseta de algodón premium": "Camiseta de algodón premium",
+            "Sudadera": "Sudadera",
+            "Sudadera confortable de algodón": "Sudadera confortable de algodón",
+            "Chaqueta": "Chaqueta",
+            "Chaqueta premium edición limitada": "Chaqueta premium edición limitada",
+            "Para ver todos nuestros productos, accede a nuestra tienda": "Para ver todos nuestros productos, accede a nuestra tienda",
+            "Ir a la tienda": "Ir a la tienda",
+            
+            // Introducción
+            "Spicy Gallery es mucho más que una tienda de ropa. Somos estilo de vida. Nuestra pasión por el estilo y la moda urbana nos impulsa a ofrecer piezas únicas para jóvenes de espíritu libre.": "Spicy Gallery es mucho más que una tienda de ropa. Somos estilo de vida. Nuestra pasión por el estilo y la moda urbana nos impulsa a ofrecer piezas únicas para jóvenes de espíritu libre.",
+            "Spicy Gallery no es solo ropa; es para quienes se atreven a combinar cualquier estilo que les guste sin miedo a lo que digan o piensen los demás.": "Spicy Gallery no es solo ropa; es para quienes se atreven a combinar cualquier estilo que les guste sin miedo a lo que digan o piensen los demás.",
+            "En un mundo donde todos quieren encajar, Spicy Gallery es una marca que busca romper con lo establecido, una marca diseñada para el mundo.": "En un mundo donde todos quieren encajar, Spicy Gallery es una marca que busca romper con lo establecido, una marca diseñada para el mundo.",
+            
+            // Sobre nosotros
+            "Sobre Nuestra Marca": "Sobre Nuestra Marca",
+            "¿De donde nace nuestro Naming?": "¿De donde nace nuestro Naming?",
+            "El nombre de Spicy Gallery surge de la idea de integrar un toque de intensidad y fuerza a la marca.": "El nombre de Spicy Gallery surge de la idea de integrar un toque de intensidad y fuerza a la marca.",
+            "Nuestro Slogan Nuestra Voz": "Nuestro Slogan Nuestra Voz",
+            "Nuestro slogan \"Dare to be Spicy\", engloba la filosofía de la marca en una frase corta y directa": "Nuestro slogan \"Dare to be Spicy\", engloba la filosofía de la marca en una frase corta y directa",
+            "Propuesta de valor": "Propuesta de valor",
+            "Nuestra Filosofía": "Nuestra Filosofía",
+            "Nuestro Equipo": "Nuestro Equipo",
+            
+            // Join us
+            "¿Estás cansado de trabajar en algo que no te apasiona?": "¿Estás cansado de trabajar en algo que no te apasiona?",
+            "Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte.": "Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte.",
+            "Únete a Nosotros": "Únete a Nosotros",
+            "¡Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte!": "¡Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte!",
+            "Para ello, solo tienes que rellenar el formulario de abajo y nos pondremos en contacto contigo.": "Para ello, solo tienes que rellenar el formulario de abajo y nos pondremos en contacto contigo.",
+            "Nombre": "Nombre",
+            "Email": "Email",
+            "Teléfono": "Teléfono",
+            "Nivel de estudios": "Nivel de estudios",
+            "Selecciona tu nivel de estudios": "Selecciona tu nivel de estudios",
+            "Primaria": "Primaria",
+            "Secundaria": "Secundaria",
+            "Universidad": "Universidad",
+            "Idiomas": "Idiomas",
+            "Español": "Español",
+            "Inglés": "Inglés",
+            "Francés": "Francés",
+            "Género": "Género",
+            "Hombre": "Hombre",
+            "Mujer": "Mujer",
+            "Otro": "Otro",
+            "Curriculum Vitae": "Curriculum Vitae",
+            "Enviar solicitud": "Enviar solicitud",
+            
+            // Shop
+            "Nuestros productos": "Nuestros productos",
+            "Filtros": "Filtros",
+            "Categoría": "Categoría",
+            "Camisetas": "Camisetas",
+            "Sudaderas": "Sudaderas",
+            "Chaquetas": "Chaquetas",
+            "Tops": "Tops",
+            "Precio": "Precio",
+            "Aplicar filtros": "Aplicar filtros",
+            "Reiniciar": "Reiniciar",
+            "Ver más": "Ver más",
+            "Ver menos": "Ver menos",
+            "Añadir al carrito": "Añadir al carrito",
+            
+            // Checkout
+            "Confirmación de Compra": "Confirmación de Compra",
+            "Datos Personales": "Datos Personales",
+            "Apellido": "Apellido",
+            "Correo Electrónico": "Correo Electrónico",
+            "Dirección de Envío": "Dirección de Envío",
+            "Dirección": "Dirección",
+            "Ciudad": "Ciudad",
+            "Código Postal": "Código Postal",
+            "País": "País",
+            "Selecciona un país": "Selecciona un país",
+            "España": "España",
+            "Francia": "Francia",
+            "Italia": "Italia",
+            "Portugal": "Portugal",
+            "Alemania": "Alemania",
+            "Reino Unido": "Reino Unido",
+            "Código de Descuento": "Código de Descuento",
+            "Código (Opcional)": "Código (Opcional)",
+            "Aplicar": "Aplicar",
+            "Método de Pago": "Método de Pago",
+            "Tarjeta de Crédito/Débito": "Tarjeta de Crédito/Débito",
+            "PayPal": "PayPal",
+            "Número de Tarjeta": "Número de Tarjeta",
+            "Fecha de Expiración": "Fecha de Expiración",
+            "CVV": "CVV",
+            "Finalizar Compra": "Finalizar Compra",
+            "Resumen del Pedido": "Resumen del Pedido",
+            "No hay productos en tu carrito": "No hay productos en tu carrito",
+            "Subtotal:": "Subtotal:",
+            "Gastos de envío:": "Gastos de envío:",
+            "Descuento:": "Descuento:",
+            "Total:": "Total:",
+            
+            // News and Blog
+            "Últimas Noticias": "Últimas Noticias",
+            "Mantente al día con las novedades de Spicy Gallery": "Mantente al día con las novedades de Spicy Gallery",
+            "Nueva colección Spicy Urban rompe todos los esquemas": "Nueva colección Spicy Urban rompe todos los esquemas",
+            "Nuestra colección más esperada ha llegado por fin.": "Nuestra colección más esperada ha llegado por fin.",
+            "Leer más": "Leer más",
+            "Leer menos": "Leer menos",
+            "CARGAR MÁS NOTICIAS": "CARGAR MÁS NOTICIAS",
+            "Blog Spicy": "Blog Spicy",
+            "Tendencias, estilos y actualidad": "Tendencias, estilos y actualidad",
+            "Tendencias": "Tendencias",
+            "Historia": "Historia",
+            "Sostenibilidad": "Sostenibilidad",
+            "Cultura": "Cultura",
+            "Las 5 tendencias que dominarán el streetwear en 2023": "Las 5 tendencias que dominarán el streetwear en 2023",
+            "De la calle a las pasarelas: La evolución del streetwear": "De la calle a las pasarelas: La evolución del streetwear",
+            "Moda sostenible: ¿Es posible en el mundo del streetwear?": "Moda sostenible: ¿Es posible en el mundo del streetwear?",
+            "El arte urbano y su influencia en la moda actual": "El arte urbano y su influencia en la moda actual",
+            "Leer artículo completo": "Leer artículo completo",
+            "Mostrar menos": "Mostrar menos",
+            "VER MÁS ARTÍCULOS": "VER MÁS ARTÍCULOS",
+            
+            // Contacto
+            "Contacto": "Contacto",
+            "Dirección": "Dirección",
+            "Teléfono": "Teléfono",
+            "Email": "Email",
+            
+            // FAQ
+            "Preguntas Frecuentes": "Preguntas Frecuentes",
+            "¿Cuál es el tiempo de entrega de los pedidos?": "¿Cuál es el tiempo de entrega de los pedidos?",
+            "El tiempo de entrega estándar es de 3 a 5 días hábiles en España peninsular. Para envíos internacionales, el tiempo puede variar entre 7 y 14 días dependiendo del destino.": "El tiempo de entrega estándar es de 3 a 5 días hábiles en España peninsular. Para envíos internacionales, el tiempo puede variar entre 7 y 14 días dependiendo del destino.",
+            "¿Qué métodos de pago aceptáis?": "¿Qué métodos de pago aceptáis?",
+            "Aceptamos tarjetas de crédito/débito (Visa, Mastercard, American Express), PayPal, transferencia bancaria y pago contra reembolso (con cargo adicional).": "Aceptamos tarjetas de crédito/débito (Visa, Mastercard, American Express), PayPal, transferencia bancaria y pago contra reembolso (con cargo adicional).",
+            "¿Puedo devolver o cambiar un producto?": "¿Puedo devolver o cambiar un producto?",
+            "Sí, tienes 14 días desde la recepción del pedido para solicitar una devolución o cambio. Los productos deben estar en perfecto estado, con todas las etiquetas y en su embalaje original.": "Sí, tienes 14 días desde la recepción del pedido para solicitar una devolución o cambio. Los productos deben estar en perfecto estado, con todas las etiquetas y en su embalaje original.",
+            "¿Realizáis envíos internacionales?": "¿Realizáis envíos internacionales?",
+            "Sí, realizamos envíos a nivel internacional. Los gastos de envío y tiempos de entrega varían según el país de destino. Puedes consultar las tarifas específicas durante el proceso de compra.": "Sí, realizamos envíos a nivel internacional. Los gastos de envío y tiempos de entrega varían según el país de destino. Puedes consultar las tarifas específicas durante el proceso de compra.",
+            "¿Cómo puedo conocer el estado de mi pedido?": "¿Cómo puedo conocer el estado de mi pedido?",
+            "Una vez realizado tu pedido, recibirás un correo de confirmación con un número de seguimiento. Podrás consultar el estado de tu envío a través de nuestra web en la sección \"Mi cuenta\" o directamente en la web de la empresa de transporte.": "Una vez realizado tu pedido, recibirás un correo de confirmación con un número de seguimiento. Podrás consultar el estado de tu envío a través de nuestra web en la sección \"Mi cuenta\" o directamente en la web de la empresa de transporte.",
+            
+            // Footer
+            "Newsletter": "Newsletter",
+            "Suscríbete a nuestra newsletter": "Suscríbete a nuestra newsletter",
+            "Tu email": "Tu email",
+            "Suscribirme": "Suscribirme",
+            "Síguenos": "Síguenos",
+            "Política de Privacidad": "Política de Privacidad",
+            "Términos y Condiciones": "Términos y Condiciones",
+            "Política de Cookies": "Política de Cookies",
+            "Todos los derechos reservados.": "Todos los derechos reservados.",
+            "© 2025 Spicy Gallery. Todos los derechos reservados.": "© 2025 Spicy Gallery. Todos los derechos reservados."
+        },
+        en: {
+            // Navigation
+            "INICIO": "HOME",
+            "TIENDA": "SHOP",
+            "SOBRE NOSOTROS": "ABOUT US",
+            "NOTICIAS Y BLOG": "NEWS & BLOG",
+            "ÚNETE A NOSOTROS": "JOIN US",
+            
+            // Header and main sections
+            "Dare to be Spicy": "Dare to be Spicy",
+            "Spicy Gallery": "Spicy Gallery",
+            
+            // Home sections
+            "Tienda": "Shop",
+            "Echa un vistazo a nuestros productos más vendidos": "Check out our best sellers",
+            "Camiseta": "T-shirt",
+            "Camiseta de algodón premium": "Premium cotton t-shirt",
+            "Sudadera": "Sweatshirt",
+            "Sudadera confortable de algodón": "Comfortable cotton sweatshirt",
+            "Chaqueta": "Jacket",
+            "Chaqueta premium edición limitada": "Premium limited edition jacket",
+            "Para ver todos nuestros productos, accede a nuestra tienda": "To see all our products, visit our store",
+            "Ir a la tienda": "Go to shop",
+            
+            // Introduction
+            "Spicy Gallery es mucho más que una tienda de ropa. Somos estilo de vida. Nuestra pasión por el estilo y la moda urbana nos impulsa a ofrecer piezas únicas para jóvenes de espíritu libre.": "Spicy Gallery is much more than a clothing store. We are a lifestyle. Our passion for style and urban fashion drives us to offer unique pieces for free-spirited young people.",
+            "Spicy Gallery no es solo ropa; es para quienes se atreven a combinar cualquier estilo que les guste sin miedo a lo que digan o piensen los demás.": "Spicy Gallery is not just clothing; it's for those who dare to combine any style they like without fear of what others might say or think.",
+            "En un mundo donde todos quieren encajar, Spicy Gallery es una marca que busca romper con lo establecido, una marca diseñada para el mundo.": "In a world where everyone wants to fit in, Spicy Gallery is a brand that seeks to break from the established, a brand designed for the world.",
+            
+            // About us
+            "Sobre Nuestra Marca": "About Our Brand",
+            "¿De donde nace nuestro Naming?": "Where does our naming come from?",
+            "El nombre de Spicy Gallery surge de la idea de integrar un toque de intensidad y fuerza a la marca.": "The name Spicy Gallery emerges from the idea of integrating a touch of intensity and strength to the brand.",
+            "Nuestro Slogan Nuestra Voz": "Our Slogan Our Voice",
+            "Nuestro slogan \"Dare to be Spicy\", engloba la filosofía de la marca en una frase corta y directa": "Our slogan \"Dare to be Spicy\", encompasses the brand's philosophy in a short and direct phrase",
+            "Propuesta de valor": "Value Proposition",
+            "Nuestra Filosofía": "Our Philosophy",
+            "Nuestro Equipo": "Our Team",
+            
+            // Join us
+            "¿Estás cansado de trabajar en algo que no te apasiona?": "Are you tired of working on something you're not passionate about?",
+            "Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte.": "Join our community and discover everything we have to offer you.",
+            "Únete a Nosotros": "Join Us",
+            "¡Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte!": "Join our community and discover everything we have to offer you!",
+            "Para ello, solo tienes que rellenar el formulario de abajo y nos pondremos en contacto contigo.": "To do so, just fill in the form below and we will contact you.",
+            "Nombre": "Name",
+            "Email": "Email",
+            "Teléfono": "Phone",
+            "Nivel de estudios": "Education Level",
+            "Selecciona tu nivel de estudios": "Select your education level",
+            "Primaria": "Primary",
+            "Secundaria": "Secondary",
+            "Universidad": "University",
+            "Idiomas": "Languages",
+            "Español": "Spanish",
+            "Inglés": "English",
+            "Francés": "French",
+            "Género": "Gender",
+            "Hombre": "Male",
+            "Mujer": "Female",
+            "Otro": "Other",
+            "Curriculum Vitae": "Resume/CV",
+            "Enviar solicitud": "Submit Application",
+            
+            // Shop
+            "Nuestros productos": "Our products",
+            "Filtros": "Filters",
+            "Categoría": "Category",
+            "Camisetas": "T-shirts",
+            "Sudaderas": "Sweatshirts",
+            "Chaquetas": "Jackets",
+            "Tops": "Tops",
+            "Precio": "Price",
+            "Aplicar filtros": "Apply filters",
+            "Reiniciar": "Reset",
+            "Ver más": "View more",
+            "Ver menos": "View less",
+            "Añadir al carrito": "Add to cart",
+            
+            // Checkout
+            "Confirmación de Compra": "Purchase Confirmation",
+            "Datos Personales": "Personal Information",
+            "Apellido": "Last Name",
+            "Correo Electrónico": "Email",
+            "Dirección de Envío": "Shipping Address",
+            "Dirección": "Address",
+            "Ciudad": "City",
+            "Código Postal": "Postal Code",
+            "País": "Country",
+            "Selecciona un país": "Select a country",
+            "España": "Spain",
+            "Francia": "France",
+            "Italia": "Italy",
+            "Portugal": "Portugal",
+            "Alemania": "Germany",
+            "Reino Unido": "United Kingdom",
+            "Código de Descuento": "Discount Code",
+            "Código (Opcional)": "Code (Optional)",
+            "Aplicar": "Apply",
+            "Método de Pago": "Payment Method",
+            "Tarjeta de Crédito/Débito": "Credit/Debit Card",
+            "PayPal": "PayPal",
+            "Número de Tarjeta": "Card Number",
+            "Fecha de Expiración": "Expiration Date",
+            "CVV": "CVV",
+            "Finalizar Compra": "Complete Purchase",
+            "Resumen del Pedido": "Order Summary",
+            "No hay productos en tu carrito": "There are no products in your cart",
+            "Subtotal:": "Subtotal:",
+            "Gastos de envío:": "Shipping:",
+            "Descuento:": "Discount:",
+            "Total:": "Total:",
+            
+            // News and Blog
+            "Últimas Noticias": "Latest News",
+            "Mantente al día con las novedades de Spicy Gallery": "Stay up to date with the latest from Spicy Gallery",
+            "Nueva colección Spicy Urban rompe todos los esquemas": "New Spicy Urban collection breaks all the schemes",
+            "Nuestra colección más esperada ha llegado por fin.": "Our most anticipated collection has finally arrived.",
+            "Leer más": "Read more",
+            "Leer menos": "Read less",
+            "CARGAR MÁS NOTICIAS": "LOAD MORE NEWS",
+            "Blog Spicy": "Spicy Blog",
+            "Tendencias, estilos y actualidad": "Trends, styles and current affairs",
+            "Tendencias": "Trends",
+            "Historia": "History",
+            "Sostenibilidad": "Sustainability",
+            "Cultura": "Culture",
+            "Las 5 tendencias que dominarán el streetwear en 2023": "The 5 trends that will dominate streetwear in 2023",
+            "De la calle a las pasarelas: La evolución del streetwear": "From the street to the runway: The evolution of streetwear",
+            "Moda sostenible: ¿Es posible en el mundo del streetwear?": "Sustainable fashion: Is it possible in the streetwear world?",
+            "El arte urbano y su influencia en la moda actual": "Urban art and its influence on current fashion",
+            "Leer artículo completo": "Read full article",
+            "Mostrar menos": "Show less",
+            "VER MÁS ARTÍCULOS": "VIEW MORE ARTICLES",
+            
+            // Contact
+            "Contacto": "Contact",
+            "Dirección": "Address",
+            "Teléfono": "Phone",
+            "Email": "Email",
+            
+            // FAQ
+            "Preguntas Frecuentes": "Frequently Asked Questions",
+            "¿Cuál es el tiempo de entrega de los pedidos?": "What is the delivery time for orders?",
+            "El tiempo de entrega estándar es de 3 a 5 días hábiles en España peninsular. Para envíos internacionales, el tiempo puede variar entre 7 y 14 días dependiendo del destino.": "Standard delivery time is 3-5 business days within mainland Spain. For international shipments, time may vary between 7-14 days depending on the destination.",
+            "¿Qué métodos de pago aceptáis?": "What payment methods do you accept?",
+            "Aceptamos tarjetas de crédito/débito (Visa, Mastercard, American Express), PayPal, transferencia bancaria y pago contra reembolso (con cargo adicional).": "We accept credit/debit cards (Visa, Mastercard, American Express), PayPal, bank transfer, and cash on delivery (with additional charge).",
+            "¿Puedo devolver o cambiar un producto?": "Can I return or exchange a product?",
+            "Sí, tienes 14 días desde la recepción del pedido para solicitar una devolución o cambio. Los productos deben estar en perfecto estado, con todas las etiquetas y en su embalaje original.": "Yes, you have 14 days from receiving your order to request a return or exchange. Products must be in perfect condition, with all tags and in their original packaging.",
+            "¿Realizáis envíos internacionales?": "Do you ship internationally?",
+            "Sí, realizamos envíos a nivel internacional. Los gastos de envío y tiempos de entrega varían según el país de destino. Puedes consultar las tarifas específicas durante el proceso de compra.": "Yes, we ship internationally. Shipping costs and delivery times vary depending on the destination country. You can check specific rates during the checkout process.",
+            "¿Cómo puedo conocer el estado de mi pedido?": "How can I track my order?",
+            "Una vez realizado tu pedido, recibirás un correo de confirmación con un número de seguimiento. Podrás consultar el estado de tu envío a través de nuestra web en la sección \"Mi cuenta\" o directamente en la web de la empresa de transporte.": "Once you place your order, you'll receive a confirmation email with a tracking number. You can check your shipment status through our website in the \"My Account\" section or directly on the shipping company's website.",
+            
+            // Footer
+            "Newsletter": "Newsletter",
+            "Suscríbete a nuestra newsletter": "Subscribe to our newsletter",
+            "Tu email": "Your email",
+            "Suscribirme": "Subscribe",
+            "Síguenos": "Follow us",
+            "Política de Privacidad": "Privacy Policy",
+            "Términos y Condiciones": "Terms & Conditions",
+            "Política de Cookies": "Cookie Policy",
+            "Todos los derechos reservados.": "All rights reserved.",
+            "© 2025 Spicy Gallery. Todos los derechos reservados.": "© 2025 Spicy Gallery. All rights reserved."
+        }
+    };
+
+    // Cargar idioma guardado o establecer español por defecto
+    const savedLanguage = localStorage.getItem('language') || 'es';
+    setActiveLanguage(savedLanguage);
+    
+    // Aplicar traducciones al cargar la página
+    applyTranslations(savedLanguage);
+    
+    // Añadir evento de clic a las banderas
+    languageFlags.forEach(flag => {
+        flag.addEventListener('click', () => {
+            const lang = flag.getAttribute('data-lang');
+            setActiveLanguage(lang);
+            applyTranslations(lang);
+            localStorage.setItem('language', lang);
+        });
+    });
+    
+    // Función para marcar idioma activo
+    function setActiveLanguage(lang) {
+        languageFlags.forEach(flag => {
+            if (flag.getAttribute('data-lang') === lang) {
+                flag.classList.add('active');
+            } else {
+                flag.classList.remove('active');
+            }
+        });
+    }
+    
+    // Función para aplicar traducciones
+    function applyTranslations(lang) {
+        const elements = document.querySelectorAll('[data-i18n]');
+        
+        // Si los elementos no tienen el atributo data-i18n, añadirlo primero
+        if (!elements.length) {
+            // Navegar por todos los textos traducibles y añadir el atributo
+            addI18nAttributes();
+        }
+        
+        // Aplicar traducciones a elementos con data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                el.textContent = translations[lang][key];
+            }
+        });
+
+        // Aplicar traducciones a placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            if (translations[lang] && translations[lang][key]) {
+                el.setAttribute('placeholder', translations[lang][key]);
+            }
+        });
+    }
+    
+    // Añadir atributos data-i18n a elementos traducibles
+    function addI18nAttributes() {
+        // Navegación
+        document.querySelectorAll('.header__nav-link').forEach(link => {
+            const text = link.textContent.trim();
+            link.setAttribute('data-i18n', text);
+        });
+        
+        // Títulos y subtítulos principales
+        document.querySelectorAll('h1, h2, h3, h4').forEach(el => {
+            if (el.children.length === 0) { // Solo si no tiene hijos
+                const text = el.textContent.trim();
+                if (translations.es[text] || translations.en[text]) {
+                    el.setAttribute('data-i18n', text);
+                }
+            }
+        });
+        
+        // Párrafos
+        document.querySelectorAll('p').forEach(el => {
+            if (el.children.length === 0) { // Solo si no tiene hijos
+                const text = el.textContent.trim();
+                if (translations.es[text] || translations.en[text]) {
+                    el.setAttribute('data-i18n', text);
+                }
+            }
+        });
+        
+        // Botones
+        document.querySelectorAll('button').forEach(button => {
+            if (button.children.length === 0) { // Solo si no tiene hijos
+                const text = button.textContent.trim();
+                if (translations.es[text] || translations.en[text]) {
+                    button.setAttribute('data-i18n', text);
+                }
+            }
+        });
+        
+        // Enlaces
+        document.querySelectorAll('a').forEach(link => {
+            if (link.children.length === 0) { // Solo si no tiene hijos
+                const text = link.textContent.trim();
+                if (translations.es[text] || translations.en[text]) {
+                    link.setAttribute('data-i18n', text);
+                }
+            }
+        });
+        
+        // Etiquetas
+        document.querySelectorAll('label').forEach(label => {
+            if (label.children.length === 0) { // Solo si no tiene hijos
+                const text = label.textContent.trim();
+                if (translations.es[text] || translations.en[text]) {
+                    label.setAttribute('data-i18n', text);
+                }
+            }
+        });
+        
+        // Opciones de selección
+        document.querySelectorAll('option').forEach(option => {
+            const text = option.textContent.trim();
+            if (translations.es[text] || translations.en[text]) {
+                option.setAttribute('data-i18n', text);
+            }
+        });
+
+        // Spans
+        document.querySelectorAll('span').forEach(span => {
+            if (span.children.length === 0) { // Solo si no tiene hijos
+                const text = span.textContent.trim();
+                if (translations.es[text] || translations.en[text]) {
+                    span.setAttribute('data-i18n', text);
+                }
+            }
+        });
+        
+        // Inputs con placeholder
+        document.querySelectorAll('input[placeholder]').forEach(input => {
+            const text = input.getAttribute('placeholder');
+            if (translations.es[text] || translations.en[text]) {
+                input.setAttribute('data-i18n-placeholder', text);
+            }
+        });
+
+        // Tarjetas de productos, noticias, blog, etc.
+        // Shop
+        document.querySelectorAll('.Shop__Name, .Shop__Description, .viewShop__card-title, .viewShop__card-description').forEach(el => {
+            const text = el.textContent.trim();
+            if (text && (translations.es[text] || translations.en[text])) {
+                el.setAttribute('data-i18n', text);
+            }
+        });
+
+        // News
+        document.querySelectorAll('.news__article-title, .news__excerpt, .news__card-title, .news__card-excerpt').forEach(el => {
+            const text = el.textContent.trim();
+            if (text && (translations.es[text] || translations.en[text])) {
+                el.setAttribute('data-i18n', text);
+            }
+        });
+
+        // Blog
+        document.querySelectorAll('.blog__article-title, .blog__article-excerpt, .blog__tag').forEach(el => {
+            const text = el.textContent.trim();
+            if (text && (translations.es[text] || translations.en[text])) {
+                el.setAttribute('data-i18n', text);
+            }
+        });
+
+        // FAQ
+        document.querySelectorAll('.faq__question h3, .faq__answer p').forEach(el => {
+            const text = el.textContent.trim();
+            if (text && (translations.es[text] || translations.en[text])) {
+                el.setAttribute('data-i18n', text);
+            }
+        });
+
+        // Copyright y textos del footer
+        document.querySelectorAll('.footer__copyright').forEach(el => {
+            const text = el.textContent.trim();
+            if (text && (translations.es[text] || translations.en[text])) {
+                el.setAttribute('data-i18n', text);
+            }
+        });
     }
 }
