@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initCheckoutPage();
     initAccordions();
     initLoadMore();
+    
+    // Inicializar el tema y el icono correspondiente
+    initTheme();
 });
 
 // Menú de navegación responsive
@@ -783,4 +786,76 @@ function initReadMoreButtons() {
             }
         });
     });
+}
+
+// Funciones para el modo oscuro
+function toggleTheme() {
+    const body = document.body;
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    
+    // Alternar la clase dark-mode en el body
+    if (body.classList.contains('dark-mode')) {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('theme', 'light');
+        // Cambiar a logos negros
+        switchLogos('light');
+        // Cambiar a icono de luna (modo claro)
+        if (themeToggleBtn) {
+            themeToggleBtn.innerHTML = '🌙';
+        }
+    } else {
+        body.classList.add('dark-mode');
+        localStorage.setItem('theme', 'dark');
+        // Cambiar a logos blancos
+        switchLogos('dark');
+        // Cambiar a icono de sol (modo oscuro)
+        if (themeToggleBtn) {
+            themeToggleBtn.innerHTML = '☀️';
+        }
+    }
+}
+
+// Función para cambiar los logos según el tema
+function switchLogos(theme) {
+    // Cambiar logo de cuernos y cola
+    const headerBrand = document.querySelector('.header__brand');
+    const footerLogo = document.querySelector('.footer__logo');
+    
+    // Cambiar logo principal
+    const headerLogo = document.querySelector('.header__logo');
+    
+    if (headerBrand) {
+        headerBrand.src = theme === 'dark' ? 'Imagenes/cuernosycolablancos.png' : 'Imagenes/cuernosycolanegros.png';
+    }
+    
+    if (footerLogo) {
+        footerLogo.src = theme === 'dark' ? 'Imagenes/cuernosycolablancos.png' : 'Imagenes/cuernosycolanegros.png';
+    }
+    
+    if (headerLogo) {
+        headerLogo.src = theme === 'dark' ? 'Imagenes/Logoblanco.png' : 'Imagenes/Logonegro.png';
+    }
+}
+
+// Función para inicializar el tema y el icono
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        // Aplicar logos correspondientes al tema oscuro
+        switchLogos('dark');
+        // Establecer el icono de sol para el modo oscuro
+        if (themeToggleBtn) {
+            themeToggleBtn.innerHTML = '☀️';
+        }
+    } else {
+        // Asegurar que se usen los logos del tema claro
+        switchLogos('light');
+        // Establecer el icono de luna para el modo claro
+        if (themeToggleBtn) {
+            themeToggleBtn.innerHTML = '🌙';
+        }
+    }
 }
