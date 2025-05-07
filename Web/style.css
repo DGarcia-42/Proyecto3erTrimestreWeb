@@ -2664,6 +2664,162 @@ body {
     color: var(--accent-color);
 }
 
+/* Estilos específicos para los filtros en modo oscuro */
+.dark-mode .Shop__filters-title,
+.dark-mode .Shop__filter-subtitle {
+    color: var(--text-color);
+}
+
+.dark-mode .Shop__filter-option {
+    color: var(--text-color);
+}
+
+.dark-mode .Shop__filter-checkbox {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+.dark-mode .Shop__price-labels {
+    color: var(--text-color);
+}
+
+.dark-mode .Shop__filter-reset {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+}
+
+.dark-mode .Shop__filter-reset:hover {
+    background-color: var(--bg-input);
+}
+
+/* Estilos para el carrito en modo oscuro */
+.dark-mode .header__empty p {
+    color: var(--text-color);
+}
+
+.dark-mode .header__empty-text {
+    color: #aaa;
+}
+
+.dark-mode .header__Name {
+    color: var(--text-color);
+}
+
+.dark-mode .header__Price {
+    color: var(--accent-color);
+}
+
+.dark-mode .header__total {
+    color: var(--text-color);
+}
+
+/* Estilos para el formulario de confirmación de compra en modo oscuro */
+.dark-mode .checkout__label {
+    color: var(--text-color);
+}
+
+.dark-mode .checkout__subtitle {
+    color: var(--accent-color);
+    border-bottom-color: var(--border-color);
+}
+
+.dark-mode .checkout__payment-option {
+    border-color: var(--border-color);
+}
+
+.dark-mode .checkout__payment-option:hover {
+    border-color: var(--accent-color);
+}
+
+.dark-mode .checkout__payment-label span {
+    color: var(--text-color);
+}
+
+.dark-mode .checkout__card-details {
+    border-color: var(--border-color);
+}
+
+.dark-mode .checkout__total-row {
+    color: var(--text-color);
+}
+
+.dark-mode .checkout__discount-row {
+    color: var(--accent-color);
+}
+
+.dark-mode .checkout__empty-cart p {
+    color: var(--text-color);
+}
+
+/* Ajustes generales para el formulario de checkout */
+.checkout__form {
+    width: 100%;
+    max-width: 100%;
+}
+
+.checkout__form-row {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.checkout__form-group {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.checkout__input,
+.checkout__select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 15px;
+    font-size: 16px;
+}
+
+/* Ajustes específicos para campos de tarjeta */
+.checkout__card-details {
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.checkout__card-details .checkout__form-group {
+    margin-bottom: 15px;
+}
+
+/* Ajustes para modo oscuro */
+.dark-mode .checkout__subtitle {
+    color: var(--accent-color);
+    border-bottom-color: var(--border-color);
+}
+
+.dark-mode .checkout__label {
+    color: var(--text-color);
+}
+
+.dark-mode .checkout__input,
+.dark-mode .checkout__select {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.dark-mode .checkout__input::placeholder {
+    color: #999;
+}
+
+.dark-mode .checkout__card-details {
+    background-color: rgba(42, 42, 42, 0.7);
+    border-color: var(--border-color);
+}
+
+.dark-mode .checkout__payment-option {
+    border-color: var(--border-color);
+    background-color: var(--bg-secondary);
+}
+
+.dark-mode .checkout__payment-label span {
+    color: var(--text-color);
+}
+
 
 
 
