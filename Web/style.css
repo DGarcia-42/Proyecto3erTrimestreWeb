@@ -2820,6 +2820,245 @@ body {
     color: var(--text-color);
 }
 
+/* Estilos para el juego de pares */
+.game-container {
+    width: 500px;
+    padding: 0px 10px;
+    margin: 10px auto;
+    text-align: center;
+    background-color: var(--bg-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px var(--card-shadow);
+    overflow: hidden;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-title {
+    color: var(--accent-color);
+    background-color: var(--bg-secondary);
+    box-shadow: 0 4px 8px var(--card-shadow);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    font-size: 1.8rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-board {
+    width: 500px;
+    height: 420px;
+    background-color: var(--bg-secondary);
+    position: relative;
+    box-shadow: 0 4px 8px var(--card-shadow);
+    border-radius: 8px;
+    margin: 0 auto 20px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.game-win-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 100;
+    font-size: 24px;
+    font-weight: bold;
+    display: none;
+    width: 80%;
+    max-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.game-win-message h2 {
+    color: #ff6b6b;
+    margin-top: 0;
+    font-size: 32px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    animation: win-pulse 2s infinite;
+}
+
+@keyframes win-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.game-stats {
+    position: absolute;
+    left: 10px;
+    top: 380px;
+    width: calc(100% - 20px);
+    display: flex;
+    justify-content: space-around;
+}
+
+.stat-item {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 5px;
+}
+
+.stat-value {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.flip-card {
+    position: absolute;
+    margin: 10px;
+    perspective: 1000px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.flip-card:hover {
+    transform: translateY(-5px);
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px var(--card-shadow);
+    border-radius: 8px;
+}
+
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.flip-card-front {
+    background-color: var(--bg-card);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flip-card-back {
+    background-color: var(--bg-card);
+    transform: rotateY(180deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flip-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.restart-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 20px;
+}
+
+.restart-button:hover {
+    background-color: var(--accent-color-hover);
+    transform: translateY(-3px);
+}
+
+.restart-button:active {
+    transform: translateY(-1px);
+}
+
+/* Ajustes para modo oscuro */
+.dark-mode .game-container {
+    background-color: var(--bg-color);
+}
+
+.dark-mode .game-title,
+.dark-mode .game-board {
+    background-color: var(--bg-secondary);
+}
+
+.dark-mode .game-win-message {
+    color: var(--accent-color);
+}
+
+.dark-mode .flip-card-front,
+.dark-mode .flip-card-back {
+    background-color: var(--bg-card);
+}
+
+/* Añadir después de los estilos existentes del juego de pares */
+
+.game-win-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 100;
+    font-size: 24px;
+    font-weight: bold;
+    display: none;
+    min-width: 300px;
+}
+
+.game-win-message h2 {
+    color: #ff6b6b;
+    margin-top: 0;
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.game-win-message p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.codigo-descuento {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+    background: #222;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+#codigo {
+    font-family: monospace;
+    font-size: 24px;
+    letter-spacing: 2px;
+    color: #ffee58;
+    font-weight: bold;
+}
+
+.codigo-info {
+    font-size: 14px;
+    color: #aaa;
+}
+
 
 
 

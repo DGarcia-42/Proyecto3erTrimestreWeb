@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initAccordions();
     initLoadMore();
     initLanguageSwitch();
+    initMemoryGame(); // Inicializar juego de pares
     
     // Inicializar el tema y el icono correspondiente
     initTheme();
@@ -336,6 +337,9 @@ function initCheckoutPage() {
         aplicarDescuentoBtn.addEventListener('click', () => {
             const codigo = descuentoInput.value.trim().toUpperCase();
             
+            // Obtener el código de descuento ganado en el juego de pares
+            const codigoJuego = localStorage.getItem('spicyDescuento');
+            
             // Aplicar diferentes tipos de descuento
             if (codigo === 'DESCUENTO10' || codigo === 'DESCUENTO20') {
                 const porcentaje = codigo === 'DESCUENTO10' ? 0.1 : 0.2;
@@ -361,6 +365,23 @@ function initCheckoutPage() {
                 totalEl.textContent = `${(subtotal - descuento).toFixed(2)}€`;
                 
                 alert('¡Envío gratuito aplicado!');
+            } else if (codigoJuego && codigo === codigoJuego) {
+                // Aplicar descuento del 50% (código ganado en el juego)
+                const subtotal = parseFloat(subtotalEl.textContent);
+                const descuento = subtotal * 0.5; // 50% de descuento
+                
+                discountRow.style.display = 'flex';
+                discountEl.textContent = `${descuento.toFixed(2)}€`;
+                
+                // Actualizar total
+                const shipping = parseFloat(shippingEl.textContent);
+                totalEl.textContent = `${(subtotal + shipping - descuento).toFixed(2)}€`;
+                
+                // Marcar el código como usado (opcional)
+                localStorage.removeItem('spicyDescuento');
+                
+                // Mostrar mensaje de confirmación
+                alert('¡Enhorabuena! Código de descuento del 50% aplicado por completar el juego de pares.');
             } else if (codigo) {
                 alert('Código de descuento no válido');
             }
@@ -876,6 +897,7 @@ function initLanguageSwitch() {
             "SOBRE NOSOTROS": "SOBRE NOSOTROS",
             "NOTICIAS Y BLOG": "NOTICIAS Y BLOG",
             "ÚNETE A NOSOTROS": "ÚNETE A NOSOTROS",
+            "JUEGO": "JUEGO",
             
             // Header y secciones principales
             "Dare to be Spicy": "Dare to be Spicy",
@@ -1042,6 +1064,7 @@ function initLanguageSwitch() {
             "SOBRE NOSOTROS": "ABOUT US",
             "NOTICIAS Y BLOG": "NEWS & BLOG",
             "ÚNETE A NOSOTROS": "JOIN US",
+            "JUEGO": "GAME",
             
             // Header and main sections
             "Dare to be Spicy": "Dare to be Spicy",
@@ -1383,4 +1406,244 @@ function initLanguageSwitch() {
             }
         });
     }
+}
+
+// Juego de pares (Memory Game)
+function initMemoryGame() {
+    // Verificar si estamos en la página del juego
+    if (!document.getElementById('pantalla')) return;
+    
+    // Variables para el juego
+    var cartasArray = [
+        'camiseta1', 'camiseta2', 'sudadera1', 'sudadera2', 'chaqueta1', 'chaqueta2',
+        'camiseta1', 'camiseta2', 'sudadera1', 'sudadera2', 'chaqueta1', 'chaqueta2'
+    ];
+    var contadorVolteadas = 0;
+    var carta1 = '';
+    var carta2 = '';
+    var encontradas = 0;
+    var faltantes = 6;
+    var tiempo = 0;
+    var temporizadorInterval;
+    var intentos = 0;
+    var clic = false;
+    var juegoTerminado = false;
+
+    // Mapeo de nombres de cartas a imágenes reales de productos
+    const imagenesPrendas = {
+        'camiseta1': 'Imagenes/camisetaCompra1.png',
+        'camiseta2': 'Imagenes/camisetaCompra4.png',
+        'sudadera1': 'Imagenes/sudaderaCompra1.png',
+        'sudadera2': 'Imagenes/sudaderaCompra2.png',
+        'chaqueta1': 'Imagenes/chaquetaCompra1.png',
+        'chaqueta2': 'Imagenes/chaquetaCompra2.png'
+    };
+
+    // Constructor de cartas
+    function Carta(x, y, w, h, tipo) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.tipo = tipo;
+        this.template = `
+            <div class="flip-card ctrlCartas" data-carta="${tipo}" 
+                style="left: ${x}px; top: ${y}px; width: ${w}px; height: ${h}px;">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front">
+                        <img src="Imagenes/Logonegro.png" alt="Spicy Gallery Logo">
+                    </div>
+                    <div class="flip-card-back">
+                        <img src="${imagenesPrendas[tipo]}" alt="${tipo}">
+                    </div>
+                </div>
+            </div>`;
+    }
+
+    // Inicializar el juego al cargar la página
+    iniciarJuego();
+
+    // Iniciar el juego
+    function iniciarJuego() {
+        // Resetear variables
+        contadorVolteadas = 0;
+        carta1 = '';
+        carta2 = '';
+        encontradas = 0;
+        faltantes = 6;
+        tiempo = 0;
+        intentos = 0;
+        juegoTerminado = false;
+
+        // Actualizar interfaz
+        document.getElementById('encontrados').textContent = encontradas;
+        document.getElementById('faltantes').textContent = faltantes;
+        document.getElementById('intentos').textContent = intentos;
+        document.getElementById('temporizador').textContent = tiempo;
+        
+        // Restablecer el mensaje de victoria
+        document.getElementById('ganaste').innerHTML = '¡GANASTE!';
+        document.getElementById('ganaste').style.display = 'none';
+
+        // Limpiar el tablero
+        const cartasExistentes = document.querySelectorAll('.ctrlCartas');
+        cartasExistentes.forEach(carta => carta.remove());
+
+        // Cargar nuevas cartas
+        cargarCartas();
+
+        // Iniciar temporizador
+        if (temporizadorInterval) {
+            clearInterval(temporizadorInterval);
+        }
+        iniciarTemporizador();
+    }
+
+    // Función para desordenar arrays (Fisher-Yates shuffle)
+    function desordenarArrays(array) {
+        let arrayCopiado = [...array];
+        for (let i = arrayCopiado.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arrayCopiado[i], arrayCopiado[j]] = [arrayCopiado[j], arrayCopiado[i]];
+        }
+        return arrayCopiado;
+    }
+
+    // Iniciar el temporizador
+    function iniciarTemporizador() {
+        temporizadorInterval = setInterval(() => {
+            if (!juegoTerminado) {
+                tiempo++;
+                document.getElementById('temporizador').textContent = tiempo;
+            }
+        }, 1000);
+    }
+
+    // Cargar las cartas en el tablero
+    function cargarCartas() {
+        let cartasDesordenadas = desordenarArrays(cartasArray);
+        let tablero = document.getElementById("pantalla");
+        let modificadorX = 10;
+        let y = 10;
+
+        for (let i = 0; i < 12; i++) {
+            // Actualizar posición Y según la fila
+            if (i === 0) y = 10;
+            else if (i === 4) { y = 130; modificadorX = 10; }
+            else if (i === 8) { y = 250; modificadorX = 10; }
+            
+            // Crear carta y añadirla al tablero
+            let cartaNueva = new Carta(modificadorX, y, 100, 100, cartasDesordenadas[i]);
+            tablero.insertAdjacentHTML("beforeend", cartaNueva.template);
+            
+            // Incrementar posición X para la siguiente carta
+            modificadorX += 120;
+        }
+
+        // Añadir eventos a las cartas
+        document.querySelectorAll('.ctrlCartas').forEach(carta => {
+            carta.addEventListener('click', function() {
+                voltear(this);
+            });
+        });
+    }
+
+    // Función para voltear las cartas
+    function voltear(carta) {
+        if (juegoTerminado || carta.classList.contains('volteada') || contadorVolteadas >= 2) {
+            return;
+        }
+
+        carta.classList.add('volteada');
+        contadorVolteadas++;
+        
+        let tipoCarta = carta.getAttribute('data-carta');
+        if (contadorVolteadas === 1) {
+            carta1 = tipoCarta;
+        } else if (contadorVolteadas === 2) {
+            carta2 = tipoCarta;
+            intentos++;
+            document.getElementById('intentos').textContent = intentos;
+            
+            // Verificar si las cartas son iguales
+            setTimeout(() => {
+                verificarPareja();
+            }, 1000);
+        }
+        
+        // Voltear la carta visualmente
+        carta.querySelector('.flip-card-inner').style.transform = 'rotateY(180deg)';
+    }
+
+    // Verificar si las cartas forman pareja
+    function verificarPareja() {
+        const cartasVolteadas = document.querySelectorAll('.volteada');
+        
+        if (carta1 === carta2) {
+            // Pareja encontrada
+            encontradas++;
+            faltantes--;
+            document.getElementById('encontrados').textContent = encontradas;
+            document.getElementById('faltantes').textContent = faltantes;
+            
+            // Ocultar las cartas encontradas
+            cartasVolteadas.forEach(carta => {
+                setTimeout(() => {
+                    carta.style.visibility = 'hidden';
+                }, 300);
+            });
+            
+            // Verificar si se ganó el juego
+            if (encontradas === 6) {
+                juegoTerminado = true;
+                clearInterval(temporizadorInterval);
+                
+                // Generar código de descuento
+                const codigoDescuento = generarCodigoDescuento();
+                
+                // Guardar el código en localStorage para poder usarlo después
+                localStorage.setItem('spicyDescuento', codigoDescuento);
+                
+                // Mostrar mensaje de victoria con código de descuento
+                const mensajeVictoria = document.getElementById('ganaste');
+                mensajeVictoria.innerHTML = `
+                    <h2>¡GANASTE!</h2>
+                    <p>Acabas de ganar un código de descuento del 50%</p>
+                    <div class="codigo-descuento">
+                        <span id="codigo">${codigoDescuento}</span>
+                    </div>
+                    <p class="codigo-info">Usa este código en tu próxima compra</p>
+                `;
+                mensajeVictoria.style.display = 'block';
+                
+                // Eliminado el código para el botón de copiar
+            }
+        } else {
+            // No son pareja, voltear de vuelta
+            cartasVolteadas.forEach(carta => {
+                setTimeout(() => {
+                    carta.querySelector('.flip-card-inner').style.transform = '';
+                    carta.classList.remove('volteada');
+                }, 300);
+            });
+        }
+        
+        // Resetear para la próxima jugada
+        contadorVolteadas = 0;
+    }
+    
+    // Función para generar un código de descuento aleatorio
+    function generarCodigoDescuento() {
+        const caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Eliminados caracteres confusos (I, O, 0, 1)
+        let codigo = 'SPICY';
+        
+        for (let i = 0; i < 8; i++) {
+            codigo += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+        }
+        
+        return codigo;
+    }
+
+    // Añadir evento al botón de reinicio
+    document.getElementById('restart-btn').addEventListener('click', iniciarJuego);
 }
