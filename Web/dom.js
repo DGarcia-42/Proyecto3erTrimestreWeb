@@ -353,7 +353,6 @@ function initCheckoutPage() {
                 const shipping = parseFloat(shippingEl.textContent);
                 totalEl.textContent = `${(subtotal + shipping - descuento).toFixed(2)}€`;
                 
-                alert(`¡Descuento del ${porcentaje * 100}% aplicado!`);
             } else if (codigo === 'ENVIOGRATIS') {
                 shippingEl.textContent = '0.00€';
                 
@@ -364,7 +363,6 @@ function initCheckoutPage() {
                     
                 totalEl.textContent = `${(subtotal - descuento).toFixed(2)}€`;
                 
-                alert('¡Envío gratuito aplicado!');
             } else if (codigoJuego && codigo === codigoJuego) {
                 // Aplicar descuento del 50% (código ganado en el juego)
                 const subtotal = parseFloat(subtotalEl.textContent);
@@ -380,10 +378,7 @@ function initCheckoutPage() {
                 // Marcar el código como usado (opcional)
                 localStorage.removeItem('spicyDescuento');
                 
-                // Mostrar mensaje de confirmación
-                alert('¡Enhorabuena! Código de descuento del 50% aplicado por completar el juego de pares.');
             } else if (codigo) {
-                alert('Código de descuento no válido');
             }
         });
     }
@@ -477,7 +472,7 @@ function initCheckoutPage() {
                 <img src="${item.image || 'Imagenes/Logonegro.png'}" alt="${productName}" class="checkout__product-image">
                 <div class="checkout__product-info">
                     <h3 class="checkout__product-name">${productName}</h3>
-                    <p class="checkout__product-details">Cantidad: ${item.quantity}</p>
+                    <p class="checkout__product-details"><span class="quantity-label">Cantidad:</span> ${item.quantity}</p>
                     <span class="checkout__product-price">${totalPrice.toFixed(2)}€</span>
                 </div>
             `;
@@ -571,7 +566,9 @@ function initLoadMore() {
                     product.classList.remove('Shop__product--hidden');
                     product.classList.add('Shop__product');
                 });
-                moreBtn.textContent = 'Ver menos';
+                // Usar traducción según el idioma
+                const lang = localStorage.getItem('language') || 'es';
+                moreBtn.textContent = lang === 'en' ? 'View less' : 'Ver menos';
             } else {
                 // Ocultar productos
                 const productsToHide = document.querySelectorAll('.Shop__product[id="hidden"]');
@@ -579,7 +576,9 @@ function initLoadMore() {
                     product.classList.remove('Shop__product');
                     product.classList.add('Shop__product--hidden');
                 });
-                moreBtn.textContent = 'Ver más';
+                // Usar traducción según el idioma
+                const lang = localStorage.getItem('language') || 'es';
+                moreBtn.textContent = lang === 'en' ? 'View more' : 'Ver más';
             }
         });
     }
@@ -649,7 +648,10 @@ function initLoadMore() {
                             
                             if (fullText) {
                                 fullText.classList.toggle('hidden');
-                                this.textContent = fullText.classList.contains('hidden') ? 'Leer más' : 'Leer menos';
+                                const lang = localStorage.getItem('language') || 'es';
+                                this.textContent = fullText.classList.contains('hidden') ? 
+                                    (lang === 'en' ? 'Read more' : 'Leer más') : 
+                                    (lang === 'en' ? 'Read less' : 'Leer menos');
                             }
                         });
                     });
@@ -733,8 +735,10 @@ function initLoadMore() {
                             
                             if (fullText) {
                                 fullText.classList.toggle('hidden');
+                                const lang = localStorage.getItem('language') || 'es';
                                 this.textContent = fullText.classList.contains('hidden') ? 
-                                    'Leer artículo completo' : 'Mostrar menos';
+                                    (lang === 'en' ? 'Read full article' : 'Leer artículo completo') : 
+                                    (lang === 'en' ? 'Show less' : 'Mostrar menos');
                             }
                         });
                     });
@@ -759,7 +763,10 @@ function initReadMoreButtons() {
             
             if (fullText) {
                 fullText.classList.toggle('hidden');
-                this.textContent = fullText.classList.contains('hidden') ? 'Leer más' : 'Leer menos';
+                const lang = localStorage.getItem('language') || 'es';
+                this.textContent = fullText.classList.contains('hidden') ? 
+                    (lang === 'en' ? 'Read more' : 'Leer más') : 
+                    (lang === 'en' ? 'Read less' : 'Leer menos');
             }
         });
     });
@@ -788,7 +795,10 @@ function initReadMoreButtons() {
             } else {
                 // Si ya existe el div, lo mostramos u ocultamos
                 fullText.classList.toggle('hidden');
-                this.textContent = fullText.classList.contains('hidden') ? 'Leer más' : 'Leer menos';
+                const lang = localStorage.getItem('language') || 'es';
+                this.textContent = fullText.classList.contains('hidden') ? 
+                    (lang === 'en' ? 'Read more' : 'Leer más') : 
+                    (lang === 'en' ? 'Read less' : 'Leer menos');
             }
         });
     }
@@ -803,8 +813,10 @@ function initReadMoreButtons() {
             
             if (fullText) {
                 fullText.classList.toggle('hidden');
+                const lang = localStorage.getItem('language') || 'es';
                 this.textContent = fullText.classList.contains('hidden') ? 
-                    'Leer artículo completo' : 'Mostrar menos';
+                    (lang === 'en' ? 'Read full article' : 'Leer artículo completo') : 
+                    (lang === 'en' ? 'Show less' : 'Mostrar menos');
             }
         });
     });
@@ -924,15 +936,31 @@ function initLanguageSwitch() {
             "Sobre Nuestra Marca": "Sobre Nuestra Marca",
             "¿De donde nace nuestro Naming?": "¿De donde nace nuestro Naming?",
             "El nombre de Spicy Gallery surge de la idea de integrar un toque de intensidad y fuerza a la marca.": "El nombre de Spicy Gallery surge de la idea de integrar un toque de intensidad y fuerza a la marca.",
+            "Al igual que una especia intensifica y mejora el sabor de un plato, los diseños de Spicy Gallery tratan de realzar la personalidad de quien la lleva, concediendo un distintivo a cada uno de vosotros.": "Al igual que una especia intensifica y mejora el sabor de un plato, los diseños de Spicy Gallery tratan de realzar la personalidad de quien la lleva, concediendo un distintivo a cada uno de vosotros.",
+            "Spicy representa energía y una perspectiva atrevida, desafiando los límites y las barreras de la moda tradicional.": "Spicy representa energía y una perspectiva atrevida, desafiando los límites y las barreras de la moda tradicional.",
             "Nuestro Slogan Nuestra Voz": "Nuestro Slogan Nuestra Voz",
             "Nuestro slogan \"Dare to be Spicy\", engloba la filosofía de la marca en una frase corta y directa": "Nuestro slogan \"Dare to be Spicy\", engloba la filosofía de la marca en una frase corta y directa",
+            "Nuestro slogan \"Dare to be Spicy\", engloba la filosofía de la marca en una frase corta y directa.": "Nuestro slogan \"Dare to be Spicy\", engloba la filosofía de la marca en una frase corta y directa.",
+            "Es una invitación al atrevimiento a ser diferente, destacar y vivir sin miedo a expresarse. Proporciona una llamada a abrazar el estilo streetwear sin limitaciones.": "Es una invitación al atrevimiento a ser diferente, destacar y vivir sin miedo a expresarse. Proporciona una llamada a abrazar el estilo streetwear sin limitaciones.",
+            "Spicy Gallery es un desafío para dejar atrás lo monótono y alcanzar una versión más vibrante de uno mismo.": "Spicy Gallery es un desafío para dejar atrás lo monótono y alcanzar una versión más vibrante de uno mismo.",
             "Propuesta de valor": "Propuesta de valor",
+            "Buscamos ser una referencia global, conectando con una comunidad apasionada por el arte, la música y el estilo de vida urbano, mientras impulsamos la sostenibilidad y la innovación en cada colección.": "Buscamos ser una referencia global, conectando con una comunidad apasionada por el arte, la música y el estilo de vida urbano, mientras impulsamos la sostenibilidad y la innovación en cada colección.",
+            "Nuestro propósito es que cada prenda logre transmitir confianza e intrepidez, motivandoos a superar fronteras y a construir vuestra propia trayectoria en el mundo.": "Nuestro propósito es que cada prenda logre transmitir confianza e intrepidez, motivandoos a superar fronteras y a construir vuestra propia trayectoria en el mundo.",
+            "Queremos consolidar la marca como una de las más referentes en el mercado de la moda urbana, sirviendo como inspiración para vosotros, nuestra comunidad global y marcas emergentes desafiando lo convencional.": "Queremos consolidar la marca como una de las más referentes en el mercado de la moda urbana, sirviendo como inspiración para vosotros, nuestra comunidad global y marcas emergentes desafiando lo convencional.",
+            "En Spicy Gallery queremos convertirnos en un movimiento cultural que fomente la creatividad y la diversidad. Esperamos expandirnos a nivel internacional y colaborar con artistas y diseñadores que compartan la filosofía y valores de la marca.": "En Spicy Gallery queremos convertirnos en un movimiento cultural que fomente la creatividad y la diversidad. Esperamos expandirnos a nivel internacional y colaborar con artistas y diseñadores que compartan la filosofía y valores de la marca.",
             "Nuestra Filosofía": "Nuestra Filosofía",
+            "Esta marca de ropa streetwear online nace con la misión de redefinir la moda urbana, ofreciendo prendas de alta calidad con diseños exclusivos que reflejan la autenticidad y esencia de la cultura callejera.": "Esta marca de ropa streetwear online nace con la misión de redefinir la moda urbana, ofreciendo prendas de alta calidad con diseños exclusivos que reflejan la autenticidad y esencia de la cultura callejera.",
+            "Spicy Gallery nace con la intención de romper la tradición y desafiar las normas establecidas de la moda urbana.": "Spicy Gallery nace con la intención de romper la tradición y desafiar las normas establecidas de la moda urbana.",
+            "La marca defiende la autoexpresión sin miedo, valorando la autenticidad y la actitud de los individuos que se atrevan a ser diferentes.": "La marca defiende la autoexpresión sin miedo, valorando la autenticidad y la actitud de los individuos que se atrevan a ser diferentes.",
+            "El propósito es que cada prenda logre transmitir confianza e intrepidez, motivando a los consumidores a superar las fronteras y a construir su propia trayectoria en el mundo.": "El propósito es que cada prenda logre transmitir confianza e intrepidez, motivando a los consumidores a superar las fronteras y a construir su propia trayectoria en el mundo.",
+            "Se quiere consolidar la marca como una de las más referentes en el mercado de la moda urbana, sirviendo como inspiración para una comunidad global y marcas emergentes desafiando lo convencional.": "Se quiere consolidar la marca como una de las más referentes en el mercado de la moda urbana, sirviendo como inspiración para una comunidad global y marcas emergentes desafiando lo convencional.",
+            "Spicy Gallery busca conseguir convertirse en un movimiento cultural que fomente la creatividad y la diversidad.": "Spicy Gallery busca conseguir convertirse en un movimiento cultural que fomente la creatividad y la diversidad.",
+            "Se ambiciona a expandirse a nivel internacional y colaborar con artistas y diseñadores que compartan la filosofía y valores de la marca.": "Se ambiciona a expandirse a nivel internacional y colaborar con artistas y diseñadores que compartan la filosofía y valores de la marca.",
             "Nuestro Equipo": "Nuestro Equipo",
             
             // Join us
             "¿Estás cansado de trabajar en algo que no te apasiona?": "¿Estás cansado de trabajar en algo que no te apasiona?",
-            "Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte.": "Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte.",
+            "Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte. En Spicy Gallery valoramos el talento, la creatividad y la pasión por la moda. Ofrecemos un ambiente laboral dinámico,  con oportunidades de crecimiento profesional y personal. Nuestro equipo está formado por personas apasionadas que comparten nuestra visión de revolucionar la industria de la moda. Si buscas un lugar donde tus ideas sean escuchadas y donde puedas desarrollar todo tu potencial, ¡este es tu sitio! No esperes más para formar parte de nuestra familia.": "Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte. En Spicy Gallery valoramos el talento, la creatividad y la pasión por la moda. Ofrecemos un ambiente laboral dinámico,  con oportunidades de crecimiento profesional y personal. Nuestro equipo está formado por personas apasionadas que comparten nuestra visión de revolucionar la industria de la moda. Si buscas un lugar donde tus ideas sean escuchadas y donde puedas desarrollar todo tu potencial, ¡este es tu sitio! No esperes más para formar parte de nuestra familia.",
             "Únete a Nosotros": "Únete a Nosotros",
             "¡Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte!": "¡Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte!",
             "Para ello, solo tienes que rellenar el formulario de abajo y nos pondremos en contacto contigo.": "Para ello, solo tienes que rellenar el formulario de abajo y nos pondremos en contacto contigo.",
@@ -969,17 +997,47 @@ function initLanguageSwitch() {
             "Ver más": "Ver más",
             "Ver menos": "Ver menos",
             "Añadir al carrito": "Añadir al carrito",
+            "Camiseta Modelo 1": "Camiseta Modelo 1",
+            "Camiseta Modelo 3": "Camiseta Modelo 3",
+            "Camiseta con diseño exclusivo": "Camiseta con diseño exclusivo",
+            "Camiseta Modelo 4": "Camiseta Modelo 4",
+            "Camiseta urbana street style": "Camiseta urbana street style",
+            "Camiseta Modelo 6": "Camiseta Modelo 6",
+            "Camiseta oversized con gráficos": "Camiseta oversized con gráficos",
+            "Sudadera Modelo 1": "Sudadera Modelo 1",
+            "Sudadera con diseño exclusivo": "Sudadera con diseño exclusivo",
+            "Sudadera Modelo 2": "Sudadera Modelo 2",
+            "Sudadera con capucha estampada": "Sudadera con capucha estampada",
+            "Sudadera Modelo 3": "Sudadera Modelo 3",
+            "Sudadera oversized de edición limitada": "Sudadera oversized de edición limitada",
+            "Sudadera Modelo 4": "Sudadera Modelo 4",
+            "Sudadera premium con detalle bordado": "Sudadera premium con detalle bordado",
+            "Chaqueta Modelo 2": "Chaqueta Modelo 2",
+            "Chaqueta con estampado exclusivo": "Chaqueta con estampado exclusivo",
+            "Chaqueta Modelo 3": "Chaqueta Modelo 3",
+            "Chaqueta premium edición limitada": "Chaqueta premium edición limitada",
+            "Top Modelo 1": "Top Modelo 1",
+            "Top estampado de algodón": "Top estampado de algodón",
+            "Top Modelo 2": "Top Modelo 2",
+            "Top de temporada con diseño exclusivo": "Top de temporada con diseño exclusivo",
+            "Confirmar Compra": "Confirmar Compra",
+            "Tu carrito está vacío": "Tu carrito está vacío",
+            "Añade productos para empezar a comprar": "Añade productos para empezar a comprar",
+
             
-            // Checkout
+            // Confirmar Compra
+            "Cantidad:": "Cantidad:",
             "Confirmación de Compra": "Confirmación de Compra",
             "Datos Personales": "Datos Personales",
-            "Apellido": "Apellido",
-            "Correo Electrónico": "Correo Electrónico",
+            "Nombre*": "Nombre*",
+            "Apellido*": "Apellido*",
+            "Correo Electrónico*": "Correo Electrónico*",
+            "Teléfono*": "Teléfono*",
             "Dirección de Envío": "Dirección de Envío",
-            "Dirección": "Dirección",
-            "Ciudad": "Ciudad",
-            "Código Postal": "Código Postal",
-            "País": "País",
+            "Dirección*": "Dirección*",
+            "Ciudad*": "Ciudad*",
+            "Código Postal*": "Código Postal*",
+            "País*": "País*",
             "Selecciona un país": "Selecciona un país",
             "España": "España",
             "Francia": "Francia",
@@ -993,9 +1051,9 @@ function initLanguageSwitch() {
             "Método de Pago": "Método de Pago",
             "Tarjeta de Crédito/Débito": "Tarjeta de Crédito/Débito",
             "PayPal": "PayPal",
-            "Número de Tarjeta": "Número de Tarjeta",
-            "Fecha de Expiración": "Fecha de Expiración",
-            "CVV": "CVV",
+            "Número de Tarjeta*": "Número de Tarjeta*",
+            "Fecha de Expiración*": "Fecha de Expiración*",
+            "CVV*": "CVV*",
             "Finalizar Compra": "Finalizar Compra",
             "Resumen del Pedido": "Resumen del Pedido",
             "No hay productos en tu carrito": "No hay productos en tu carrito",
@@ -1031,6 +1089,17 @@ function initLanguageSwitch() {
             "Dirección": "Dirección",
             "Teléfono": "Teléfono",
             "Email": "Email",
+
+            // Juego
+
+            "Juego de Pares - Spicy Gallery": "Juego de Pares - Spicy Gallery",
+            "¡GANASTE!": "¡GANASTE!",
+            "Encontrados: ": "Encontrados: ",
+            "Faltantes: ": "Faltantes: ",
+            "Tiempo: ": "Tiempo: ",
+            "Intentos: ": "Intentos: ",
+            "Reiniciar Juego": "Reiniciar Juego",
+
             
             // FAQ
             "Preguntas Frecuentes": "Preguntas Frecuentes",
@@ -1083,23 +1152,46 @@ function initLanguageSwitch() {
             "Ir a la tienda": "Go to shop",
             
             // Introduction
-            "Spicy Gallery es mucho más que una tienda de ropa. Somos estilo de vida. Nuestra pasión por el estilo y la moda urbana nos impulsa a ofrecer piezas únicas para jóvenes de espíritu libre.": "Spicy Gallery is much more than a clothing store. We are a lifestyle. Our passion for style and urban fashion drives us to offer unique pieces for free-spirited young people.",
-            "Spicy Gallery no es solo ropa; es para quienes se atreven a combinar cualquier estilo que les guste sin miedo a lo que digan o piensen los demás.": "Spicy Gallery is not just clothing; it's for those who dare to combine any style they like without fear of what others might say or think.",
-            "En un mundo donde todos quieren encajar, Spicy Gallery es una marca que busca romper con lo establecido, una marca diseñada para el mundo.": "In a world where everyone wants to fit in, Spicy Gallery is a brand that seeks to break from the established, a brand designed for the world.",
+            "Spicy Gallery es mucho más que una tienda de ropa. Somos estilo de vida. Nuestra pasión por el estilo y la moda urbana nos impulsa a ofrecer piezas únicas para jóvenes de espíritu libre.": "Spicy Gallery is much more than a clothing store. We are a lifestyle. Our passion for style and urban fashion drives us to offer unique pieces for free-spirited youth.",
+            "Spicy Gallery no es solo ropa; es para quienes se atreven a combinar cualquier estilo que les guste sin miedo a lo que digan o piensen los demás.": "Spicy Gallery is not just clothing; it's for those who dare to mix any style they love without fear of what others might say or think.",
+            "En un mundo donde todos quieren encajar, Spicy Gallery es una marca que busca romper con lo establecido, una marca diseñada para el mundo.": "In a world where everyone wants to fit in, Spicy Gallery is a brand that breaks the mold, a brand designed for the world.",
             
             // About us
             "Sobre Nuestra Marca": "About Our Brand",
             "¿De donde nace nuestro Naming?": "Where does our naming come from?",
             "El nombre de Spicy Gallery surge de la idea de integrar un toque de intensidad y fuerza a la marca.": "The name Spicy Gallery emerges from the idea of integrating a touch of intensity and strength to the brand.",
+            "Al igual que una especia intensifica y mejora el sabor de un plato, los diseños de Spicy Gallery tratan de realzar la personalidad de quien la lleva, concediendo un distintivo a cada uno de vosotros.": "Just as a spice intensifies and enhances the flavor of a dish, Spicy Gallery designs aim to enhance the personality of the wearer, giving each of you a distinctive touch.",
+            "Spicy representa energía y una perspectiva atrevida, desafiando los límites y las barreras de la moda tradicional.": "Spicy represents energy and a bold perspective, challenging the limits and barriers of traditional fashion.",
             "Nuestro Slogan Nuestra Voz": "Our Slogan Our Voice",
             "Nuestro slogan \"Dare to be Spicy\", engloba la filosofía de la marca en una frase corta y directa": "Our slogan \"Dare to be Spicy\", encompasses the brand's philosophy in a short and direct phrase",
+            "Nuestro slogan \"Dare to be Spicy\", engloba la filosofía de la marca en una frase corta y directa.": "Our slogan \"Dare to be Spicy\", encompasses the brand's philosophy in a short and direct phrase.",
+            "Es una invitación al atrevimiento a ser diferente, destacar y vivir sin miedo a expresarse. Proporciona una llamada a abrazar el estilo streetwear sin limitaciones.": "It's an invitation to dare to be different, stand out, and live without fear of self-expression. It provides a call to embrace streetwear style without limitations.",
+            "Spicy Gallery es un desafío para dejar atrás lo monótono y alcanzar una versión más vibrante de uno mismo.": "Spicy Gallery is a challenge to leave the monotonous behind and achieve a more vibrant version of oneself.",
             "Propuesta de valor": "Value Proposition",
+            "Buscamos ser una referencia global, conectando con una comunidad apasionada por el arte, la música y el estilo de vida urbano, mientras impulsamos la sostenibilidad y la innovación en cada colección.": "We are on a mission to be a global reference, connecting with a community passionate about art, music, and urban lifestyle, while driving sustainability and innovation in each collection.",
+            "Nuestro propósito es que cada prenda logre transmitir confianza e intrepidez, motivandoos a superar fronteras y a construir vuestra propia trayectoria en el mundo.": "Our goal is for each piece to convey confidence and boldness, inspiring you to push boundaries and build your own path in the world.",
+            "Queremos consolidar la marca como una de las más referentes en el mercado de la moda urbana, sirviendo como inspiración para vosotros, nuestra comunidad global y marcas emergentes desafiando lo convencional.": "We want to establish our brand as a leading reference in the urban fashion market, serving as inspiration for you, our global community, and emerging brands challenging the conventional.",
+            "En Spicy Gallery queremos convertirnos en un movimiento cultural que fomente la creatividad y la diversidad. Esperamos expandirnos a nivel internacional y colaborar con artistas y diseñadores que compartan la filosofía y valores de la marca.": "We aspire to become a cultural movement that fosters creativity and diversity. We hope to expand internationally and collaborate with artists and designers who share our brand's philosophy and values.",
             "Nuestra Filosofía": "Our Philosophy",
+            "Esta marca de ropa streetwear online nace con la misión de redefinir la moda urbana, ofreciendo prendas de alta calidad con diseños exclusivos que reflejan la autenticidad y esencia de la cultura callejera.": "This online streetwear brand was founded with the mission to redefine urban fashion, offering high-quality pieces with exclusive designs that reflect the authenticity and essence of street culture.",
+            "Spicy Gallery nace con la intención de romper la tradición y desafiar las normas establecidas de la moda urbana.": "Spicy Gallery was founded with the intention to break tradition and challenge the established norms of urban fashion.",
+            "La marca defiende la autoexpresión sin miedo, valorando la autenticidad y la actitud de los individuos que se atrevan a ser diferentes.": "The brand defends self-expression without fear, valuing authenticity and the attitude of individuals who dare to be different.",
+            "El propósito es que cada prenda logre transmitir confianza e intrepidez, motivando a los consumidores a superar las fronteras y a construir su propia trayectoria en el mundo.": "The goal is for each piece to convey confidence and boldness, motivating consumers to overcome boundaries and build their own path in the world.",
+            "Se quiere consolidar la marca como una de las más referentes en el mercado de la moda urbana, sirviendo como inspiración para una comunidad global y marcas emergentes desafiando lo convencional.": "We want to establish our brand as a leading reference in the urban fashion market, serving as inspiration for a global community, and emerging brands challenging the conventional.",
+            "Spicy Gallery busca conseguir convertirse en un movimiento cultural que fomente la creatividad y la diversidad.": "Spicy Gallery aims to become a cultural movement that fosters creativity and diversity.",
+            "Se ambiciona a expandirse a nivel internacional y colaborar con artistas y diseñadores que compartan la filosofía y valores de la marca.": "We aspire to expand internationally and collaborate with artists and designers who share our brand's philosophy and values.",
+            "Se basa en valores como la autenticidad, el compromiso con el medio ambiente, la colaboración con creadores, la creatividad sin límites y el respeto por la esencia de la cultura streetwear, promoviendo la autoexpresión a través de cada prenda.": "The brand is based on values such as authenticity, commitment to the environment, collaboration with creators, limitless creativity, and respect for the essence of streetwear culture, promoting self-expression through each piece.",
+            "Además de lo anteriormente mencionado, también abarcan la autenticidad, con la idea de lo importante que es ser fiel a uno mismo;": "In addition to the above, they also include authenticity, with the idea of how important it is to be true to oneself.",
+            "el atrevimiento y la creatividad, desafiando las normas establecidas y diseñando prendas con estilos únicos;": "the courage and creativity, challenging the established norms and designing pieces with unique styles.",
+            "la sostenibilidad e innovación, comprometiéndose con el medio ambiente en cada proceso y explorando nuevas tendencias; y construyendo una comunidad fuerte y fomentando la autoexpresión.": "sustainability and innovation, committing to the environment in each process and exploring new trends; and building a strong community and promoting self-expression.",
             "Nuestro Equipo": "Our Team",
+            "Co-Encargada del área de marketing y comunicación digital": "Co-Head of Marketing and Digital Communication",
+            "Encargada de la gestión administrativa y financiera de Spicy Gallery.": "Head of Administrative and Financial Management of Spicy Gallery.",
+            "Encargada de atención al cliente": "Customer Service Representative",
             
             // Join us
             "¿Estás cansado de trabajar en algo que no te apasiona?": "Are you tired of working on something you're not passionate about?",
-            "Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte.": "Join our community and discover everything we have to offer you.",
+            "Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte. En Spicy Gallery valoramos el talento, la creatividad y la pasión por la moda. Ofrecemos un ambiente laboral dinámico,  con oportunidades de crecimiento profesional y personal. Nuestro equipo está formado por personas apasionadas que comparten nuestra visión de revolucionar la industria de la moda. Si buscas un lugar donde tus ideas sean escuchadas y donde puedas desarrollar todo tu potencial, ¡este es tu sitio! No esperes más para formar parte de nuestra familia.": "Join our community and discover everything we have to offer you. In Spicy Gallery, we value talent, creativity, and passion for fashion. We offer a dynamic work environment, with opportunities for professional growth and personal development. Our team is made up of passionate people who share our vision of revolutionizing the fashion industry. If you're looking for a place where your ideas are heard and you can develop all your potential, this is your place! Don't wait any longer to become part of our family.",
             "Únete a Nosotros": "Join Us",
             "¡Únete a nuestra comunidad y descubre todo lo que tenemos para ofrecerte!": "Join our community and discover everything we have to offer you!",
             "Para ello, solo tienes que rellenar el formulario de abajo y nos pondremos en contacto contigo.": "To do so, just fill in the form below and we will contact you.",
@@ -1120,6 +1212,8 @@ function initLanguageSwitch() {
             "Mujer": "Female",
             "Otro": "Other",
             "Curriculum Vitae": "Resume/CV",
+            "Seleccionar archivo": "Select file",
+            "Ningún archivo seleccionado": "No file selected",
             "Enviar solicitud": "Submit Application",
             
             // Shop
@@ -1136,17 +1230,46 @@ function initLanguageSwitch() {
             "Ver más": "View more",
             "Ver menos": "View less",
             "Añadir al carrito": "Add to cart",
+            "Camiseta Modelo 1": "T-shirt Model 1",
+            "Camiseta Modelo 3": "T-shirt Model 3",
+            "Camiseta con diseño exclusivo": "T-shirt with exclusive design",
+            "Camiseta Modelo 4": "T-shirt Model 4",
+            "Camiseta urbana street style": "Urban street style t-shirt",
+            "Camiseta Modelo 6": "T-shirt Model 6",
+            "Camiseta oversized con gráficos": "Oversized t-shirt with graphics",
+            "Sudadera Modelo 1": "Sweater Model 1",
+            "Sudadera con diseño exclusivo": "Sweater with exclusive design",
+            "Sudadera Modelo 2": "Sweater Model 2",
+            "Sudadera con capucha estampada": "Sweater with printed hood",
+            "Sudadera Modelo 3": "Sweater Model 3",
+            "Sudadera oversized de edición limitada": "Sweater with printed hood",
+            "Sudadera Modelo 4": "Sweater Model 4",
+            "Sudadera premium con detalle bordado": "Premium sweater with embroidered detail",
+            "Chaqueta Modelo 2": "Jacket Model 2",
+            "Chaqueta con estampado exclusivo": "Jacket with exclusive print",
+            "Chaqueta Modelo 3": "Jacket Model 3",
+            "Chaqueta premium edición limitada": "Premium limited edition jacket",
+            "Top Modelo 1": "Top Model 1",
+            "Top estampado de algodón": "Cotton printed top",
+            "Top Modelo 2": "Top Model 2",
+            "Top de temporada con diseño exclusivo": "Seasonal top with exclusive design",
+            "Confirmar Compra": "Confirm purchase",
+            "Tu carrito está vacío": "Your cart is empty",
+            "Añade productos para empezar a comprar": "Add products to start shopping",
             
             // Checkout
+            "Cantidad:": "Quantity:",
             "Confirmación de Compra": "Purchase Confirmation",
             "Datos Personales": "Personal Information",
-            "Apellido": "Last Name",
-            "Correo Electrónico": "Email",
+            "Nombre*": "Name*",
+            "Apellido*": "Last Name*",
+            "Correo Electrónico*": "Email*",
+            "Teléfono*": "Phone*",
             "Dirección de Envío": "Shipping Address",
-            "Dirección": "Address",
-            "Ciudad": "City",
-            "Código Postal": "Postal Code",
-            "País": "Country",
+            "Dirección*": "Address*",
+            "Ciudad*": "City*",
+            "Código Postal*": "Postal Code*",
+            "País*": "Country*",
             "Selecciona un país": "Select a country",
             "España": "Spain",
             "Francia": "France",
@@ -1160,9 +1283,9 @@ function initLanguageSwitch() {
             "Método de Pago": "Payment Method",
             "Tarjeta de Crédito/Débito": "Credit/Debit Card",
             "PayPal": "PayPal",
-            "Número de Tarjeta": "Card Number",
-            "Fecha de Expiración": "Expiration Date",
-            "CVV": "CVV",
+            "Número de Tarjeta*": "Card Number*",
+            "Fecha de Expiración*": "Expiration Date*",
+            "CVV*": "CVV*",
             "Finalizar Compra": "Complete Purchase",
             "Resumen del Pedido": "Order Summary",
             "No hay productos en tu carrito": "There are no products in your cart",
@@ -1198,6 +1321,15 @@ function initLanguageSwitch() {
             "Dirección": "Address",
             "Teléfono": "Phone",
             "Email": "Email",
+
+            // Game
+            "Juego de Pares - Spicy Gallery": "Pairs Game - Spicy Gallery",
+            "¡GANASTE!": "YOU WON!",
+            "Encontrados: ": "Found: ",
+            "Faltantes: ": "Missing: ",
+            "Tiempo: ": "Time: ",
+            "Intentos: ": "Attempts: ",
+            "Reiniciar Juego": "Reset Game",
             
             // FAQ
             "Preguntas Frecuentes": "Frequently Asked Questions",
@@ -1277,6 +1409,16 @@ function initLanguageSwitch() {
             const key = el.getAttribute('data-i18n-placeholder');
             if (translations[lang] && translations[lang][key]) {
                 el.setAttribute('placeholder', translations[lang][key]);
+            }
+        });
+
+        // Aplicamos traducción específica para etiquetas de cantidad
+        const quantityLabels = document.querySelectorAll('.quantity-label');
+        quantityLabels.forEach(label => {
+            if (lang === 'en') {
+                label.textContent = 'Quantity:';
+            } else {
+                label.textContent = 'Cantidad:';
             }
         });
     }
@@ -1482,7 +1624,8 @@ function initMemoryGame() {
         document.getElementById('temporizador').textContent = tiempo;
         
         // Restablecer el mensaje de victoria
-        document.getElementById('ganaste').innerHTML = '¡GANASTE!';
+        const lang = localStorage.getItem('language') || 'es';
+        document.getElementById('ganaste').innerHTML = lang === 'en' ? 'YOU WON!' : '¡GANASTE!';
         document.getElementById('ganaste').style.display = 'none';
 
         // Limpiar el tablero
@@ -1606,13 +1749,21 @@ function initMemoryGame() {
                 
                 // Mostrar mensaje de victoria con código de descuento
                 const mensajeVictoria = document.getElementById('ganaste');
+                // Obtener el idioma actual
+                const lang = localStorage.getItem('language') || 'es';
+                
+                // Mensajes según el idioma
+                const textoGanaste = lang === 'en' ? 'YOU WON!' : '¡GANASTE!';
+                const textoDescuento = lang === 'en' ? 'You just won a 50% discount code' : 'Acabas de ganar un código de descuento del 50%';
+                const textoUso = lang === 'en' ? 'Use this code in your next purchase' : 'Usa este código en tu próxima compra';
+                
                 mensajeVictoria.innerHTML = `
-                    <h2>¡GANASTE!</h2>
-                    <p>Acabas de ganar un código de descuento del 50%</p>
+                    <h2>${textoGanaste}</h2>
+                    <p>${textoDescuento}</p>
                     <div class="codigo-descuento">
                         <span id="codigo">${codigoDescuento}</span>
                     </div>
-                    <p class="codigo-info">Usa este código en tu próxima compra</p>
+                    <p class="codigo-info">${textoUso}</p>
                 `;
                 mensajeVictoria.style.display = 'block';
                 
