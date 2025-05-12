@@ -69,6 +69,10 @@ function initShoppingCart() {
     
     // Estado del carrito
     let cartItems = JSON.parse(localStorage.getItem('cartItems') || '{}');
+    
+    // Migrar datos antiguos al nuevo formato si es necesario
+    cartItems = migrateCartData(cartItems);
+    
     updateCartCount();
     
     // Mostrar/ocultar carrito
@@ -93,11 +97,16 @@ function initShoppingCart() {
             const productPrice = product.querySelector('.Shop__Price').textContent;
             const productImage = product.querySelector('.Shop__Image')?.src || 'Imagenes/Logonegro.png';
             
+            // Guardar el nombre original para traducción
+            const originalKey = productName;
+            
             // Añadir o incrementar
-            if (cartItems[productName]) {
-                cartItems[productName].quantity++;
+            if (cartItems[originalKey]) {
+                cartItems[originalKey].quantity++;
             } else {
-                cartItems[productName] = {
+                cartItems[originalKey] = {
+                    originalName: originalKey,
+                    displayName: originalKey, // Nombre a mostrar (se actualizará con la traducción)
                     price: productPrice,
                     quantity: 1,
                     image: productImage
@@ -105,9 +114,8 @@ function initShoppingCart() {
             }
             
             // Actualizar UI
-            updateCartUI(productName);
+            updateCartUI(originalKey);
             saveCart();
-            showNotification(`${productName} añadido al carrito`);
         });
     });
     
@@ -124,7 +132,7 @@ function initShoppingCart() {
         return count;
     }
     
-    function updateCartUI(productName) {
+    function updateCartUI(productKey) {
         if (!cartContainer) return;
         
         // Ocultar mensaje de carrito vacío
@@ -132,27 +140,31 @@ function initShoppingCart() {
             emptyCartMessage.style.display = 'none';
         }
         
+        const item = cartItems[productKey];
+        const displayName = item.displayName || item.originalName;
+        
         // Actualizar o crear elemento en el carrito
         let productEl = Array.from(cartContainer.querySelectorAll('.header__product'))
-            .find(el => el.querySelector('.header__Name').textContent === productName);
+            .find(el => el.getAttribute('data-product-key') === productKey);
         
-        const item = cartItems[productName];
         const price = parseFloat(item.price.replace('€', '').trim());
         
         if (productEl) {
             // Actualizar elemento existente
             productEl.querySelector('.header__quantity').textContent = item.quantity;
+            productEl.querySelector('.header__Name').textContent = displayName;
             productEl.querySelector('.header__Price').textContent = `${(price * item.quantity).toFixed(2)}€`;
         } else {
             // Crear nuevo elemento
             productEl = document.createElement('div');
             productEl.className = 'header__product';
+            productEl.setAttribute('data-product-key', productKey);
             productEl.innerHTML = `
-                <img src="${item.image}" alt="${productName}" class="header__product-image">
+                <img src="${item.image}" alt="${displayName}" class="header__product-image">
                 <div class="header__info">
                     <div class="header__product-row">
                         <span class="header__quantity">${item.quantity}</span>
-                        <p class="header__Name">${productName}</p>
+                        <p class="header__Name" data-original-name="${item.originalName}">${displayName}</p>
                     </div>
                     <p class="header__Price">${(price * item.quantity).toFixed(2)}€</p>
                 </div>
@@ -165,13 +177,13 @@ function initShoppingCart() {
             // Añadir evento para disminuir cantidad
             productEl.querySelector('.header__decrease').addEventListener('click', (e) => {
                 e.stopPropagation();
-                removeItem(productName, false);
+                removeItem(productKey, false);
             });
             
             // Añadir evento para eliminar producto
             productEl.querySelector('.header__close').addEventListener('click', (e) => {
                 e.stopPropagation();
-                removeItem(productName, true);
+                removeItem(productKey, true);
             });
             
             cartContainer.appendChild(productEl);
@@ -181,33 +193,33 @@ function initShoppingCart() {
         updateTotalUI();
     }
     
-    function removeItem(productName, removeAll) {
-        if (!cartItems[productName]) return;
+    function removeItem(productKey, removeAll) {
+        if (!cartItems[productKey]) return;
         
-        if (removeAll || cartItems[productName].quantity <= 1) {
-            delete cartItems[productName];
+        if (removeAll || cartItems[productKey].quantity <= 1) {
+            delete cartItems[productKey];
             
             // Eliminar del DOM
             const productEl = Array.from(cartContainer.querySelectorAll('.header__product'))
-                .find(el => el.querySelector('.header__Name').textContent === productName);
+                .find(el => el.getAttribute('data-product-key') === productKey);
             
             if (productEl) {
                 productEl.remove();
             }
         } else {
-            cartItems[productName].quantity--;
+            cartItems[productKey].quantity--;
             
             // Actualizar cantidad en el DOM
             const productEl = Array.from(cartContainer.querySelectorAll('.header__product'))
-                .find(el => el.querySelector('.header__Name').textContent === productName);
+                .find(el => el.getAttribute('data-product-key') === productKey);
             
             if (productEl) {
                 const quantityEl = productEl.querySelector('.header__quantity');
                 const priceEl = productEl.querySelector('.header__Price');
-                const price = parseFloat(cartItems[productName].price.replace('€', '').trim());
+                const price = parseFloat(cartItems[productKey].price.replace('€', '').trim());
                 
-                quantityEl.textContent = cartItems[productName].quantity;
-                priceEl.textContent = `${(price * cartItems[productName].quantity).toFixed(2)}€`;
+                quantityEl.textContent = cartItems[productKey].quantity;
+                priceEl.textContent = `${(price * cartItems[productKey].quantity).toFixed(2)}€`;
             }
         }
         
@@ -231,8 +243,8 @@ function initShoppingCart() {
         if (emptyCartMessage) emptyCartMessage.style.display = 'none';
         
         // Renderizar cada producto
-        for (const productName in cartItems) {
-            updateCartUI(productName);
+        for (const productKey in cartItems) {
+            updateCartUI(productKey);
         }
     }
     
@@ -242,8 +254,8 @@ function initShoppingCart() {
         
         // Calcular total
         let total = 0;
-        for (const productName in cartItems) {
-            const item = cartItems[productName];
+        for (const productKey in cartItems) {
+            const item = cartItems[productKey];
             const price = parseFloat(item.price.replace('€', '').trim());
             total += price * item.quantity;
         }
@@ -282,20 +294,27 @@ function initShoppingCart() {
     function saveCart() {
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
-    
-    function showNotification(message) {
-        const notification = document.createElement('div');
-        notification.className = 'notification';
-        notification.textContent = message;
-        document.body.appendChild(notification);
+
+    // Función para migrar datos antiguos del carrito al nuevo formato
+    function migrateCartData(cartItems) {
+        let updated = false;
         
-        setTimeout(() => {
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => document.body.removeChild(notification), 300);
-            }, 2000);
-        }, 10);
+        // Recorrer los elementos del carrito
+        for (const key in cartItems) {
+            // Si el producto no tiene la estructura nueva (originalName, displayName)
+            if (!cartItems[key].hasOwnProperty('originalName')) {
+                cartItems[key].originalName = key;
+                cartItems[key].displayName = key;
+                updated = true;
+            }
+        }
+        
+        // Guardar los cambios si se actualizó algún elemento
+        if (updated) {
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        }
+        
+        return cartItems;
     }
 }
 
@@ -460,18 +479,21 @@ function initCheckoutPage() {
         });
         
         // Añadir productos
-        for (const productName in cartItems) {
-            const item = cartItems[productName];
+        for (const productKey in cartItems) {
+            const item = cartItems[productKey];
             const price = parseFloat(item.price.replace('€', '').trim());
             const totalPrice = price * item.quantity;
             subtotal += totalPrice;
             
+            // Obtener el nombre a mostrar (nombre traducido o original)
+            const displayName = item.displayName || item.originalName || productKey;
+            
             const productEl = document.createElement('div');
             productEl.className = 'checkout__product';
             productEl.innerHTML = `
-                <img src="${item.image || 'Imagenes/Logonegro.png'}" alt="${productName}" class="checkout__product-image">
+                <img src="${item.image || 'Imagenes/Logonegro.png'}" alt="${displayName}" class="checkout__product-image">
                 <div class="checkout__product-info">
-                    <h3 class="checkout__product-name">${productName}</h3>
+                    <h3 class="checkout__product-name" data-original-name="${item.originalName}">${displayName}</h3>
                     <p class="checkout__product-details"><span class="quantity-label">Cantidad:</span> ${item.quantity}</p>
                     <span class="checkout__product-price">${totalPrice.toFixed(2)}€</span>
                 </div>
@@ -583,172 +605,6 @@ function initLoadMore() {
         });
     }
     
-    // Cargar más noticias
-    const loadMoreNewsBtn = document.getElementById('loadMoreNews');
-    if (loadMoreNewsBtn) {
-        let clicked = false;
-        loadMoreNewsBtn.addEventListener('click', function() {
-            if (clicked) return;
-            clicked = true;
-            
-            this.textContent = 'CARGANDO...';
-            setTimeout(() => {
-                // Crear nuevas noticias
-                const newsGrid = document.querySelector('.news__grid');
-                
-                if (newsGrid) {
-                    // Añadir nuevas noticias
-                    const newsItems = [
-                        {
-                            image: 'Imagenes/Noticia6.png',
-                            date: '15 de Junio, 2023',
-                            title: 'Nueva colección sostenible',
-                            excerpt: 'Lanzamos nuestra primera línea de ropa fabricada con materiales 100% reciclados.',
-                            fullText: '<p>Nos enorgullece presentar nuestra nueva colección "Eco Spicy", elaborada íntegramente con materiales reciclados y procesos sostenibles. Cada prenda está confeccionada con tejidos provenientes de botellas de plástico recicladas y algodón orgánico.<br><br>Esta colección representa nuestro compromiso con el medio ambiente y marca el inicio de una nueva era en Spicy Gallery. Además de su enfoque sostenible, la colección mantiene nuestro distintivo estilo urbano y la calidad que nos caracteriza.<br><br>La colección incluye sudaderas, camisetas y accesorios, todos diseñados pensando en la durabilidad y el menor impacto ambiental posible.</p>'
-                        },
-                        {
-                            image: 'Imagenes/Noticia7.png',
-                            date: '5 de Junio, 2023',
-                            title: 'Festival de Moda Urbana',
-                            excerpt: 'Spicy Gallery organizará el primer festival de moda urbana en Barcelona.',
-                            fullText: '<p>Este verano, Barcelona será el epicentro de la moda urbana con el primer Spicy Urban Festival. Un evento que combinará moda, música, arte urbano y cultura streetwear.<br><br>Durante tres días, el recinto del Fórum acogerá desfiles, exposiciones de artistas emergentes, conciertos de hip-hop y trap, y pop-up stores de marcas independientes. Spicy Gallery presentará en exclusiva su colección de otoño durante el evento.<br><br>Las entradas estarán disponibles a partir del 1 de julio, con descuentos especiales para los miembros de nuestra comunidad. ¡No te pierdas el evento del año!</p>'
-                        }
-                    ];
-                    
-                    newsItems.forEach(item => {
-                        const newsCard = document.createElement('article');
-                        newsCard.className = 'news__card';
-                        
-                        newsCard.innerHTML = `
-                            <div class="news__card-image">
-                                <img src="${item.image}" alt="${item.title}" class="news__image">
-                            </div>
-                            <div class="news__card-content">
-                                <span class="news__date">${item.date}</span>
-                                <h3 class="news__card-title">${item.title}</h3>
-                                <p class="news__card-excerpt">${item.excerpt}</p>
-                                <a href="#" class="news__card-link">Leer más</a>
-                                <div class="news__card-full-text hidden">
-                                    ${item.fullText}
-                                </div>
-                            </div>
-                        `;
-                        
-                        newsGrid.appendChild(newsCard);
-                    });
-                    
-                    // Inicializar botones de leer más para los nuevos elementos
-                    const newLinks = newsGrid.querySelectorAll('.news__card-link:not([data-initialized])');
-                    newLinks.forEach(link => {
-                        link.setAttribute('data-initialized', 'true');
-                        link.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            const card = this.closest('.news__card-content');
-                            const fullText = card.querySelector('.news__card-full-text');
-                            
-                            if (fullText) {
-                                fullText.classList.toggle('hidden');
-                                const lang = localStorage.getItem('language') || 'es';
-                                this.textContent = fullText.classList.contains('hidden') ? 
-                                    (lang === 'en' ? 'Read more' : 'Leer más') : 
-                                    (lang === 'en' ? 'Read less' : 'Leer menos');
-                            }
-                        });
-                    });
-                    
-                    this.textContent = 'NO HAY MÁS NOTICIAS';
-                    this.disabled = true;
-                }
-            }, 1000);
-        });
-    }
-    
-    // Cargar más artículos del blog
-    const loadMorePostsBtn = document.getElementById('loadMorePosts');
-    if (loadMorePostsBtn) {
-        let clicked = false;
-        loadMorePostsBtn.addEventListener('click', function() {
-            if (clicked) return;
-            clicked = true;
-            
-            this.textContent = 'CARGANDO...';
-            setTimeout(() => {
-                // Crear nuevos artículos de blog
-                const blogContent = document.querySelector('.blog__content');
-                
-                if (blogContent) {
-                    // Añadir nuevos artículos
-                    const blogItems = [
-                        {
-                            image: 'Imagenes/Blog4.png',
-                            tag: 'Tendencias',
-                            title: 'Los colores que dominarán la próxima temporada',
-                            excerpt: 'Descubre cuáles serán los tonos más importantes y cómo incorporarlos a tu guardarropa streetwear.',
-                            date: '15 de Abril, 2023',
-                            author: 'Por: Ana Martínez',
-                            fullText: '<p><strong>La paleta del futuro</strong><br>La próxima temporada viene cargada de contrastes y matices inesperados. Los tonos neón se mezclan con colores tierra, creando una paleta que refleja tanto la energía urbana como la conexión con lo natural.<br><br><strong>Tendencias cromáticas principales</strong><br>1. <u>Verde Digital:</u> Un tono vibrante que representa la fusión entre tecnología y naturaleza.<br><br>2. <u>Naranja Sunset:</u> Un color cálido que evoca los atardeceres urbanos y aporta energía a cualquier look.<br><br>3. <u>Azul Cyber:</u> Un tono eléctrico que representa la era digital.<br><br>4. <u>Beige Tech:</u> Un neutro modernizado que sirve como base perfecta.<br><br><strong>Cómo combinar los nuevos tonos</strong><br>- Contrasta el Verde Digital con negro para un look futurista<br>- Mezcla el Naranja Sunset con tonos grises para equilibrar su intensidad<br>- Usa el Azul Cyber como acento en looks monocromáticos<br>- El Beige Tech funciona como base versátil<br><br>La clave está en experimentar con estos colores mientras mantienes tu estilo personal. No temas a las combinaciones audaces - el streetwear trata de romper reglas y establecer nuevas tendencias.</p>'
-                        },
-                        {
-                            image: 'Imagenes/Blog5.png',
-                            tag: 'Cultura',
-                            title: 'El arte urbano y su influencia en la moda actual',
-                            excerpt: 'Exploramos cómo el grafiti y el arte callejero están modelando las últimas tendencias en diseño de ropa.',
-                            date: '8 de Abril, 2023',
-                            author: 'Por: Carlos Ruiz',
-                            fullText: '<p><strong>Del muro a la pasarela</strong><br>El arte urbano ha evolucionado desde sus orígenes subversivos hasta convertirse en una fuerza creativa que influye directamente en el diseño de moda contemporáneo. Los elementos gráficos, las técnicas de color y la actitud rebelde del grafiti se traducen ahora en prendas que son verdaderas obras de arte portátiles.<br><br><strong>Elementos clave del arte urbano en la moda</strong><br>1. <u>Tipografías:</u> Los estilos de letra del grafiti inspiran estampados y logos.<br><br>2. <u>Técnicas de color:</u> Los degradados y superposiciones característicos del arte urbano se replican en tejidos.<br><br>3. <u>Simbolismo:</u> Iconografía urbana que transmite mensajes de resistencia y autenticidad.<br><br>4. <u>Texturas:</u> Efectos que emulan las superficies del arte callejero.<br><br><strong>La fusión perfecta</strong><br>El arte urbano no solo influye en la estética de la ropa, sino que también aporta una dimensión cultural y narrativa al streetwear. Cada prenda se convierte en un lienzo que cuenta una historia y representa una forma de vida.<br><br>En Spicy Gallery, celebramos esta fusión entre arte y moda, creando piezas que son tanto expresión artística como declaración de estilo.</p>'
-                        }
-                    ];
-                    blogItems.forEach(item => {
-                        const blogArticle = document.createElement('article');
-                        blogArticle.className = 'blog__article';
-                        
-                        blogArticle.innerHTML = `
-                            <div class="blog__article-image">
-                                <img src="${item.image}" alt="${item.title}" class="blog__img">
-                            </div>
-                            <div class="blog__article-content">
-                                <span class="blog__tag">${item.tag}</span>
-                                <h3 class="blog__article-title">${item.title}</h3>
-                                <p class="blog__article-excerpt">${item.excerpt}</p>
-                                <div class="blog__meta">
-                                    <span class="blog__date">${item.date}</span>
-                                    <span class="blog__author">${item.author}</span>
-                                </div>
-                                <a href="#" class="blog__read-link">Leer artículo completo</a>
-                                <div class="blog__article-full-text hidden">
-                                    ${item.fullText}
-                                </div>
-                            </div>
-                        `;
-                        
-                        blogContent.appendChild(blogArticle);
-                    });
-                    
-                    // Inicializar botones de leer más para los nuevos elementos
-                    const newLinks = blogContent.querySelectorAll('.blog__read-link:not([data-initialized])');
-                    newLinks.forEach(link => {
-                        link.setAttribute('data-initialized', 'true');
-                        link.addEventListener('click', function(e) {
-                            e.preventDefault();
-                            const article = this.closest('.blog__article-content');
-                            const fullText = article.querySelector('.blog__article-full-text');
-                            
-                            if (fullText) {
-                                fullText.classList.toggle('hidden');
-                                const lang = localStorage.getItem('language') || 'es';
-                                this.textContent = fullText.classList.contains('hidden') ? 
-                                    (lang === 'en' ? 'Read full article' : 'Leer artículo completo') : 
-                                    (lang === 'en' ? 'Show less' : 'Mostrar menos');
-                            }
-                        });
-                    });
-                    
-                    this.textContent = 'NO HAY MÁS ARTÍCULOS';
-                    this.disabled = true;
-                }
-            }, 1000);
-        });
-    }
 }
 
 // Botones de leer más
@@ -767,41 +623,12 @@ function initReadMoreButtons() {
                 this.textContent = fullText.classList.contains('hidden') ? 
                     (lang === 'en' ? 'Read more' : 'Leer más') : 
                     (lang === 'en' ? 'Read less' : 'Leer menos');
+                
+                // Guardar el estado para mantenerlo al cambiar de idioma
+                this.setAttribute('data-expanded', !fullText.classList.contains('hidden'));
             }
         });
     });
-    
-    // Noticia destacada
-    const featuredReadMore = document.querySelector('.news__readmore:not([data-initialized])');
-    if (featuredReadMore) {
-        featuredReadMore.setAttribute('data-initialized', 'true');
-        featuredReadMore.addEventListener('click', function(e) {
-            e.preventDefault();
-            const content = this.closest('.news__featured-content');
-            const fullText = content.querySelector('.news__full-text');
-            
-            if (!fullText) {
-                // Si no existe el div de texto completo, lo creamos
-                const fullTextDiv = document.createElement('div');
-                fullTextDiv.className = 'news__full-text hidden';
-                fullTextDiv.innerHTML = `<p>La colección Spicy Urban representa nuestra visión más audaz hasta la fecha. Inspirada en la vida urbana y la arquitectura contemporánea, cada pieza combina funcionalidad con detalles de alta costura.<br><br>
-                    Los tejidos premium, siluetas exageradas y detalles artesanales definen esta colección que difumina la línea entre streetwear y lujo. Hemos colaborado con diseñadores emergentes y utilizado técnicas innovadoras de confección para crear prendas que son tanto una declaración de estilo como piezas funcionales para el día a día.<br><br>
-                    La colección incluye desde camisetas oversize con estampados exclusivos hasta chaquetas estructuradas con detalles metálicos, pasando por pantalones cargo reinventados y accesorios que complementan el look urbano-contemporáneo.<br><br>
-                    Descubre todas las piezas en nuestra tienda online o visita los puntos de venta seleccionados para experimentar la calidad y el diseño de cerca.</p>`;
-                
-                content.querySelector('.news__excerpt').after(fullTextDiv);
-                setTimeout(() => fullTextDiv.classList.remove('hidden'), 10);
-                this.textContent = 'Leer menos';
-            } else {
-                // Si ya existe el div, lo mostramos u ocultamos
-                fullText.classList.toggle('hidden');
-                const lang = localStorage.getItem('language') || 'es';
-                this.textContent = fullText.classList.contains('hidden') ? 
-                    (lang === 'en' ? 'Read more' : 'Leer más') : 
-                    (lang === 'en' ? 'Read less' : 'Leer menos');
-            }
-        });
-    }
     
     // Blog
     document.querySelectorAll('.blog__read-link:not([data-initialized])').forEach(link => {
@@ -814,9 +641,14 @@ function initReadMoreButtons() {
             if (fullText) {
                 fullText.classList.toggle('hidden');
                 const lang = localStorage.getItem('language') || 'es';
-                this.textContent = fullText.classList.contains('hidden') ? 
+                const isHidden = fullText.classList.contains('hidden');
+                
+                this.textContent = isHidden ? 
                     (lang === 'en' ? 'Read full article' : 'Leer artículo completo') : 
                     (lang === 'en' ? 'Show less' : 'Mostrar menos');
+                
+                // Guardar el estado para mantenerlo al cambiar de idioma
+                this.setAttribute('data-expanded', !isHidden);
             }
         });
     });
@@ -1124,7 +956,103 @@ function initLanguageSwitch() {
             "Términos y Condiciones": "Términos y Condiciones",
             "Política de Cookies": "Política de Cookies",
             "Todos los derechos reservados.": "Todos los derechos reservados.",
-            "© 2025 Spicy Gallery. Todos los derechos reservados.": "© 2025 Spicy Gallery. Todos los derechos reservados."
+            "© 2025 Spicy Gallery. Todos los derechos reservados.": "© 2025 Spicy Gallery. Todos los derechos reservados.",
+            
+            // Fechas y elementos adicionales
+            "15 de Junio, 2023": "15 de Junio, 2023",
+            "2 de Junio, 2023": "2 de Junio, 2023",
+            "25 de Mayo, 2023": "25 de Mayo, 2023",
+            "10 de Mayo, 2023": "10 de Mayo, 2023",
+            "2 de Mayo, 2023": "2 de Mayo, 2023",
+            "20 de Abril, 2023": "20 de Abril, 2023",
+            "15 de Abril, 2023": "15 de Abril, 2023",
+            "8 de Abril, 2023": "8 de Abril, 2023",
+            "Por: Equipo Spicy": "Por: Equipo Spicy",
+            "Por: Alicia Martínez": "Por: Alicia Martínez",
+            "Por: Shadia López": "Por: Shadia López",
+
+              // Artículos de Noticias - Títulos y Contenido
+              "Colaboración con artistas locales para packaging exclusivo": "Colaboración con artistas locales para packaging exclusivo",
+              "Esta colaboración representa nuestro compromiso con el arte local y la sostenibilidad. Cada artista ha creado diseños únicos que reflejan tanto su estilo personal como la esencia de Spicy Gallery.": "Esta colaboración representa nuestro compromiso con el arte local y la sostenibilidad. Cada artista ha creado diseños únicos que reflejan tanto su estilo personal como la esencia de Spicy Gallery.",
+              "Nos unimos con cinco artistas emergentes para diseñar packaging de edición limitada para nuestras prendas más vendidas.": "Nos unimos con cinco artistas emergentes para diseñar packaging de edición limitada para nuestras prendas más vendidas.",
+              "Los cinco artistas seleccionados provienen de diferentes disciplinas: ilustración digital, graffiti, pintura tradicional, collage y diseño textil. Esta diversidad se refleja en la variedad de estilos y técnicas aplicadas a nuestro packaging.": "Los cinco artistas seleccionados provienen de diferentes disciplinas: ilustración digital, graffiti, pintura tradicional, collage y diseño textil. Esta diversidad se refleja en la variedad de estilos y técnicas aplicadas a nuestro packaging.",
+              "Además de embellecer nuestros productos, esta iniciativa tiene un componente social: un porcentaje de cada venta irá destinado a programas educativos de arte para jóvenes en riesgo de exclusión social.": "Además de embellecer nuestros productos, esta iniciativa tiene un componente social: un porcentaje de cada venta irá destinado a programas educativos de arte para jóvenes en riesgo de exclusión social.",
+              
+              "Pop-up store en Madrid durante el mes de julio": "Pop-up store en Madrid durante el mes de julio",
+              "Nuestra primera tienda física temporal abrirá sus puertas en el centro de Madrid durante todo el mes de julio.": "Nuestra primera tienda física temporal abrirá sus puertas en el centro de Madrid durante todo el mes de julio.",
+              "Estamos entusiasmados de anunciar nuestra primera tienda física en el corazón de Madrid. Ubicada en Calle Fuencarral 43, nuestra pop-up store ofrecerá la experiencia Spicy Gallery completa del 1 al 31 de julio.": "Estamos entusiasmados de anunciar nuestra primera tienda física en el corazón de Madrid. Ubicada en Calle Fuencarral 43, nuestra pop-up store ofrecerá la experiencia Spicy Gallery completa del 1 al 31 de julio.",
+              "Los visitantes podrán explorar nuestra colección completa, incluyendo piezas exclusivas que solo estarán disponibles en tienda. El espacio ha sido diseñado por el reconocido estudio de interiorismo Urban Concepts para reflejar la estética urbana y vanguardista de nuestra marca.": "Los visitantes podrán explorar nuestra colección completa, incluyendo piezas exclusivas que solo estarán disponibles en tienda. El espacio ha sido diseñado por el reconocido estudio de interiorismo Urban Concepts para reflejar la estética urbana y vanguardista de nuestra marca.",
+              "Además de las compras, organizaremos eventos semanales como talleres de personalización, charlas con diseñadores y sesiones de DJ en vivo. El calendario completo de actividades estará disponible próximamente en nuestras redes sociales.": "Además de las compras, organizaremos eventos semanales como talleres de personalización, charlas con diseñadores y sesiones de DJ en vivo. El calendario completo de actividades estará disponible próximamente en nuestras redes sociales.",
+              
+              "Nuestro compromiso sustentable: Materiales reciclados": "Nuestro compromiso sustentable: Materiales reciclados",
+              "A partir de ahora, el 60% de nuestras prendas serán fabricadas con materiales reciclados o de bajo impacto ambiental.": "A partir de ahora, el 60% de nuestras prendas serán fabricadas con materiales reciclados o de bajo impacto ambiental.",
+              "En Spicy Gallery, creemos que la moda debe ser tanto estéticamente impactante como responsable con el planeta. Por eso, estamos orgullosos de anunciar que, a partir de este mes, el 60% de nuestras prendas serán fabricadas con materiales reciclados o de bajo impacto ambiental.": "En Spicy Gallery, creemos que la moda debe ser tanto estéticamente impactante como responsable con el planeta. Por eso, estamos orgullosos de anunciar que, a partir de este mes, el 60% de nuestras prendas serán fabricadas con materiales reciclados o de bajo impacto ambiental.",
+              "Entre los materiales que estamos incorporando se encuentran el algodón orgánico certificado, poliéster reciclado proveniente de botellas de plástico, y fibras innovadoras como el Tencel y el cáñamo industrial. Nuestro objetivo es alcanzar el 80% para finales de 2023 y el 100% para 2025.": "Entre los materiales que estamos incorporando se encuentran el algodón orgánico certificado, poliéster reciclado proveniente de botellas de plástico, y fibras innovadoras como el Tencel y el cáñamo industrial. Nuestro objetivo es alcanzar el 80% para finales de 2023 y el 100% para 2025.",
+              "Además de los materiales, estamos implementando procesos de producción más eficientes en cuanto al consumo de agua y energía, y trabajando únicamente con fábricas que garantizan condiciones laborales justas y seguras para sus trabajadores.": "Además de los materiales, estamos implementando procesos de producción más eficientes en cuanto al consumo de agua y energía, y trabajando únicamente con fábricas que garantizan condiciones laborales justas y seguras para sus trabajadores.",
+              
+              "Entrevista a nuestros diseñadores principales": "Entrevista a nuestros diseñadores principales",
+              "Conoce más sobre el proceso creativo detrás de nuestras colecciones en esta entrevista exclusiva con nuestro equipo de diseño.": "Conoce más sobre el proceso creativo detrás de nuestras colecciones en esta entrevista exclusiva con nuestro equipo de diseño.",
+              "Entrevistamos a Carlos Méndez y Laura Soto, los diseñadores principales de Spicy Gallery, para conocer más sobre su proceso creativo y las inspiraciones detrás de nuestras colecciones más exitosas.": "Entrevistamos a Carlos Méndez y Laura Soto, los diseñadores principales de Spicy Gallery, para conocer más sobre su proceso creativo y las inspiraciones detrás de nuestras colecciones más exitosas.",
+              "¿De dónde viene vuestra inspiración para cada colección?": "¿De dónde viene vuestra inspiración para cada colección?",
+              "Carlos: Nos inspiramos en la cultura urbana global, pero siempre con un enfoque local. Observamos qué está pasando en las calles, en la música, en el arte. Para nosotros es crucial que nuestras prendas cuenten una historia auténtica.": "Carlos: Nos inspiramos en la cultura urbana global, pero siempre con un enfoque local. Observamos qué está pasando en las calles, en la música, en el arte. Para nosotros es crucial que nuestras prendas cuenten una historia auténtica.",
+              "Esmeralda: También nos inspiramos mucho en la arquitectura y el diseño industrial. Me encanta jugar con las proporciones y las estructuras, trasladando esos conceptos a las prendas. Y por supuesto, siempre tenemos en cuenta la funcionalidad y comodidad.": "Esmeralda: También nos inspiramos mucho en la arquitectura y el diseño industrial. Me encanta jugar con las proporciones y las estructuras, trasladando esos conceptos a las prendas. Y por supuesto, siempre tenemos en cuenta la funcionalidad y comodidad.",
+              "¿Cuál ha sido el mayor desafío al diseñar para Spicy Gallery?": "¿Cuál ha sido el mayor desafío al diseñar para Spicy Gallery?",
+              "Carlos: Mantener el equilibrio entre ser innovadores y comerciales. Queremos empujar los límites, pero también crear prendas que la gente realmente quiera y pueda usar en su día a día.": "Carlos: Mantener el equilibrio entre ser innovadores y comerciales. Queremos empujar los límites, pero también crear prendas que la gente realmente quiera y pueda usar en su día a día.",
+              "Esmeralda: El desafío principal es mantener una identidad visual coherente a lo largo de las colecciones, pero al mismo tiempo permitir que cada diseñador tenga un espacio para su individualidad.": "Esmeralda: El desafío principal es mantener una identidad visual coherente a lo largo de las colecciones, pero al mismo tiempo permitir que cada diseñador tenga un espacio para su individualidad.",
+              
+              // Contenido del artículo principal de noticias
+              "Nuestra colección más esperada ha llegado por fin. Spicy Urban combina la estética urbana con toques de alta costura para crear prendas únicas que desafían lo convencional. Disponible desde hoy en nuestra tienda online y en puntos de venta seleccionados.": "Nuestra colección más esperada ha llegado por fin. Spicy Urban combina la estética urbana con toques de alta costura para crear prendas únicas que desafían lo convencional. Disponible desde hoy en nuestra tienda online y en puntos de venta seleccionados.",
+              "La colección Spicy Urban representa nuestra visión más audaz hasta la fecha. Inspirada en la vida urbana y la arquitectura contemporánea, cada pieza combina funcionalidad con detalles de alta costura.": "La colección Spicy Urban representa nuestra visión más audaz hasta la fecha. Inspirada en la vida urbana y la arquitectura contemporánea, cada pieza combina funcionalidad con detalles de alta costura.",
+              "Los tejidos premium, siluetas exageradas y detalles artesanales definen esta colección que difumina la línea entre streetwear y lujo. Hemos colaborado con diseñadores emergentes y utilizado técnicas innovadoras de confección para crear prendas que son tanto una declaración de estilo como piezas funcionales para el día a día.": "Los tejidos premium, siluetas exageradas y detalles artesanales definen esta colección que difumina la línea entre streetwear y lujo. Hemos colaborado con diseñadores emergentes y utilizado técnicas innovadoras de confección para crear prendas que son tanto una declaración de estilo como piezas funcionales para el día a día.",
+              "La colección incluye desde camisetas oversize con estampados exclusivos hasta chaquetas estructuradas con detalles metálicos, pasando por pantalones cargo reinventados y accesorios que complementan el look urbano-contemporáneo.": "La colección incluye desde camisetas oversize con estampados exclusivos hasta chaquetas estructuradas con detalles metálicos, pasando por pantalones cargo reinventados y accesorios que complementan el look urbano-contemporáneo.",
+              "Descubre todas las piezas en nuestra tienda online o visita los puntos de venta seleccionados para experimentar la calidad y el diseño de cerca.": "Descubre todas las piezas en nuestra tienda online o visita los puntos de venta seleccionados para experimentar la calidad y el diseño de cerca.",
+              
+              // Artículos de Blog - Títulos y Contenido
+              "Las 5 tendencias que dominarán el streetwear en 2023": "Las 5 tendencias que dominarán el streetwear en 2023",
+              "El streetwear está en constante evolución. Te contamos las 5 tendencias que veremos por todas partes este año y cómo incorporarlas a tu estilo.": "El streetwear está en constante evolución. Te contamos las 5 tendencias que veremos por todas partes este año y cómo incorporarlas a tu estilo.",
+              "1. Siluetas oversize con toques estructurados": "1. Siluetas oversize con toques estructurados",
+              "Las prendas amplias seguirán dominando, pero con un giro: detalles estructurados que aportan forma y equilibrio. Piensa en sudaderas oversize con hombros marcados o pantalones anchos con pinzas estratégicas.": "Las prendas amplias seguirán dominando, pero con un giro: detalles estructurados que aportan forma y equilibrio. Piensa en sudaderas oversize con hombros marcados o pantalones anchos con pinzas estratégicas.",
+              "2. Colores tierra y tonos pastel": "2. Colores tierra y tonos pastel",
+              "Los colores neutros y tierra (beige, marrón, verde oliva) se combinan con toques de colores pastel como lavanda, mint o melocotón, creando looks equilibrados entre lo sobrio y lo expresivo.": "Los colores neutros y tierra (beige, marrón, verde oliva) se combinan con toques de colores pastel como lavanda, mint o melocotón, creando looks equilibrados entre lo sobrio y lo expresivo.",
+              "3. Técnicas artesanales aplicadas al streetwear": "3. Técnicas artesanales aplicadas al streetwear",
+              "El crochet, el patchwork y otras técnicas manuales tradicionales se aplican a prendas urbanas, creando piezas únicas con un valor artesanal añadido.": "El crochet, el patchwork y otras técnicas manuales tradicionales se aplican a prendas urbanas, creando piezas únicas con un valor artesanal añadido.",
+              "4. Estampados inspirados en la naturaleza": "4. Estampados inspirados en la naturaleza",
+              "Los estampados florales abstractos, texturas que imitan elementos naturales y motivos inspirados en la naturaleza están reemplazando a los logos grandes y llamativos.": "Los estampados florales abstractos, texturas que imitan elementos naturales y motivos inspirados en la naturaleza están reemplazando a los logos grandes y llamativos.",
+              "5. Funcionalidad y utilitarismo": "5. Funcionalidad y utilitarismo",
+              "Las prendas multifuncionales con bolsillos, cremalleras y elementos convertibles están ganando popularidad, combinando estética urbana con practicidad real.": "Las prendas multifuncionales con bolsillos, cremalleras y elementos convertibles están ganando popularidad, combinando estética urbana con practicidad real.",
+              "Cómo incorporar estas tendencias": "Cómo incorporar estas tendencias",
+              "Lo más importante es adaptar estas tendencias a tu estilo personal y no seguirlas al pie de la letra. Comienza incorporando una tendencia a la vez, combinándola con piezas básicas de tu guardarropa. Recuerda que el streetwear trata sobre expresión personal y autenticidad, así que haz estas tendencias tuyas.": "Lo más importante es adaptar estas tendencias a tu estilo personal y no seguirlas al pie de la letra. Comienza incorporando una tendencia a la vez, combinándola con piezas básicas de tu guardarropa. Recuerda que el streetwear trata sobre expresión personal y autenticidad, así que haz estas tendencias tuyas.",
+              
+              "De la calle a las pasarelas: La evolución del streetwear": "De la calle a las pasarelas: La evolución del streetwear",
+              "Un recorrido por la historia del streetwear, desde sus orígenes en la cultura skate y hip-hop hasta su influencia actual en la alta moda.": "Un recorrido por la historia del streetwear, desde sus orígenes en la cultura skate y hip-hop hasta su influencia actual en la alta moda.",
+              "Los inicios: skateboarding y cultura surf (años 70-80)": "Los inicios: skateboarding y cultura surf (años 70-80)",
+              "El streetwear comenzó como ropa funcional para skaters en California. Marcas como Stüssy, originalmente una marca de tablas de surf, empezaron a producir camisetas y sudaderas que pronto se convirtieron en símbolos de pertenencia a una subcultura.": "El streetwear comenzó como ropa funcional para skaters en California. Marcas como Stüssy, originalmente una marca de tablas de surf, empezaron a producir camisetas y sudaderas que pronto se convirtieron en símbolos de pertenencia a una subcultura.",
+              "La influencia del hip-hop (años 80-90)": "La influencia del hip-hop (años 80-90)",
+              "En los 80, el hip-hop emergente en Nueva York adoptó y transformó el streetwear, incorporando elementos como las zapatillas de baloncesto, los pantalones anchos y las grandes cadenas. Marcas como FUBU, Karl Kani y Cross Colours nacieron directamente de esta cultura.": "En los 80, el hip-hop emergente en Nueva York adoptó y transformó el streetwear, incorporando elementos como las zapatillas de baloncesto, los pantalones anchos y las grandes cadenas. Marcas como FUBU, Karl Kani y Cross Colours nacieron directamente de esta cultura.",
+              "La explosión japonesa (años 90-2000)": "La explosión japonesa (años90-2000)",
+              "Japón aportó su visión única al streetwear con marcas como BAPE, Undercover y NEIGHBORHOOD, combinando influencias occidentales con estética japonesa y atención meticulosa al detalle y la calidad.": "Japón aportó su visión única al streetwear con marcas como BAPE, Undercover y NEIGHBORHOOD, combinando influencias occidentales con estética japonesa y atención meticulosa al detalle y la calidad.",
+              "Streetwear y alta moda: la era de las colaboraciones (2000-2010)": "Streetwear y alta moda: la era de las colaboraciones (2000-2010)",
+              "La primera década del 2000 vio colaboraciones pioneras entre marcas de streetwear y diseñadores de alta moda. Supreme x Louis Vuitton rompió barreras y demostró que el streetwear había dejado de ser una moda marginal.": "La primera década del 2000 vio colaboraciones pioneras entre marcas de streetwear y diseñadores de alta moda. Supreme x Louis Vuitton rompió barreras y demostró que el streetwear había dejado de ser una moda marginal.",
+              "El presente y futuro: streetwear como fenómeno global": "El presente y futuro: streetwear como fenómeno global",
+              "Hoy, el streetwear ha redefinido la industria de la moda. Virgil Abloh dirigiendo Louis Vuitton, Demna Gvasalia en Balenciaga y la omnipresencia de zapatillas deportivas en pasarelas de lujo demuestran cómo la influencia del streetwear ha permeado todos los niveles de la moda.": "Hoy, el streetwear ha redefinido la industria de la moda. Virgil Abloh dirigiendo Louis Vuitton, Demna Gvasalia en Balenciaga y la omnipresencia de zapatillas deportivas en pasarelas de lujo demuestran cómo la influencia del streetwear ha permeado todos los niveles de la moda.",
+              "El futuro del streetwear parece dirigirse hacia la personalización, la sostenibilidad y la diversificación cultural, manteniendo su esencia de expresión personal y autenticidad.": "El futuro del streetwear parece dirigirse hacia la personalización, la sostenibilidad y la diversificación cultural, manteniendo su esencia de expresión personal y autenticidad.",
+              
+              "Moda sostenible: ¿Es posible en el mundo del streetwear?": "Moda sostenible: ¿Es posible en el mundo del streetwear?",
+              "Analizamos los desafíos y oportunidades de la moda sostenible en el contexto del streetwear y cómo las marcas están respondiendo a esta demanda.": "Analizamos los desafíos y oportunidades de la moda sostenible en el contexto del streetwear y cómo las marcas están respondiendo a esta demanda.",
+              "El dilema del streetwear sostenible": "El dilema del streetwear sostenible",
+              "La cultura del streetwear se ha caracterizado tradicionalmente por el consumo rápido y la exclusividad, con drops limitados que fomentan la compra impulsiva. Este modelo parece contradecir los principios de la sostenibilidad, que promueven el consumo consciente y duradero.": "La cultura del streetwear se ha caracterizado tradicionalmente por el consumo rápido y la exclusividad, con drops limitados que fomentan la compra impulsiva. Este modelo parece contradecir los principios de la sostenibilidad, que promueven el consumo consciente y duradero.",
+              "Marcas pioneras en streetwear sostenible": "Marcas pioneras en streetwear sostenible",
+              "A pesar de los desafíos, están surgiendo marcas que demuestran que el streetwear y la sostenibilidad pueden coexistir. Noah, fundada por Brendon Babenzien (ex director creativo de Supreme), utiliza materiales orgánicos y reciclados, además de fabricar principalmente en Italia y Estados Unidos bajo condiciones laborales justas.": "A pesar de los desafíos, están surgiendo marcas que demuestran que el streetwear y la sostenibilidad pueden coexistir. Noah, fundada por Brendon Babenzien (ex director creativo de Supreme), utiliza materiales orgánicos y reciclados, además de fabricar principalmente en Italia y Estados Unidos bajo condiciones laborales justas.",
+              "Pangaia ha revolucionado el mercado con sus innovadores materiales como el FLWRDWN (una alternativa al plumón hecha de flores silvestres) y algodón tratado con tintes naturales.": "Pangaia ha revolucionado el mercado con sus innovadores materiales como el FLWRDWN (una alternativa al plumón hecha de flores silvestres) y algodón tratado con tintes naturales.",
+              "Estrategias para un streetwear más sostenible": "Estrategias para un streetwear más sostenible",
+              "1. Upcycling y reutilización:": "1. Upcycling y reutilización:",
+              "Marcas como Ræburn han hecho del upcycling su seña de identidad, transformando materiales militares excedentes en prendas streetwear.": "Marcas como Ræburn han hecho del upcycling su seña de identidad, transformando materiales militares excedentes en prendas streetwear.",
+              "2. Materiales innovadores: El uso de materiales como el algodón orgánico, el poliéster reciclado y tejidos experimentales derivados de desechos agrícolas.": "2. Materiales innovadores: El uso de materiales como el algodón orgánico, el poliéster reciclado y tejidos experimentales derivados de desechos agrícolas.",
+              "3. Producción local y transparencia: Fabricar cerca de los mercados de venta reduce la huella de carbono y permite mayor control sobre las condiciones laborales.": "3. Producción local y transparencia: Fabricar cerca de los mercados de venta reduce la huella de carbono y permite mayor control sobre las condiciones laborales.",
+              "4. Modelos circulares: Programas de recompra, reparación y reventa que extienden la vida útil de las prendas.": "4. Modelos circulares: Programas de recompra, reparación y reventa que extienden la vida útil de las prendas.",
+              "El papel del consumidor": "El papel del consumidor",
+              "Como consumidores, podemos impulsar el cambio comprando menos pero mejor, investigando las prácticas de las marcas, cuidando nuestras prendas para que duren más, y participando en el mercado de segunda mano.": "Como consumidores, podemos impulsar el cambio comprando menos pero mejor, investigando las prácticas de las marcas, cuidando nuestras prendas para que duren más, y participando en el mercado de segunda mano.",
+              "En Spicy Gallery, estamos comprometidos con avanzar hacia un modelo más sostenible sin comprometer el estilo y la actitud que caracterizan al streetwear. Creemos que la verdadera expresión personal también debe reflejar valores de respeto por el planeta y las personas.": "En Spicy Gallery, estamos comprometidos con avanzar hacia un modelo más sostenible sin comprometer el estilo y la actitud que caracterizan al streetwear. Creemos que la verdadera expresión personal también debe reflejar valores de respeto por el planeta y las personas.",
         },
         en: {
             // Navigation
@@ -1354,7 +1282,102 @@ function initLanguageSwitch() {
             "Términos y Condiciones": "Terms & Conditions",
             "Política de Cookies": "Cookie Policy",
             "Todos los derechos reservados.": "All rights reserved.",
-            "© 2025 Spicy Gallery. Todos los derechos reservados.": "© 2025 Spicy Gallery. All rights reserved."
+            "© 2025 Spicy Gallery. Todos los derechos reservados.": "© 2025 Spicy Gallery. All rights reserved.",
+            
+            // Fechas y elementos adicionales
+            "15 de Junio, 2023": "June 15, 2023",
+            "2 de Junio, 2023": "June 2, 2023",
+            "25 de Mayo, 2023": "May 25, 2023",
+            "10 de Mayo, 2023": "May 10, 2023",
+            "2 de Mayo, 2023": "May 2, 2023",
+            "20 de Abril, 2023": "April 20, 2023",
+            "15 de Abril, 2023": "April 15, 2023",
+            "8 de Abril, 2023": "April 8, 2023",
+            "Por: Equipo Spicy": "By: Spicy Team",
+            "Por: Alicia Martínez": "By: Alicia Martínez",
+            "Por: Shadia López": "By: Shadia López",
+            
+            // Artículos de Noticias - Títulos y Contenido
+            "Colaboración con artistas locales para packaging exclusivo": "Collaboration with local artists for exclusive packaging",
+            "Nos unimos con cinco artistas emergentes para diseñar packaging de edición limitada para nuestras prendas más vendidas.": "We've joined with five emerging artists to design limited edition packaging for our best-selling garments.",
+            "Esta colaboración representa nuestro compromiso con el arte local y la sostenibilidad. Cada artista ha creado diseños únicos que reflejan tanto su estilo personal como la esencia de Spicy Gallery.": "This collaboration represents our commitment to local art and sustainability. Each artist has created unique designs that reflect both their personal style and the essence of Spicy Gallery.",
+            "Los cinco artistas seleccionados provienen de diferentes disciplinas: ilustración digital, graffiti, pintura tradicional, collage y diseño textil. Esta diversidad se refleja en la variedad de estilos y técnicas aplicadas a nuestro packaging.": "The five selected artists come from different disciplines: digital illustration, graffiti, traditional painting, collage, and textile design. This diversity is reflected in the variety of styles and techniques applied to our packaging.",
+            "Además de embellecer nuestros productos, esta iniciativa tiene un componente social: un porcentaje de cada venta irá destinado a programas educativos de arte para jóvenes en riesgo de exclusión social.": "In addition to beautifying our products, this initiative has a social component: a percentage of each sale will go to art education programs for young people at risk of social exclusion.",
+            
+            "Pop-up store en Madrid durante el mes de julio": "Pop-up store in Madrid during July",
+            "Nuestra primera tienda física temporal abrirá sus puertas en el centro de Madrid durante todo el mes de julio.": "Our first temporary physical store will open its doors in the center of Madrid throughout the month of July.",
+            "Estamos entusiasmados de anunciar nuestra primera tienda física en el corazón de Madrid. Ubicada en Calle Fuencarral 43, nuestra pop-up store ofrecerá la experiencia Spicy Gallery completa del 1 al 31 de julio.": "We are excited to announce our first physical store in the heart of Madrid. Located at Calle Fuencarral 43, our pop-up store will offer the complete Spicy Gallery experience from July 1 to 31.",
+            "Los visitantes podrán explorar nuestra colección completa, incluyendo piezas exclusivas que solo estarán disponibles en tienda. El espacio ha sido diseñado por el reconocido estudio de interiorismo Urban Concepts para reflejar la estética urbana y vanguardista de nuestra marca.": "Visitors will be able to explore our complete collection, including exclusive pieces that will only be available in-store. The space has been designed by the renowned interior design studio Urban Concepts to reflect the urban and avant-garde aesthetics of our brand.",
+            "Además de las compras, organizaremos eventos semanales como talleres de personalización, charlas con diseñadores y sesiones de DJ en vivo. El calendario completo de actividades estará disponible próximamente en nuestras redes sociales.": "In addition to shopping, we will organize weekly events such as customization workshops, talks with designers, and live DJ sessions. The complete schedule of activities will be available soon on our social media.",
+            
+            "Nuestro compromiso sustentable: Materiales reciclados": "Our sustainable commitment: Recycled materials",
+            "A partir de ahora, el 60% de nuestras prendas serán fabricadas con materiales reciclados o de bajo impacto ambiental.": "From now on, 60% of our garments will be made with recycled or low environmental impact materials.",
+            "En Spicy Gallery, creemos que la moda debe ser tanto estéticamente impactante como responsable con el planeta. Por eso, estamos orgullosos de anunciar que, a partir de este mes, el 60% de nuestras prendas serán fabricadas con materiales reciclados o de bajo impacto ambiental.": "At Spicy Gallery, we believe that fashion should be both aesthetically striking and responsible with the planet. That's why we are proud to announce that, starting this month, 60% of our garments will be made with recycled or low environmental impact materials.",
+            "Entre los materiales que estamos incorporando se encuentran el algodón orgánico certificado, poliéster reciclado proveniente de botellas de plástico, y fibras innovadoras como el Tencel y el cáñamo industrial. Nuestro objetivo es alcanzar el 80% para finales de 2023 y el 100% para 2025.": "Among the materials we are incorporating are certified organic cotton, recycled polyester from plastic bottles, and innovative fibers such as Tencel and industrial hemp. Our goal is to reach 80% by the end of 2023 and 100% by 2025.",
+            "Además de los materiales, estamos implementando procesos de producción más eficientes en cuanto al consumo de agua y energía, y trabajando únicamente con fábricas que garantizan condiciones laborales justas y seguras para sus trabajadores.": "In addition to materials, we are implementing more efficient production processes in terms of water and energy consumption, and working only with factories that guarantee fair and safe working conditions for their workers.",
+            
+            "Entrevista a nuestros diseñadores principales": "Interview with our lead designers",
+            "Conoce más sobre el proceso creativo detrás de nuestras colecciones en esta entrevista exclusiva con nuestro equipo de diseño.": "Learn more about the creative process behind our collections in this exclusive interview with our design team.",
+            "Entrevistamos a Carlos Méndez y Laura Soto, los diseñadores principales de Spicy Gallery, para conocer más sobre su proceso creativo y las inspiraciones detrás de nuestras colecciones más exitosas.": "We interviewed Carlos Méndez and Laura Soto, the main designers of Spicy Gallery, to learn more about their creative process and the inspirations behind our most successful collections.",
+            "¿De dónde viene vuestra inspiración para cada colección?": "Where does your inspiration for each collection come from?",
+            "Carlos: Nos inspiramos en la cultura urbana global, pero siempre con un enfoque local. Observamos qué está pasando en las calles, en la música, en el arte. Para nosotros es crucial que nuestras prendas cuenten una historia auténtica.": "Carlos: We are inspired by global urban culture, but always with a local focus. We observe what's happening in the streets, in music, in art. For us, it's crucial that our garments tell an authentic story.",
+            "Esmeralda: También nos inspiramos mucho en la arquitectura y el diseño industrial. Me encanta jugar con las proporciones y las estructuras, trasladando esos conceptos a las prendas. Y por supuesto, siempre tenemos en cuenta la funcionalidad y comodidad.": "Esmeralda: We are also very inspired by architecture and industrial design. I love playing with proportions and structures, transferring those concepts to garments. And of course, we always take into account functionality and comfort.",
+            "¿Cuál ha sido el mayor desafío al diseñar para Spicy Gallery?": "What has been the biggest challenge in designing for Spicy Gallery?",
+            "Carlos: Mantener el equilibrio entre ser innovadores y comerciales. Queremos empujar los límites, pero también crear prendas que la gente realmente quiera y pueda usar en su día a día.": "Carlos: Maintaining the balance between being innovative and commercial. We want to push boundaries, but also create garments that people really want and can wear in their daily lives.",
+            "Esmeralda: El desafío principal es mantener una identidad visual coherente a lo largo de las colecciones, pero al mismo tiempo permitir que cada diseñador tenga un espacio para su individualidad.": "Esmeralda: The main challenge is to maintain a consistent visual identity across collections, but at the same time allow each designer to have a space for their individuality.",
+            // Contenido del artículo principal de noticias
+            "Nuestra colección más esperada ha llegado por fin. Spicy Urban combina la estética urbana con toques de alta costura para crear prendas únicas que desafían lo convencional. Disponible desde hoy en nuestra tienda online y en puntos de venta seleccionados.": "Our most anticipated collection has finally arrived. Spicy Urban combines urban aesthetics with haute couture touches to create unique pieces that challenge the conventional. Available from today in our online store and at selected points of sale.",
+            "La colección Spicy Urban representa nuestra visión más audaz hasta la fecha. Inspirada en la vida urbana y la arquitectura contemporánea, cada pieza combina funcionalidad con detalles de alta costura.": "The Spicy Urban collection represents our boldest vision to date. Inspired by urban life and contemporary architecture, each piece combines functionality with haute couture details.",
+            "Los tejidos premium, siluetas exageradas y detalles artesanales definen esta colección que difumina la línea entre streetwear y lujo. Hemos colaborado con diseñadores emergentes y utilizado técnicas innovadoras de confección para crear prendas que son tanto una declaración de estilo como piezas funcionales para el día a día.": "Premium fabrics, exaggerated silhouettes, and artisanal details define this collection that blurs the line between streetwear and luxury. We have collaborated with emerging designers and used innovative manufacturing techniques to create garments that are both a style statement and functional pieces for everyday wear.",
+            "La colección incluye desde camisetas oversize con estampados exclusivos hasta chaquetas estructuradas con detalles metálicos, pasando por pantalones cargo reinventados y accesorios que complementan el look urbano-contemporáneo.": "The collection includes everything from oversized t-shirts with exclusive prints to structured jackets with metallic details, as well as reinvented cargo pants and accessories that complement the urban-contemporary look.",
+            "Descubre todas las piezas en nuestra tienda online o visita los puntos de venta seleccionados para experimentar la calidad y el diseño de cerca.": "Discover all the pieces in our online store or visit selected points of sale to experience the quality and design up close.",
+            
+            // Artículos de Blog - Títulos y Contenido
+            "Las 5 tendencias que dominarán el streetwear en 2023": "The 5 trends that will dominate streetwear in 2023",
+            "El streetwear está en constante evolución. Te contamos las 5 tendencias que veremos por todas partes este año y cómo incorporarlas a tu estilo.": "Streetwear is constantly evolving. We tell you the 5 trends we'll see everywhere this year and how to incorporate them into your style.",
+            "1. Siluetas oversize con toques estructurados": "1. Oversized silhouettes with structured touches",
+            "Las prendas amplias seguirán dominando, pero con un giro: detalles estructurados que aportan forma y equilibrio. Piensa en sudaderas oversize con hombros marcados o pantalones anchos con pinzas estratégicas.": "Wide garments will continue to dominate, but with a twist: structured details that provide shape and balance. Think of oversized sweatshirts with marked shoulders or wide pants with strategic pleats.",
+            "2. Colores tierra y tonos pastel": "2. Earth colors and pastel tones",
+            "Los colores neutros y tierra (beige, marrón, verde oliva) se combinan con toques de colores pastel como lavanda, mint o melocotón, creando looks equilibrados entre lo sobrio y lo expresivo.": "Neutral and earth colors (beige, brown, olive green) are combined with touches of pastel colors like lavender, mint, or peach, creating balanced looks between sobriety and expressiveness.",
+            "3. Técnicas artesanales aplicadas al streetwear": "3. Craft techniques applied to streetwear",
+            "El crochet, el patchwork y otras técnicas manuales tradicionales se aplican a prendas urbanas, creando piezas únicas con un valor artesanal añadido.": "Crochet, patchwork, and other traditional hand techniques are applied to urban garments, creating unique pieces with added craft value.",
+            "4. Estampados inspirados en la naturaleza": "4. Nature-inspired prints",
+            "Los estampados florales abstractos, texturas que imitan elementos naturales y motivos inspirados en la naturaleza están reemplazando a los logos grandes y llamativos.": "Abstract floral prints, textures that mimic natural elements, and nature-inspired motifs are replacing large and flashy logos.",
+            "5. Funcionalidad y utilitarismo": "5. Functionality and utilitarianism",
+            "Las prendas multifuncionales con bolsillos, cremalleras y elementos convertibles están ganando popularidad, combinando estética urbana con practicidad real.": "Multifunctional garments with pockets, zippers, and convertible elements are gaining popularity, combining urban aesthetics with real practicality.",
+            "Cómo incorporar estas tendencias": "How to incorporate these trends",
+            "Lo más importante es adaptar estas tendencias a tu estilo personal y no seguirlas al pie de la letra. Comienza incorporando una tendencia a la vez, combinándola con piezas básicas de tu guardarropa. Recuerda que el streetwear trata sobre expresión personal y autenticidad, así que haz estas tendencias tuyas.": "The most important thing is to adapt these trends to your personal style and not follow them to the letter. Start by incorporating one trend at a time, combining it with basic pieces from your wardrobe. Remember that streetwear is about personal expression and authenticity, so make these trends your own.",
+            
+            "De la calle a las pasarelas: La evolución del streetwear": "From the street to the runway: The evolution of streetwear",
+            "Un recorrido por la historia del streetwear, desde sus orígenes en la cultura skate y hip-hop hasta su influencia actual en la alta moda.": "A journey through the history of streetwear, from its origins in skate and hip-hop culture to its current influence on high fashion.",
+            "Los inicios: skateboarding y cultura surf (años 70-80)": "The beginnings: skateboarding and surf culture (70s-80s)",
+            "El streetwear comenzó como ropa funcional para skaters en California. Marcas como Stüssy, originalmente una marca de tablas de surf, empezaron a producir camisetas y sudaderas que pronto se convirtieron en símbolos de pertenencia a una subcultura.": "Streetwear began as functional clothing for skaters in California. Brands like Stüssy, originally a surfboard brand, began producing t-shirts and sweatshirts that soon became symbols of belonging to a subculture.",
+            "La influencia del hip-hop (años 80-90)": "The influence of hip-hop (80s-90s)",
+            "En los 80, el hip-hop emergente en Nueva York adoptó y transformó el streetwear, incorporando elementos como las zapatillas de baloncesto, los pantalones anchos y las grandes cadenas. Marcas como FUBU, Karl Kani y Cross Colours nacieron directamente de esta cultura.": "In the 80s, emerging hip-hop in New York adopted and transformed streetwear, incorporating elements such as basketball sneakers, baggy pants, and large chains. Brands like FUBU, Karl Kani, and Cross Colours were born directly from this culture.",
+            "La explosión japonesa (años 90-2000)": "The Japanese explosion (90s-2000)",
+            "Japón aportó su visión única al streetwear con marcas como BAPE, Undercover y NEIGHBORHOOD, combinando influencias occidentales con estética japonesa y atención meticulosa al detalle y la calidad.": "Japan contributed its unique vision to streetwear with brands like BAPE, Undercover, and NEIGHBORHOOD, combining Western influences with Japanese aesthetics and meticulous attention to detail and quality.",
+            "Streetwear y alta moda: la era de las colaboraciones (2000-2010)": "Streetwear and high fashion: the era of collaborations (2000-2010)",
+            "La primera década del 2000 vio colaboraciones pioneras entre marcas de streetwear y diseñadores de alta moda. Supreme x Louis Vuitton rompió barreras y demostró que el streetwear había dejado de ser una moda marginal.": "The first decade of the 2000s saw pioneering collaborations between streetwear brands and high fashion designers. Supreme x Louis Vuitton broke barriers and showed that streetwear was no longer a marginal fashion.",
+            "El presente y futuro: streetwear como fenómeno global": "The present and future: streetwear as a global phenomenon",
+            "Hoy, el streetwear ha redefinido la industria de la moda. Virgil Abloh dirigiendo Louis Vuitton, Demna Gvasalia en Balenciaga y la omnipresencia de zapatillas deportivas en pasarelas de lujo demuestran cómo la influencia del streetwear ha permeado todos los niveles de la moda.": "Today, streetwear has redefined the fashion industry. Virgil Abloh directing Louis Vuitton, Demna Gvasalia at Balenciaga, and the omnipresence of sneakers on luxury runways demonstrate how streetwear's influence has permeated all levels of fashion.",
+            "El futuro del streetwear parece dirigirse hacia la personalización, la sostenibilidad y la diversificación cultural, manteniendo su esencia de expresión personal y autenticidad.": "The future of streetwear seems to be heading towards personalization, sustainability, and cultural diversification, maintaining its essence of personal expression and authenticity.",
+            
+            "Moda sostenible: ¿Es posible en el mundo del streetwear?": "Sustainable fashion: Is it possible in the streetwear world?",
+            "Analizamos los desafíos y oportunidades de la moda sostenible en el contexto del streetwear y cómo las marcas están respondiendo a esta demanda.": "We analyze the challenges and opportunities of sustainable fashion in the context of streetwear and how brands are responding to this demand.",
+            "El dilema del streetwear sostenible": "The sustainable streetwear dilemma",
+            "La cultura del streetwear se ha caracterizado tradicionalmente por el consumo rápido y la exclusividad, con drops limitados que fomentan la compra impulsiva. Este modelo parece contradecir los principios de la sostenibilidad, que promueven el consumo consciente y duradero.": "Streetwear culture has traditionally been characterized by fast consumption and exclusivity, with limited drops that encourage impulse buying. This model seems to contradict the principles of sustainability, which promote conscious and lasting consumption.",
+            "Marcas pioneras en streetwear sostenible": "Pioneer brands in sustainable streetwear",
+            "A pesar de los desafíos, están surgiendo marcas que demuestran que el streetwear y la sostenibilidad pueden coexistir. Noah, fundada por Brendon Babenzien (ex director creativo de Supreme), utiliza materiales orgánicos y reciclados, además de fabricar principalmente en Italia y Estados Unidos bajo condiciones laborales justas.": "Despite the challenges, brands are emerging that demonstrate that streetwear and sustainability can coexist. Noah, founded by Brendon Babenzien (former creative director of Supreme), uses organic and recycled materials, in addition to manufacturing mainly in Italy and the United States under fair labor conditions.",
+            "Pangaia ha revolucionado el mercado con sus innovadores materiales como el FLWRDWN (una alternativa al plumón hecha de flores silvestres) y algodón tratado con tintes naturales.": "Pangaia has revolutionized the market with its innovative materials such as FLWRDWN (an alternative to down made from wildflowers) and cotton treated with natural dyes.",
+            "Estrategias para un streetwear más sostenible": "Strategies for more sustainable streetwear",
+            "1. Upcycling y reutilización:": "1. Upcycling and reuse:",
+            "Marcas como Ræburn han hecho del upcycling su seña de identidad, transformando materiales militares excedentes en prendas streetwear.": "Brands like Ræburn have made upcycling their hallmark, transforming surplus military materials into streetwear garments.",
+            "2. Materiales innovadores: El uso de materiales como el algodón orgánico, el poliéster reciclado y tejidos experimentales derivados de desechos agrícolas.": "2. Innovative materials: The use of materials such as organic cotton, recycled polyester, and experimental fabrics derived from agricultural waste.",
+            "3. Producción local y transparencia: Fabricar cerca de los mercados de venta reduce la huella de carbono y permite mayor control sobre las condiciones laborales.": "3. Local production and transparency: Manufacturing close to sales markets reduces the carbon footprint and allows greater control over working conditions.",
+            "4. Modelos circulares: Programas de recompra, reparación y reventa que extienden la vida útil de las prendas.": "4. Circular models: Repurchase, repair, and resale programs that extend the useful life of garments.",
+            "El papel del consumidor": "The role of the consumer",
+            "Como consumidores, podemos impulsar el cambio comprando menos pero mejor, investigando las prácticas de las marcas, cuidando nuestras prendas para que duren más, y participando en el mercado de segunda mano.": "As consumers, we can drive change by buying less but better, researching brand practices, taking care of our garments to make them last longer, and participating in the second-hand market.",
+            "En Spicy Gallery, estamos comprometidos con avanzar hacia un modelo más sostenible sin comprometer el estilo y la actitud que caracterizan al streetwear. Creemos que la verdadera expresión personal también debe reflejar valores de respeto por el planeta y las personas.": "At Spicy Gallery, we are committed to moving towards a more sustainable model without compromising the style and attitude that characterize streetwear. We believe that true self-expression should also reflect values of respect for the planet and people.",
         }
     };
 
@@ -1421,6 +1444,67 @@ function initLanguageSwitch() {
                 label.textContent = 'Cantidad:';
             }
         });
+        
+        // Traducir elementos del carrito
+        translateCartItems(lang, translations);
+        
+        // Actualizar los botones de "Leer más/menos" según su estado actual
+        updateReadMoreButtons(lang);
+    }
+    
+    // Nueva función para traducir los elementos del carrito
+    function translateCartItems(lang, translations) {
+        // Obtener los productos del carrito
+        let cartItems = JSON.parse(localStorage.getItem('cartItems') || '{}');
+        
+        // Si hay productos en el carrito
+        if (Object.keys(cartItems).length > 0) {
+            let cartChanged = false;
+            
+            // Recorrer los productos del carrito
+            for (const productKey in cartItems) {
+                const originalName = cartItems[productKey].originalName;
+                
+                // Si existe traducción para este producto
+                if (translations[lang] && translations[lang][originalName]) {
+                    // Actualizar el nombre a mostrar
+                    cartItems[productKey].displayName = translations[lang][originalName];
+                    cartChanged = true;
+                    
+                    // Actualizar la UI si el elemento existe
+                    const productElement = document.querySelector(`.header__product[data-product-key="${productKey}"] .header__Name`);
+                    if (productElement) {
+                        productElement.textContent = cartItems[productKey].displayName;
+                    }
+                }
+                
+                // También actualizar en la página de checkout si existe
+                if (document.querySelector('.checkout')) {
+                    const checkoutItem = Array.from(document.querySelectorAll('.checkout__product-name'))
+                        .find(el => el.textContent === originalName || 
+                               el.textContent === cartItems[productKey].displayName);
+                    
+                    if (checkoutItem && translations[lang] && translations[lang][originalName]) {
+                        checkoutItem.textContent = translations[lang][originalName];
+                    }
+                }
+            }
+            
+            // Guardar los cambios si se hicieron traducciones
+            if (cartChanged) {
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            }
+            
+            // También actualizar en la página de checkout si existe
+            if (document.querySelector('.checkout')) {
+                document.querySelectorAll('.checkout__product-name[data-original-name]').forEach(nameElement => {
+                    const originalName = nameElement.getAttribute('data-original-name');
+                    if (translations[lang] && translations[lang][originalName]) {
+                        nameElement.textContent = translations[lang][originalName];
+                    }
+                });
+            }
+        }
     }
     
     // Añadir atributos data-i18n a elementos traducibles
@@ -1545,6 +1629,61 @@ function initLanguageSwitch() {
             const text = el.textContent.trim();
             if (text && (translations.es[text] || translations.en[text])) {
                 el.setAttribute('data-i18n', text);
+            }
+        });
+    }
+
+    // Nueva función para actualizar los botones de leer más/menos según el idioma
+    function updateReadMoreButtons(lang) {
+        // Actualizar botones de noticias
+        document.querySelectorAll('.news__card-link').forEach(link => {
+            // Comprobar si el botón tiene guardado su estado
+            const isExpanded = link.getAttribute('data-expanded') === 'true';
+            
+            if (isExpanded !== null) {  // Si tiene un estado guardado
+                link.textContent = isExpanded ? 
+                    (lang === 'en' ? 'Read less' : 'Leer menos') : 
+                    (lang === 'en' ? 'Read more' : 'Leer más');
+            } else {
+                // Método alternativo: verificar si el texto completo está visible
+                const card = link.closest('.news__card-content');
+                const fullText = card ? card.querySelector('.news__card-full-text') : null;
+                
+                if (fullText) {
+                    const isHidden = fullText.classList.contains('hidden');
+                    link.textContent = isHidden ? 
+                        (lang === 'en' ? 'Read more' : 'Leer más') : 
+                        (lang === 'en' ? 'Read less' : 'Leer menos');
+                    
+                    // Guardar el estado para futuras referencias
+                    link.setAttribute('data-expanded', !isHidden);
+                }
+            }
+        });
+        
+        // Actualizar botones de blog
+        document.querySelectorAll('.blog__read-link').forEach(link => {
+            // Comprobar si el botón tiene guardado su estado
+            const isExpanded = link.getAttribute('data-expanded') === 'true';
+            
+            if (isExpanded !== null) {  // Si tiene un estado guardado
+                link.textContent = isExpanded ? 
+                    (lang === 'en' ? 'Show less' : 'Mostrar menos') : 
+                    (lang === 'en' ? 'Read full article' : 'Leer artículo completo');
+            } else {
+                // Método alternativo: verificar si el texto completo está visible
+                const article = link.closest('.blog__article-content');
+                const fullText = article ? article.querySelector('.blog__article-full-text') : null;
+                
+                if (fullText) {
+                    const isHidden = fullText.classList.contains('hidden');
+                    link.textContent = isHidden ? 
+                        (lang === 'en' ? 'Read full article' : 'Leer artículo completo') : 
+                        (lang === 'en' ? 'Show less' : 'Mostrar menos');
+                    
+                    // Guardar el estado para futuras referencias
+                    link.setAttribute('data-expanded', !isHidden);
+                }
             }
         });
     }

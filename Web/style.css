@@ -1418,6 +1418,10 @@ body {
     color: #5a1e23;
 }
 
+.news__card-question {
+    font-weight: bold;
+}
+
 /* Botón de cargar más */
 .news__more {
     display: flex;
@@ -1569,6 +1573,10 @@ body {
 
 .blog__read-link:hover {
     color: #5a1e23;
+}
+
+.blog__article-question {
+    font-weight: bold;
 }
 
 .blog__more {
