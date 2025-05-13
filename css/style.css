@@ -2778,3 +2778,381 @@ body {
 .dark-mode .game__card-back {
     background-color: var(--bg-card);
 }
+
+/*MEDIAQUERYS*/
+
+/* Tablets*/
+@media screen and (max-width: 1024px) {
+    /* Header */
+    .header__logo {
+        height: 80px;
+    }
+    
+    .theme-toggle {
+        left: 70px;
+    }
+    
+    .header__carrito {
+        margin-right: 150px;
+    }
+    
+    .header__count {
+        right: 140px;
+    }
+    
+    /* Postheader */
+    .postheader__title {
+        font-size: 2.5rem;
+    }
+    
+    /* Footer */
+    .footer__left {
+        position: static;
+        margin: 0 auto;
+        text-align: center;
+        align-items: center;
+    }
+    
+    .footer__right {
+        position: static;
+        margin: 30px auto;
+        text-align: center;
+        align-items: center;
+    }
+    
+    .footer__container {
+        flex-direction: column;
+    }
+    
+    .footer__social {
+        justify-content: center;
+    }
+    
+    /* Secciones principales */
+    .about__content-wrapper,
+    .brand-info__container,
+    .companyphilosophy__content {
+        flex-direction: column;
+    }
+    
+    .brand-info__image-container,
+    .brand-info__content {
+        width: 100%;
+    }
+    
+    .brand-info__title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .brand-info__title {
+        text-align: center;
+    }
+    
+    /* Team */
+    .team__content {
+        flex-wrap: wrap;
+    }
+    
+    .team__member {
+        flex: 1 1 45%;
+        min-width: 280px;
+    }
+    
+    /* Shop */
+    .Shop__container {
+        flex-direction: column;
+    }
+    
+    .Shop__filters {
+        position: static;
+        width: 100%;
+        max-width: none;
+        flex: none;
+        margin-bottom: 30px;
+    }
+    
+    .Shop__products {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Blog y Noticias */
+    .blog__article {
+        flex-direction: column;
+    }
+    
+    .blog__article-image {
+        max-width: 100%;
+    }
+    
+    /* Checkout */
+    .checkout__form-section, 
+    .checkout__summary {
+        flex: 100%;
+        min-width: 100%;
+    }
+    
+    .checkout__summary {
+        order: -1;
+        position: static;
+        margin-bottom: 30px;
+    }
+    
+    /* Juego */
+    .game {
+        width: 90%;
+        max-width: 500px;
+    }
+    
+    .game__board {
+        width: 100%;
+    }
+    
+    /* Intro y textos */
+    .introduction__text {
+        margin-left: 50px;
+        margin-right: 50px;
+        font-size: 1.3rem;
+    }
+    
+    .join-intro-header h2::after {
+        width: 90%;
+        max-width: 500px;
+    }
+}
+
+/* Móviles grandes */
+@media screen and (max-width: 768px) {
+    /* Títulos */
+    .about__title,
+    .brand-info__title,
+    .companyphilosophy__title,
+    .team__title,
+    .contact__title,
+    .faq__title,
+    .news__title,
+    .blog__title,
+    .Shop__title,
+    .Joinus__title,
+    .viewShop__title,
+    .checkout__title {
+        font-size: 2rem;
+    }
+    
+    .introduction__title {
+        font-size: 2.2rem;
+    }
+    
+    /* Header */
+    .header__language {
+        right: 60px;
+    }
+    
+    .header__hidden {
+        right: 50px;
+    }
+    
+    .postheader__title {
+        font-size: 2rem;
+        padding: 8px 15px;
+    }
+    
+    /* Shop */
+    .Shop__products {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Checkout */
+    .checkout__form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    /* Equipo */
+    .team__member {
+        flex: 100%;
+    }
+    
+    /* Blog */
+    .blog__meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    /* Game */
+    .game__card {
+        transform: scale(0.9);
+    }
+    
+    .game__card:hover {
+        transform: translateY(-3px) scale(0.9);
+    }
+    
+    /* Textos */
+    .introduction__text {
+        margin-left: 20px;
+        margin-right: 20px;
+        font-size: 1.2rem;
+    }
+    
+    .join-intro p {
+        padding: 15px;
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+}
+
+/* Móviles pequeños */
+@media screen and (max-width: 480px) {
+    /* General */
+    body {
+        font-size: 14px;
+    }
+    
+    /* Header */
+    .header__logo {
+        height: 60px;
+        top: 5px;
+    }
+    
+    .theme-toggle {
+        left: 10px;
+        top: 15px;
+        width: 35px;
+        height: 35px;
+    }
+    
+    .header__language {
+        top: 60px;
+        right: 10px;
+        flex-direction: column;
+    }
+    
+    .header__language-flag {
+        margin: 2px;
+    }
+    
+    .header__carrito {
+        margin-right: 80px;
+    }
+    
+    .header__count {
+        right: 70px;
+    }
+    
+    .header__hidden {
+        width: 270px;
+        right: 5px;
+    }
+    
+    /* Footer */
+    .footer {
+        padding: 30px 10px;
+    }
+    
+    /* Títulos */
+    .about__title,
+    .brand-info__title,
+    .companyphilosophy__title,
+    .team__title,
+    .contact__title,
+    .faq__title,
+    .news__title,
+    .blog__title,
+    .Shop__title,
+    .Joinus__title,
+    .viewShop__title,
+    .checkout__title {
+        font-size: 1.8rem;
+    }
+    
+    .introduction__title {
+        font-size: 1.9rem;
+    }
+    
+    /* Secciones */
+    .about,
+    .brand-info,
+    .companyphilosophy,
+    .team,
+    .contact,
+    .faq,
+    .news,
+    .blog,
+    .Shop,
+    .Joinus,
+    .checkout {
+        padding: 40px 15px;
+    }
+    
+    /* Cards y elementos */
+    .contact__card {
+        min-width: 100%;
+    }
+    
+    .viewShop__card {
+        width: 100%;
+    }
+    
+    /* Formularios */
+    .Joinus__container {
+        padding: 20px 15px;
+    }
+    
+    .checkout__form {
+        padding: 15px;
+    }
+    
+    /* Juego */
+    .game {
+        width: 95%;
+        padding: 5px;
+    }
+    
+    .game__board {
+        height: 380px;
+    }
+    
+    .game__stats {
+        top: 340px;
+    }
+    
+    .game__card {
+        transform: scale(0.8);
+        margin: 5px;
+    }
+    
+    .game__card:hover {
+        transform: translateY(-2px) scale(0.8);
+    }
+    
+    .game__codigo {
+        font-size: 18px;
+    }
+    
+    /* Textos */
+    .introduction__text {
+        margin-left: 10px;
+        margin-right: 10px;
+        font-size: 1.1rem;
+    }
+    
+    .postheader__title {
+        font-size: 1.6rem;
+        max-width: 280px;
+    }
+    
+    .join-intro-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .join-intro-header h2::after {
+        width: 80%;
+    }
+    
+    .join-intro p {
+        padding: 15px;
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+}
