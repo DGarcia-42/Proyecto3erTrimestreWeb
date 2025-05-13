@@ -757,10 +757,11 @@ body {
 
 /* Estilos para el footer */
 .footer {
-    background-color: #212322;
-    color: white;
-    padding: 20px;
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 50px 20px;
     position: relative;
+    min-height: 250px;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
@@ -783,7 +784,7 @@ body {
     align-items: flex-start;
     max-width: 250px;
     position: absolute;
-    bottom: 10px;
+    bottom: 80px;
     left: 40px;
 }
 
@@ -801,11 +802,14 @@ body {
     flex-direction: column;
     align-items: flex-end;
     text-align: right;
+    position: absolute;
+    right: 40px;
+    top: 80px;
 }
 
 .footer__logo {
     height: 80px;
-    margin-bottom: 170px;
+    margin-bottom: 20px;
 }
 
 .footer__copyright {
@@ -832,24 +836,26 @@ body {
 
 .footer__social {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-end;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 .footer__social-link {
-    width: 50px;
-    transition: color 0.3s ease;
+    width: 40px;
+    transition: transform 0.3s ease;
     color: white !important;
     cursor: pointer;
 }
 
-.dark-mode .footer__social-link {
-    color: white !important;
-}
-
 .footer__social-link:hover {
     color: var(--accent-color) !important;
+    transform: scale(1.1);
+}
+
+.dark-mode .footer__social-link {
+    color: white !important;
 }
 
 .footer__newsletter {
@@ -907,7 +913,7 @@ body {
     padding-top: 20px;
     border-top: 1px solid #444;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -918,6 +924,8 @@ body {
 .footer__legal {
     display: flex;
     gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
 }
 
 .footer__legal a {

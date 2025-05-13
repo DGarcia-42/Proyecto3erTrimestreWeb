@@ -294,7 +294,7 @@ function initShoppingCart() {
     function saveCart() {
         localStorage.setItem('cartItems', JSON.stringify(cartItems));
     }
-
+    
     // Función para migrar datos antiguos del carrito al nuevo formato
     function migrateCartData(cartItems) {
         let updated = false;
