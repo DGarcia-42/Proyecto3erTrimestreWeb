@@ -70,7 +70,6 @@ function initShoppingCart() {
     // Estado del carrito
     let cartItems = JSON.parse(localStorage.getItem('cartItems') || '{}');
     
-    // Migrar datos antiguos al nuevo formato si es necesario
     cartItems = migrateCartData(cartItems);
     
     updateCartCount();
@@ -208,7 +207,7 @@ function initShoppingCart() {
         } else {
             cartItems[productKey].quantity--;
             
-            // Actualizar cantidad en el DOM
+
             const productEl = Array.from(cartContainer.querySelectorAll('.header__product'))
                 .find(el => el.getAttribute('data-product-key') === productKey);
             
@@ -226,7 +225,6 @@ function initShoppingCart() {
         updateCartCount();
         updateTotalUI();
         
-        // Mostrar mensaje de carrito vacío si corresponde
         if (Object.keys(cartItems).length === 0 && emptyCartMessage) {
             emptyCartMessage.style.display = 'block';
         }
@@ -374,7 +372,6 @@ function initCheckoutPage() {
             } else if (codigo === 'ENVIOGRATIS') {
                 shippingEl.textContent = '0.00€';
                 
-                // Actualizar total
                 const subtotal = parseFloat(subtotalEl.textContent);
                 const descuento = discountRow.style.display !== 'none' ? 
                     parseFloat(discountEl.textContent) : 0;
@@ -393,7 +390,6 @@ function initCheckoutPage() {
                 const shipping = parseFloat(shippingEl.textContent);
                 totalEl.textContent = `${(subtotal + shipping - descuento).toFixed(2)}€`;
                 
-                // Marcar el código como usado (opcional)
                 localStorage.removeItem('spicyDescuento');
                 
             } else if (codigo) {
@@ -970,7 +966,7 @@ function initLanguageSwitch() {
             "Por: Alicia Martínez": "Por: Alicia Martínez",
             "Por: Shadia López": "Por: Shadia López",
 
-              // Artículos de Noticias - Títulos y Contenido
+              // Noticias y artículos
               "Colaboración con artistas locales para packaging exclusivo": "Colaboración con artistas locales para packaging exclusivo",
               "Esta colaboración representa nuestro compromiso con el arte local y la sostenibilidad. Cada artista ha creado diseños únicos que reflejan tanto su estilo personal como la esencia de Spicy Gallery.": "Esta colaboración representa nuestro compromiso con el arte local y la sostenibilidad. Cada artista ha creado diseños únicos que reflejan tanto su estilo personal como la esencia de Spicy Gallery.",
               "Nos unimos con cinco artistas emergentes para diseñar packaging de edición limitada para nuestras prendas más vendidas.": "Nos unimos con cinco artistas emergentes para diseñar packaging de edición limitada para nuestras prendas más vendidas.",
@@ -999,14 +995,12 @@ function initLanguageSwitch() {
               "Carlos: Mantener el equilibrio entre ser innovadores y comerciales. Queremos empujar los límites, pero también crear prendas que la gente realmente quiera y pueda usar en su día a día.": "Carlos: Mantener el equilibrio entre ser innovadores y comerciales. Queremos empujar los límites, pero también crear prendas que la gente realmente quiera y pueda usar en su día a día.",
               "Esmeralda: El desafío principal es mantener una identidad visual coherente a lo largo de las colecciones, pero al mismo tiempo permitir que cada diseñador tenga un espacio para su individualidad.": "Esmeralda: El desafío principal es mantener una identidad visual coherente a lo largo de las colecciones, pero al mismo tiempo permitir que cada diseñador tenga un espacio para su individualidad.",
               
-              // Contenido del artículo principal de noticias
               "Nuestra colección más esperada ha llegado por fin. Spicy Urban combina la estética urbana con toques de alta costura para crear prendas únicas que desafían lo convencional. Disponible desde hoy en nuestra tienda online y en puntos de venta seleccionados.": "Nuestra colección más esperada ha llegado por fin. Spicy Urban combina la estética urbana con toques de alta costura para crear prendas únicas que desafían lo convencional. Disponible desde hoy en nuestra tienda online y en puntos de venta seleccionados.",
               "La colección Spicy Urban representa nuestra visión más audaz hasta la fecha. Inspirada en la vida urbana y la arquitectura contemporánea, cada pieza combina funcionalidad con detalles de alta costura.": "La colección Spicy Urban representa nuestra visión más audaz hasta la fecha. Inspirada en la vida urbana y la arquitectura contemporánea, cada pieza combina funcionalidad con detalles de alta costura.",
               "Los tejidos premium, siluetas exageradas y detalles artesanales definen esta colección que difumina la línea entre streetwear y lujo. Hemos colaborado con diseñadores emergentes y utilizado técnicas innovadoras de confección para crear prendas que son tanto una declaración de estilo como piezas funcionales para el día a día.": "Los tejidos premium, siluetas exageradas y detalles artesanales definen esta colección que difumina la línea entre streetwear y lujo. Hemos colaborado con diseñadores emergentes y utilizado técnicas innovadoras de confección para crear prendas que son tanto una declaración de estilo como piezas funcionales para el día a día.",
               "La colección incluye desde camisetas oversize con estampados exclusivos hasta chaquetas estructuradas con detalles metálicos, pasando por pantalones cargo reinventados y accesorios que complementan el look urbano-contemporáneo.": "La colección incluye desde camisetas oversize con estampados exclusivos hasta chaquetas estructuradas con detalles metálicos, pasando por pantalones cargo reinventados y accesorios que complementan el look urbano-contemporáneo.",
               "Descubre todas las piezas en nuestra tienda online o visita los puntos de venta seleccionados para experimentar la calidad y el diseño de cerca.": "Descubre todas las piezas en nuestra tienda online o visita los puntos de venta seleccionados para experimentar la calidad y el diseño de cerca.",
               
-              // Artículos de Blog - Títulos y Contenido
               "Las 5 tendencias que dominarán el streetwear en 2023": "Las 5 tendencias que dominarán el streetwear en 2023",
               "El streetwear está en constante evolución. Te contamos las 5 tendencias que veremos por todas partes este año y cómo incorporarlas a tu estilo.": "El streetwear está en constante evolución. Te contamos las 5 tendencias que veremos por todas partes este año y cómo incorporarlas a tu estilo.",
               "1. Siluetas oversize con toques estructurados": "1. Siluetas oversize con toques estructurados",
@@ -1028,7 +1022,7 @@ function initLanguageSwitch() {
               "El streetwear comenzó como ropa funcional para skaters en California. Marcas como Stüssy, originalmente una marca de tablas de surf, empezaron a producir camisetas y sudaderas que pronto se convirtieron en símbolos de pertenencia a una subcultura.": "El streetwear comenzó como ropa funcional para skaters en California. Marcas como Stüssy, originalmente una marca de tablas de surf, empezaron a producir camisetas y sudaderas que pronto se convirtieron en símbolos de pertenencia a una subcultura.",
               "La influencia del hip-hop (años 80-90)": "La influencia del hip-hop (años 80-90)",
               "En los 80, el hip-hop emergente en Nueva York adoptó y transformó el streetwear, incorporando elementos como las zapatillas de baloncesto, los pantalones anchos y las grandes cadenas. Marcas como FUBU, Karl Kani y Cross Colours nacieron directamente de esta cultura.": "En los 80, el hip-hop emergente en Nueva York adoptó y transformó el streetwear, incorporando elementos como las zapatillas de baloncesto, los pantalones anchos y las grandes cadenas. Marcas como FUBU, Karl Kani y Cross Colours nacieron directamente de esta cultura.",
-              "La explosión japonesa (años 90-2000)": "La explosión japonesa (años90-2000)",
+              "La explosión japonesa (años 90-2000)": "La explosión japonesa (años 90-2000)",
               "Japón aportó su visión única al streetwear con marcas como BAPE, Undercover y NEIGHBORHOOD, combinando influencias occidentales con estética japonesa y atención meticulosa al detalle y la calidad.": "Japón aportó su visión única al streetwear con marcas como BAPE, Undercover y NEIGHBORHOOD, combinando influencias occidentales con estética japonesa y atención meticulosa al detalle y la calidad.",
               "Streetwear y alta moda: la era de las colaboraciones (2000-2010)": "Streetwear y alta moda: la era de las colaboraciones (2000-2010)",
               "La primera década del 2000 vio colaboraciones pioneras entre marcas de streetwear y diseñadores de alta moda. Supreme x Louis Vuitton rompió barreras y demostró que el streetwear había dejado de ser una moda marginal.": "La primera década del 2000 vio colaboraciones pioneras entre marcas de streetwear y diseñadores de alta moda. Supreme x Louis Vuitton rompió barreras y demostró que el streetwear había dejado de ser una moda marginal.",
@@ -1296,7 +1290,7 @@ function initLanguageSwitch() {
             "Por: Alicia Martínez": "By: Alicia Martínez",
             "Por: Shadia López": "By: Shadia López",
             
-            // Artículos de Noticias - Títulos y Contenido
+            // News and articles
             "Colaboración con artistas locales para packaging exclusivo": "Collaboration with local artists for exclusive packaging",
             "Nos unimos con cinco artistas emergentes para diseñar packaging de edición limitada para nuestras prendas más vendidas.": "We've joined with five emerging artists to design limited edition packaging for our best-selling garments.",
             "Esta colaboración representa nuestro compromiso con el arte local y la sostenibilidad. Cada artista ha creado diseños únicos que reflejan tanto su estilo personal como la esencia de Spicy Gallery.": "This collaboration represents our commitment to local art and sustainability. Each artist has created unique designs that reflect both their personal style and the essence of Spicy Gallery.",
@@ -1324,14 +1318,12 @@ function initLanguageSwitch() {
             "¿Cuál ha sido el mayor desafío al diseñar para Spicy Gallery?": "What has been the biggest challenge in designing for Spicy Gallery?",
             "Carlos: Mantener el equilibrio entre ser innovadores y comerciales. Queremos empujar los límites, pero también crear prendas que la gente realmente quiera y pueda usar en su día a día.": "Carlos: Maintaining the balance between being innovative and commercial. We want to push boundaries, but also create garments that people really want and can wear in their daily lives.",
             "Esmeralda: El desafío principal es mantener una identidad visual coherente a lo largo de las colecciones, pero al mismo tiempo permitir que cada diseñador tenga un espacio para su individualidad.": "Esmeralda: The main challenge is to maintain a consistent visual identity across collections, but at the same time allow each designer to have a space for their individuality.",
-            // Contenido del artículo principal de noticias
             "Nuestra colección más esperada ha llegado por fin. Spicy Urban combina la estética urbana con toques de alta costura para crear prendas únicas que desafían lo convencional. Disponible desde hoy en nuestra tienda online y en puntos de venta seleccionados.": "Our most anticipated collection has finally arrived. Spicy Urban combines urban aesthetics with haute couture touches to create unique pieces that challenge the conventional. Available from today in our online store and at selected points of sale.",
             "La colección Spicy Urban representa nuestra visión más audaz hasta la fecha. Inspirada en la vida urbana y la arquitectura contemporánea, cada pieza combina funcionalidad con detalles de alta costura.": "The Spicy Urban collection represents our boldest vision to date. Inspired by urban life and contemporary architecture, each piece combines functionality with haute couture details.",
             "Los tejidos premium, siluetas exageradas y detalles artesanales definen esta colección que difumina la línea entre streetwear y lujo. Hemos colaborado con diseñadores emergentes y utilizado técnicas innovadoras de confección para crear prendas que son tanto una declaración de estilo como piezas funcionales para el día a día.": "Premium fabrics, exaggerated silhouettes, and artisanal details define this collection that blurs the line between streetwear and luxury. We have collaborated with emerging designers and used innovative manufacturing techniques to create garments that are both a style statement and functional pieces for everyday wear.",
             "La colección incluye desde camisetas oversize con estampados exclusivos hasta chaquetas estructuradas con detalles metálicos, pasando por pantalones cargo reinventados y accesorios que complementan el look urbano-contemporáneo.": "The collection includes everything from oversized t-shirts with exclusive prints to structured jackets with metallic details, as well as reinvented cargo pants and accessories that complement the urban-contemporary look.",
             "Descubre todas las piezas en nuestra tienda online o visita los puntos de venta seleccionados para experimentar la calidad y el diseño de cerca.": "Discover all the pieces in our online store or visit selected points of sale to experience the quality and design up close.",
             
-            // Artículos de Blog - Títulos y Contenido
             "Las 5 tendencias que dominarán el streetwear en 2023": "The 5 trends that will dominate streetwear in 2023",
             "El streetwear está en constante evolución. Te contamos las 5 tendencias que veremos por todas partes este año y cómo incorporarlas a tu estilo.": "Streetwear is constantly evolving. We tell you the 5 trends we'll see everywhere this year and how to incorporate them into your style.",
             "1. Siluetas oversize con toques estructurados": "1. Oversized silhouettes with structured touches",
@@ -1451,7 +1443,6 @@ function initLanguageSwitch() {
         updateReadMoreButtons(lang);
     }
     
-    // Nueva función para traducir los elementos del carrito
     function translateCartItems(lang, translations) {
         // Obtener los productos del carrito
         let cartItems = JSON.parse(localStorage.getItem('cartItems') || '{}');
@@ -1814,9 +1805,6 @@ function initMemoryGame() {
                 verificarPareja();
             }, 1000);
         }
-        
-        // Voltear la carta visualmente
-        carta.querySelector('.flip-card-inner').style.transform = 'rotateY(180deg)';
     }
 
     // Verificar si las cartas forman pareja
@@ -1868,13 +1856,11 @@ function initMemoryGame() {
                 `;
                 mensajeVictoria.style.display = 'block';
                 
-                // Eliminado el código para el botón de copiar
             }
         } else {
             // No son pareja, voltear de vuelta
             cartasVolteadas.forEach(carta => {
                 setTimeout(() => {
-                    carta.querySelector('.flip-card-inner').style.transform = '';
                     carta.classList.remove('volteada');
                 }, 300);
             });
@@ -1886,7 +1872,7 @@ function initMemoryGame() {
     
     // Función para generar un código de descuento aleatorio
     function generarCodigoDescuento() {
-        const caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Eliminados caracteres confusos (I, O, 0, 1)
+        const caracteres = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; 
         let codigo = 'SPICY';
         
         for (let i = 0; i < 8; i++) {
