@@ -750,11 +750,11 @@ function initLanguageSwitch() {
             // Secciones de inicio
             "Tienda": "Tienda",
             "Echa un vistazo a nuestros productos más vendidos": "Echa un vistazo a nuestros productos más vendidos",
-            "Camiseta": "Camiseta",
+            "Camiseta 1": "Camiseta 1",
             "Camiseta de algodón premium": "Camiseta de algodón premium",
-            "Sudadera": "Sudadera",
+            "Sudadera 1": "Sudadera 1",
             "Sudadera confortable de algodón": "Sudadera confortable de algodón",
-            "Chaqueta": "Chaqueta",
+            "Chaqueta 3": "Chaqueta 3",
             "Chaqueta premium edición limitada": "Chaqueta premium edición limitada",
             "Para ver todos nuestros productos, accede a nuestra tienda": "Para ver todos nuestros productos, accede a nuestra tienda",
             "Ir a la tienda": "Ir a la tienda",
@@ -1070,11 +1070,11 @@ function initLanguageSwitch() {
             // Home sections
             "Tienda": "Shop",
             "Echa un vistazo a nuestros productos más vendidos": "Check out our best sellers",
-            "Camiseta": "T-shirt",
+            "Camiseta 1": "T-shirt 1",
             "Camiseta de algodón premium": "Premium cotton t-shirt",
-            "Sudadera": "Sweatshirt",
+            "Sudadera 1": "Sweatshirt 1",
             "Sudadera confortable de algodón": "Comfortable cotton sweatshirt",
-            "Chaqueta": "Jacket",
+            "Chaqueta 3": "Jacket 3",
             "Chaqueta premium edición limitada": "Premium limited edition jacket",
             "Para ver todos nuestros productos, accede a nuestra tienda": "To see all our products, visit our store",
             "Ir a la tienda": "Go to shop",
@@ -1601,7 +1601,7 @@ function initLanguageSwitch() {
         });
 
         // News
-        document.querySelectorAll('.news__article-title, .news__excerpt, .news__card-title, .news__card-excerpt').forEach(el => {
+        document.querySelectorAll('.news__card-title, .news__card-excerpt').forEach(el => {
             const text = el.textContent.trim();
             if (text && (translations.es[text] || translations.en[text])) {
                 el.setAttribute('data-i18n', text);

@@ -1,7 +1,3 @@
-/* Color para título y subtitulo : #72262C */
-/* Color para texto : #212322 */
-/* Color para fondo: #f8f8f7  */
-
 :root {
     /* Variables para modo claro (default) */
     --bg-color: #f8f8f7;
@@ -40,6 +36,7 @@
     --footer-input-bg: #2a2a2a;
 }
 
+/* Estilos generales */
 body {
     margin: 0;
     padding: 0;
@@ -50,6 +47,8 @@ body {
     font-family: Arial, sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Estilos para el header */
 
 .header {
     display: flex;
@@ -79,35 +78,7 @@ body {
     transform: translateX(-50%);
 }
 
-.header__carrito {
-    height: 60px;
-    flex: 0 0 auto;
-    margin-left: auto;
-    margin-right: 180px;
-    position: relative;
-    z-index: 1000;
-    cursor: pointer;
-}
 
-/* Estilos para el contador del carrito */
-.header__count {
-    position: absolute;
-    right: 170px;
-    top: 15px;
-    background-color: #72262C;
-    color: white;
-    font-size: 14px;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    z-index: 1001;
-}
-
-/* Estilos para el menú hamburguesa */
 .header__menu-toggle {
     background: none;
     border: none;
@@ -119,7 +90,6 @@ body {
     top: 15px;
 }
 
-/* Estilos para selector de idioma */
 .header__language {
     display: flex;
     align-items: center;
@@ -257,7 +227,256 @@ body {
     border-radius: 8px;
 }
 
-/* Estilos para la sección About Us */
+/* Estilos para el footer */
+.footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 50px 20px;
+    position: relative;
+    min-height: 250px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+
+.footer__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 40px;
+}
+
+.footer__left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 250px;
+    position: absolute;
+    bottom: 80px;
+    left: 40px;
+}
+
+.footer__center {
+    flex: 0 1 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.footer__right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    position: absolute;
+    right: 40px;
+    top: 80px;
+}
+
+.footer__logo {
+    height: 80px;
+    margin-bottom: 20px;
+}
+
+.footer__copyright {
+    margin: 0;
+    font-size: 10px;
+    color: white !important;
+}
+
+.footer__column-title {
+    color: white !important;
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+
+
+.footer__social {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.footer__social-link {
+    width: 40px;
+    transition: transform 0.3s ease;
+    color: white !important;
+    cursor: pointer;
+}
+
+.footer__social-link:hover {
+    color: var(--accent-color) !important;
+    transform: scale(1.1);
+}
+
+
+
+.footer__newsletter {
+    width: 100%;
+}
+
+.footer__newsletter-subtitle {
+    font-size: 1rem;
+    margin: 0 0 15px;
+    color: white !important;
+}
+
+.footer__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.footer__input {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #333 !important;
+    color: white !important;
+    width: 100%;
+}
+
+.footer__button {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.footer__button:hover {
+    background-color: var(--accent-color-hover);
+}
+
+.footer__legal-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer__legal {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.footer__legal a {
+    color: white !important;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer__legal a:hover {
+    color: var(--accent-color) !important;
+}
+
+/* Estilos para la sección de preguntas frecuentes */
+.faq {
+    padding: 80px 20px;
+    background-color: var(--bg-color);
+}
+
+.faq__container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.faq__header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.faq__title {
+    color: #72262C;
+    font-size: 2.5rem;
+    margin: 0;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.faq__title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: #72262C;
+}
+
+.faq__content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq__item {
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.faq__question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--bg-secondary);
+    cursor: pointer;
+}
+
+.faq__question h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.faq__icon {
+    font-size: 1.5rem;
+    color: #72262C;
+    transition: transform 0.3s ease;
+}
+
+.faq__answer {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq__answer p {
+    padding: 0 20px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.faq__item.active .faq__icon {
+    transform: rotate(45deg);
+}
+
+.faq__item.active .faq__answer {
+    padding: 20px 0;
+    max-height: 300px;
+}
+
+/* Estilos para la página Sobre Nosotros */
 .about {
     padding: 60px 20px;
     background-color: var(--bg-color);
@@ -336,7 +555,6 @@ body {
 }
 
 
-/* Estilos para la sección brand-info */
 .brand-info {
     padding: 60px 20px;
     background-color: var(--bg-color);
@@ -404,7 +622,6 @@ body {
     margin: 0;
 }
 
-/* Estilos para la sección de filosofía de la empresa */
 .companyphilosophy {
     padding: 80px 20px;
     background-color: var(--bg-color);
@@ -500,7 +717,6 @@ body {
     margin: 0;
 }
 
-/* Estilos para la sección de equipo */
 .team {
     padding: 80px 20px;
     background-color: var(--bg-color);
@@ -587,7 +803,6 @@ body {
     color: #212322;
 }
 
-/* Estilos para la sección de contacto */
 .contact {
     padding: 80px 20px;
     background-color: var(--bg-color);
@@ -665,286 +880,210 @@ body {
     color: #212322;
 }
 
-/* Estilos para la sección de preguntas frecuentes */
-.faq {
-    padding: 80px 20px;
-    background-color: var(--bg-color);
-}
+/* Estilos para la página de Tienda */
 
-.faq__container {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.faq__header {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.faq__title {
-    color: #72262C;
-    font-size: 2.5rem;
-    margin: 0;
-    padding-bottom: 15px;
+.header__carrito {
+    height: 60px;
+    flex: 0 0 auto;
+    margin-left: auto;
+    margin-right: 180px;
     position: relative;
+    z-index: 1000;
+    cursor: pointer;
 }
 
-.faq__title::after {
-    content: '';
+.header__count {
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
+    right: 170px;
+    top: 15px;
     background-color: #72262C;
-}
-
-.faq__content {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.faq__item {
-    border: 1px solid var(--accent-color);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.faq__question {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: var(--bg-secondary);
-    cursor: pointer;
-}
-
-.faq__question h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: var(--text-color);
-}
-
-.faq__icon {
-    font-size: 1.5rem;
-    color: #72262C;
-    transition: transform 0.3s ease;
-}
-
-.faq__answer {
-    padding: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.faq__answer p {
-    padding: 0 20px;
-    margin: 0;
-    line-height: 1.6;
-}
-
-.faq__item.active .faq__icon {
-    transform: rotate(45deg);
-}
-
-.faq__item.active .faq__answer {
-    padding: 20px 0;
-    max-height: 300px;
-}
-
-/* Estilos para el footer */
-.footer {
-    background-color: var(--footer-bg);
-    color: var(--footer-text);
-    padding: 50px 20px;
-    position: relative;
-    min-height: 250px;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-.dark-mode .footer {
-    background-color: #212322 !important;
-    color: white !important;
-}
-
-.footer__container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 40px;
-}
-
-.footer__left {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    max-width: 250px;
-    position: absolute;
-    bottom: 80px;
-    left: 40px;
-}
-
-.footer__center {
-    flex: 0 1 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin: 0 auto;
-}
-
-.footer__right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    text-align: right;
-    position: absolute;
-    right: 40px;
-    top: 80px;
-}
-
-.footer__logo {
-    height: 80px;
-    margin-bottom: 20px;
-}
-
-.footer__copyright {
-    margin: 0;
-    font-size: 10px;
-    color: white !important;
-}
-
-.dark-mode .footer__copyright {
-    color: white !important;
-}
-
-.footer__column-title {
-    color: white !important;
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 1.3rem;
-    font-weight: bold;
-}
-
-.dark-mode .footer__column-title {
-    color: white !important;
-}
-
-.footer__social {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.footer__social-link {
-    width: 40px;
-    transition: transform 0.3s ease;
-    color: white !important;
-    cursor: pointer;
-}
-
-.footer__social-link:hover {
-    color: var(--accent-color) !important;
-    transform: scale(1.1);
-}
-
-.dark-mode .footer__social-link {
-    color: white !important;
-}
-
-.footer__newsletter {
-    width: 100%;
-}
-
-.footer__newsletter-subtitle {
-    font-size: 1rem;
-    margin: 0 0 15px;
-    color: white !important;
-}
-
-.dark-mode .footer__newsletter-subtitle {
-    color: white !important;
-}
-
-.footer__form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 100%;
-}
-
-.footer__input {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #333 !important;
-    color: white !important;
-    width: 100%;
-}
-
-.dark-mode .footer__input {
-    background-color: #333 !important;
-    color: white !important;
-}
-
-.footer__button {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: var(--accent-color);
     color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.footer__button:hover {
-    background-color: var(--accent-color-hover);
-}
-
-.footer__legal-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-top: 20px;
-    border-top: 1px solid #444;
+    font-size: 14px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
     display: flex;
+    align-items: center;
     justify-content: center;
+    font-weight: bold;
+    z-index: 1001;
+}
+
+
+.header__hidden {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 80px;
+    background-color: var(--bg-card);
+    border-radius: 5px;
+    box-shadow: 0 4px 12px var(--card-shadow);
+    width: 300px;
+    padding: 15px;
+    z-index: 100;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    flex-direction: column;
+}
+
+.header__hidden.active {
+    display: block;
+}
+
+.header__empty {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.header__empty p {
+    margin: 0;
+    font-weight: bold;
+    color: #72262C;
+    font-size: 16px;
+}
+
+.header__empty-text {
+    color: #666;
+    font-weight: normal;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.header__product {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.header__product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.header__info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header__product-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.header__quantity {
+    background-color: #72262C;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 8px;
+    font-size: 12px;
+}
+
+.header__Name {
+    font-weight: 600;
+    margin: 0;
+    font-size: 14px;
+}
+
+.header__Price {
+    color: #72262C;
+    font-weight: bold;
+    margin: 0;
+    font-size: 14px;
+}
+
+.header__buttons {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.header__close {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.header__decrease {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-color: #72262C;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    margin-right: 5px;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.header__decrease:hover {
+    transform: scale(1.1);
+    background-color: #8a3039;
+}
+
+.header__total-container {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px 0;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
-.dark-mode .footer__legal-container {
-    border-top: 1px solid #444;
+.header__total {
+    font-weight: bold;
+    font-size: 16px;
+    color: #212322;
 }
 
-.footer__legal {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
+.header__checkout-btn {
+    background-color: #72262C;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: bold;
+    font-size: 14px;
 }
 
-.footer__legal a {
-    color: white !important;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.3s ease;
+.header__checkout-btn:hover {
+    background-color: #5a1e23;
+    transform: translateY(-2px);
 }
 
-.dark-mode .footer__legal a {
-    color: white !important;
+.header__checkout-btn:active {
+    transform: translateY(0);
 }
 
-.footer__legal a:hover {
-    color: var(--accent-color) !important;
+.header__checkout-btn:hover {
+    background-color: #5a1e23;
+}
+
+.header__checkout-btn:active {
+    transform: translateY(0);
 }
 
 
-/* Estilos para la sección de tienda */
 .Shop {
     padding: 80px 20px;
     background-color: var(--bg-color);
@@ -1217,11 +1356,12 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
 .Shop__Button:hover {
-    background-color: #5a1e23;
+    background-color: #222;
+    transform: translateY(-2px);
 }
 
 .Shop__Button--more {
@@ -1243,8 +1383,12 @@ body {
     background-color: #5a1e23;
 }
 
+.Shop__Button:active {
+    transform: translateY(1px);
+}
 
-/* Estilos para la sección de noticias */
+
+/* Estilos para la página de Noticias y Blog */
 .news {
     padding: 80px 20px;
     background-color: var(--bg-color);
@@ -1285,43 +1429,6 @@ body {
     margin-top: 15px;
 }
 
-/* Noticia destacada */
-.news__featured {
-    display: flex;
-    margin-bottom: 60px;
-    background-color: var(--bg-card);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px var(--card-shadow);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.news__featured-image {
-    flex: 1;
-    min-height: 400px;
-    overflow: hidden;
-}
-
-.news__image-main {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.news__featured:hover .news__image-main {
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
-}
-
-.news__featured-content {
-    flex: 1;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
 .news__date {
     color: #72262C;
     font-size: 0.9rem;
@@ -1330,36 +1437,8 @@ body {
     display: block;
 }
 
-.news__article-title {
-    font-size: 1.8rem;
-    color: #212322;
-    margin: 0 0 20px 0;
-}
 
-.news__excerpt {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 25px;
-}
 
-.news__readmore {
-    align-self: flex-start;
-    display: inline-block;
-    padding: 10px 25px;
-    background-color: #72262C;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-}
-
-.news__readmore:hover {
-    background-color: #5a1e23;
-    transform: translateY(-3px);
-}
-
-/* Grid de noticias */
 .news__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -1430,33 +1509,8 @@ body {
     font-weight: bold;
 }
 
-/* Botón de cargar más */
-.news__more {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-}
 
-.news__button {
-    padding: 12px 30px;
-    background-color: #72262C;
-    color: white;
-    border: none;
-    font-weight: bold;
-    font-size: 0.9rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 1px;
-}
 
-.news__button:hover {
-    background-color: #5a1e23;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(114, 38, 44, 0.2);
-}
-
-/* Estilos para la sección de blog */
 .blog {
     padding: 80px 20px;
     background-color: var(--bg-color);
@@ -1587,214 +1641,6 @@ body {
     font-weight: bold;
 }
 
-.blog__more {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-}
-
-.blog__button {
-    padding: 12px 30px;
-    background-color: #72262C;
-    color: white;
-    border: none;
-    font-weight: bold;
-    font-size: 0.9rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 1px;
-}
-
-.blog__button:hover {
-    background-color: #5a1e23;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(114, 38, 44, 0.2);
-}
-
-/* Estilos para la notificación de producto añadido al carrito */
-.notification {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: var(--footer-bg);
-    color: var(--footer-text);
-    padding: 15px 20px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px var(--card-shadow);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s, transform 0.3s, background-color 0.3s, color 0.3s;
-    z-index: 1000;
-}
-
-.notification.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Estilos para mejorar la interacción con el carrito */
-.header__hidden {
-    display: none;
-    position: absolute;
-    top: 70px;
-    right: 80px;
-    background-color: var(--bg-card);
-    border-radius: 5px;
-    box-shadow: 0 4px 12px var(--card-shadow);
-    width: 300px;
-    padding: 15px;
-    z-index: 100;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    flex-direction: column;
-}
-
-.header__hidden.active {
-    display: block;
-}
-
-.header__empty {
-    padding: 20px 0;
-    text-align: center;
-}
-
-.header__empty p {
-    margin: 0;
-    font-weight: bold;
-    color: #72262C;
-    font-size: 16px;
-}
-
-.header__empty-text {
-    color: #666;
-    font-weight: normal;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.header__product {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    border-bottom: 1px solid var(--border-color);
-    position: relative;
-}
-
-.header__product-image {
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    margin-right: 10px;
-    border-radius: 4px;
-}
-
-.header__info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.header__product-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.header__quantity {
-    background-color: #72262C;
-    color: white;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin-right: 8px;
-    font-size: 12px;
-}
-
-.header__Name {
-    font-weight: 600;
-    margin: 0;
-    font-size: 14px;
-}
-
-.header__Price {
-    color: #72262C;
-    font-weight: bold;
-    margin: 0;
-    font-size: 14px;
-}
-
-.header__buttons {
-    display: flex;
-    align-items: center;
-    margin-left: 10px;
-}
-
-.header__decrease {
-    background-color: #f0f0f0;
-    border: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-right: 8px;
-    font-weight: bold;
-}
-
-.header__close {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-}
-
-/* Nuevos estilos para los botones del carrito */
-.header__buttons {
-    display: flex;
-    align-items: center;
-}
-
-.header__decrease {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    background-color: #72262C;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    margin-right: 5px;
-    font-size: 16px;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-
-.header__decrease:hover {
-    transform: scale(1.1);
-    background-color: #8a3039;
-}
-
-/* Mejorar interacción de los botones de la Shop */
-.Shop__Button {
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.Shop__Button:hover {
-    background-color: #222;
-    transform: translateY(-2px);
-}
-
-.Shop__Button:active {
-    transform: translateY(1px);
-}
 
 /* Mejorar interacción con las cartas de noticias */
 .news__card, .blog__article {
@@ -1820,93 +1666,74 @@ body {
     transition: max-height 1s ease-in;
 }
 
-/* Estilos para las preguntas frecuentes */
-.faq__item {
-    transition: all 0.3s ease;
-    border-radius: 5px;
-    margin-bottom: 10px;
+/* Estilos para la página de Unirse a nosotros */
+
+.join-section {
+    padding: 60px 20px;
+    background-color: var(--bg-color);
+    margin: 40px 0;
 }
 
-.faq__question {
-    cursor: pointer;
+.join-section-container {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    background-color: #f5f5f5;
-    border-radius: 5px;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.faq__answer {
-    max-height: 0;
-    overflow: hidden;
-    padding: 0 15px;
-    transition: max-height 0.3s ease-out, padding 0.3s ease;
+.join-intro {
+    padding: 30px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.faq__item.active .faq__answer {
-    max-height: 500px;
-    padding: 15px;
-    transition: max-height 0.5s ease-in, padding 0.3s ease;
+.join-intro-header {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.faq__icon {
-    transition: transform 0.3s ease;
+.join-intro-header h2 {
+    color: #72262C;
+    font-size: 1.8rem;
+    margin: 0 auto;
+    padding-bottom: 15px;
+    position: relative;
+    max-width: 800px;
 }
 
-.faq__item.active .faq__icon {
-    transform: rotate(45deg);
-}
-
-/* Estilos para el contenedor del total */
-.header__total-container {
-    width: 100%;
-    margin-top: 20px;
-    padding: 15px 0;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Estilos para el texto del total */
-.header__total {
-    font-weight: bold;
-    font-size: 16px;
-    color: #212322;
-}
-
-/* Estilos para el botón de confirmar compra */
-.header__checkout-btn {
+.join-intro-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 750px;
+    height: 3px;
     background-color: #72262C;
-    color: #fff;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    font-weight: bold;
-    font-size: 14px;
 }
 
-.header__checkout-btn:hover {
-    background-color: #5a1e23;
-    transform: translateY(-2px);
+.join-intro p {
+    font-size: 1.2rem;
+    line-height: 2.4;
+    text-align: center;
+    color: var(--text-color);
+    margin: 2.5rem auto;
+    max-width: 1000px;
+    padding: 40px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--card-shadow);
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    word-spacing: 3px;
 }
 
-.header__checkout-btn:active {
-    transform: translateY(0);
+.join-intro p:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(114, 38, 44, 0.2);
 }
 
-.header__checkout-btn:hover {
-    background-color: #5a1e23;
-}
-
-.header__checkout-btn:active {
-    transform: translateY(0);
-}
-
-/* Estilos para la sección Joinus */
 .Joinus {
     padding: 80px 20px;
     background-color: var(--bg-color);
@@ -1996,7 +1823,6 @@ body {
     display: block;
 }
 
-/* Estilos para checkbox y radio buttons */
 
 .Joinus_group {
     display: flex;
@@ -2004,7 +1830,6 @@ body {
     margin-top: 5px;
 }
 
-.Joinus_option,
 .Joinus_option {
     display: flex;
     align-items: center;
@@ -2012,7 +1837,6 @@ body {
     cursor: pointer;
 }
 
-/* Corregir el estilo de los inputs de tipo checkbox que ya existen */
 .Joinus_input[type="checkbox"] {
     margin-right: 10px;
     margin-left: 20px;
@@ -2045,7 +1869,7 @@ body {
     transform: translateY(1px);
 }
 
-/* Estilos para la sección introduction */
+/* Estilos para la página de introducción */
 .introduction {
     padding: 60px 20px;
     background-color: var(--bg-color);
@@ -2088,7 +1912,6 @@ body {
     margin-right: 100px;
 }
 
-/* Estilos para la sección viewShop */
 .viewShop {
     padding: 80px 20px;
     background-color: var(--bg-color);
@@ -2149,7 +1972,6 @@ body {
     box-shadow: 0 2px 5px rgba(114, 38, 44, 0.2);
 }
 
-/* Estilos para el contenedor de tarjetas de productos */
 .viewShop__container {
     display: flex;
     justify-content: center;
@@ -2158,7 +1980,6 @@ body {
     flex-wrap: wrap;
 }
 
-/* Estilos para las tarjetas de productos */
 .viewShop__card {
     background-color: var(--bg-card);
     border-radius: 10px;
@@ -2262,12 +2083,16 @@ body {
     padding: 25px;
     box-shadow: 0 2px 10px var(--card-shadow);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 100%;
 }
 
 .checkout__form-row {
     display: flex;
     gap: 15px;
     margin-bottom: 15px;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .checkout__form-group {
@@ -2285,13 +2110,14 @@ body {
 .checkout__input,
 .checkout__select {
     width: 100%;
-    padding: 12px;
+    padding: 12px 15px;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 16px;
     transition: border 0.2s ease, background-color 0.3s ease, color 0.3s ease;
     background-color: var(--bg-input);
     color: var(--text-color);
+    box-sizing: border-box;
 }
 
 .checkout__input:focus,
@@ -2368,8 +2194,8 @@ body {
 .checkout__card-details {
     border: 1px solid #ddd;
     border-radius: 4px;
-    padding: 15px;
-    margin-top: 15px;
+    padding: 20px;
+    margin-top: 20px;
 }
 
 .checkout__submit-btn {
@@ -2385,6 +2211,7 @@ body {
     display: block;
     width: 100%;
     margin-top: 20px;
+    margin-bottom: 15px;
 }
 
 .checkout__submit-btn:hover {
@@ -2458,7 +2285,6 @@ body {
     font-size: 20px;
 }
 
-/* Estilos para el producto en el resumen */
 .checkout__product {
     display: flex;
     align-items: center;
@@ -2494,350 +2320,8 @@ body {
     color: #72262C;
 }
 
-/* Estilos para la sección de introducción de Joinus */
-.join-section {
-    padding: 60px 20px;
-    background-color: var(--bg-color);
-    margin: 40px 0;
-}
 
-.join-section-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.join-intro {
-    padding: 30px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.join-intro-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.join-intro-header h2 {
-    color: #72262C;
-    font-size: 1.8rem;
-    margin: 0 auto;
-    padding-bottom: 15px;
-    position: relative;
-    max-width: 800px;
-}
-
-.join-intro-header h2::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 750px;
-    height: 3px;
-    background-color: #72262C;
-}
-
-.join-intro p {
-    font-size: 1.2rem;
-    line-height: 2.4;
-    text-align: center;
-    color: var(--text-color);
-    margin: 2.5rem auto;
-    max-width: 1000px;
-    padding: 40px;
-    background-color: var(--bg-secondary);
-    border-radius: 8px;
-    box-shadow: 0 2px 10px var(--card-shadow);
-    transition: all 0.3s ease;
-    letter-spacing: 1px;
-    word-spacing: 3px;
-}
-
-.join-intro p:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(114, 38, 44, 0.2);
-}
-
-/* Estilo para el botón de cambio de tema */
-.theme-toggle {
-    background-color: var(--accent-color);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 90px;
-    top: 20px;
-    z-index: 1001;
-}
-
-.theme-toggle:hover {
-    background-color: var(--accent-color-hover);
-    transform: translateY(-3px);
-}
-
-/* Reglas específicas para los colores de texto en modo oscuro */
-.dark-mode .about__title, 
-.dark-mode .brand-info__title, 
-.dark-mode .companyphilosophy__title, 
-.dark-mode .team__title, 
-.dark-mode .contact__title, 
-.dark-mode .faq__title, 
-.dark-mode .news__title, 
-.dark-mode .blog__title, 
-.dark-mode .Shop__title, 
-.dark-mode .Joinus__title, 
-.dark-mode .introduction__title, 
-.dark-mode .viewShop__title, 
-.dark-mode .checkout__title, 
-.dark-mode .join-intro-header h2 {
-    color: var(--accent-color);
-}
-
-.dark-mode .introduction__subtitle,
-.dark-mode .introduction__text,
-.dark-mode .viewShop__subtitle,
-.dark-mode .blog__subtitle,
-.dark-mode .blog__article-title,
-.dark-mode .news__subtitle,
-.dark-mode .news__card-title,
-.dark-mode .news__article-title,
-.dark-mode .shop__filter-subtitle,
-.dark-mode .checkout__product-name,
-.dark-mode h1, 
-.dark-mode h2, 
-.dark-mode h3, 
-.dark-mode h4, 
-.dark-mode h5, 
-.dark-mode h6,
-.dark-mode p, 
-.dark-mode span,
-.dark-mode .faq__question h3 {
-    color: var(--text-color);
-}
-
-/* Excepciones para textos que deben mantener colores específicos */
-.dark-mode .header__nav-link,
-.dark-mode .news__readmore,
-.dark-mode .blog__button,
-.dark-mode .Shop__Button,
-.dark-mode .viewShop__button,
-.dark-mode .checkout__submit-btn,
-.dark-mode .Joinus_button,
-.dark-mode .header__button,
-.dark-mode .footer__button,
-.dark-mode .theme-toggle,
-.dark-mode .blog__tag {
-    color: white !important;
-}
-
-.dark-mode .header__menu-icon,
-.dark-mode .header__menu-icon::before,
-.dark-mode .header__menu-icon::after {
-    background-color: var(--accent-color);
-}
-
-.dark-mode .blog__read-link,
-.dark-mode .news__card-link,
-.dark-mode .checkout__shop-link,
-.dark-mode .checkout__product-price {
-    color: var(--accent-color);
-}
-
-.dark-mode .blog__meta,
-.dark-mode .news__date,
-.dark-mode .checkout__product-details {
-    color: #aaa;
-}
-
-/* Ajustes específicos para la sección de preguntas frecuentes */
-.dark-mode .faq__item {
-    border-color: var(--accent-color);
-}
-
-.dark-mode .faq__question {
-    background-color: var(--bg-secondary);
-}
-
-.dark-mode .faq__answer {
-    background-color: var(--bg-card);
-}
-
-.dark-mode .faq__answer p {
-    color: var(--text-color);
-}
-
-.dark-mode .faq__icon {
-    color: var(--accent-color);
-}
-
-/* Estilos específicos para los filtros en modo oscuro */
-.dark-mode .Shop__filters-title,
-.dark-mode .Shop__filter-subtitle {
-    color: var(--text-color);
-}
-
-.dark-mode .Shop__filter-option {
-    color: var(--text-color);
-}
-
-.dark-mode .Shop__filter-checkbox {
-    background-color: var(--bg-secondary);
-    border-color: var(--border-color);
-}
-
-.dark-mode .Shop__price-labels {
-    color: var(--text-color);
-}
-
-.dark-mode .Shop__filter-reset {
-    background-color: var(--bg-secondary);
-    color: var(--text-color);
-}
-
-.dark-mode .Shop__filter-reset:hover {
-    background-color: var(--bg-input);
-}
-
-/* Estilos para el carrito en modo oscuro */
-.dark-mode .header__empty p {
-    color: var(--text-color);
-}
-
-.dark-mode .header__empty-text {
-    color: #aaa;
-}
-
-.dark-mode .header__Name {
-    color: var(--text-color);
-}
-
-.dark-mode .header__Price {
-    color: var(--accent-color);
-}
-
-.dark-mode .header__total {
-    color: var(--text-color);
-}
-
-/* Estilos para el formulario de confirmación de compra en modo oscuro */
-.dark-mode .checkout__label {
-    color: var(--text-color);
-}
-
-.dark-mode .checkout__subtitle {
-    color: var(--accent-color);
-    border-bottom-color: var(--border-color);
-}
-
-.dark-mode .checkout__payment-option {
-    border-color: var(--border-color);
-}
-
-.dark-mode .checkout__payment-option:hover {
-    border-color: var(--accent-color);
-}
-
-.dark-mode .checkout__payment-label span {
-    color: var(--text-color);
-}
-
-.dark-mode .checkout__card-details {
-    border-color: var(--border-color);
-}
-
-.dark-mode .checkout__total-row {
-    color: var(--text-color);
-}
-
-.dark-mode .checkout__discount-row {
-    color: var(--accent-color);
-}
-
-.dark-mode .checkout__empty-cart p {
-    color: var(--text-color);
-}
-
-/* Ajustes generales para el formulario de checkout */
-.checkout__form {
-    width: 100%;
-    max-width: 100%;
-}
-
-.checkout__form-row {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.checkout__form-group {
-    flex: 1;
-    margin-bottom: 20px;
-}
-
-.checkout__input,
-.checkout__select {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 12px 15px;
-    font-size: 16px;
-}
-
-/* Ajustes específicos para campos de tarjeta */
-.checkout__card-details {
-    margin-top: 20px;
-    padding: 20px;
-}
-
-.checkout__card-details .checkout__form-group {
-    margin-bottom: 15px;
-}
-
-/* Ajustes para modo oscuro */
-.dark-mode .checkout__subtitle {
-    color: var(--accent-color);
-    border-bottom-color: var(--border-color);
-}
-
-.dark-mode .checkout__label {
-    color: var(--text-color);
-}
-
-.dark-mode .checkout__input,
-.dark-mode .checkout__select {
-    background-color: var(--bg-secondary);
-    color: var(--text-color);
-    border-color: var(--border-color);
-}
-
-.dark-mode .checkout__input::placeholder {
-    color: #999;
-}
-
-.dark-mode .checkout__card-details {
-    background-color: rgba(42, 42, 42, 0.7);
-    border-color: var(--border-color);
-}
-
-.dark-mode .checkout__payment-option {
-    border-color: var(--border-color);
-    background-color: var(--bg-secondary);
-}
-
-.dark-mode .checkout__payment-label span {
-    color: var(--text-color);
-}
-
-/* Estilos para el juego de pares */
+/* Estilos para la página del juego de pares */
 .game-container {
     width: 500px;
     padding: 0px 10px;
@@ -3003,27 +2487,6 @@ body {
     transform: translateY(-1px);
 }
 
-/* Ajustes para modo oscuro */
-.dark-mode .game-container {
-    background-color: var(--bg-color);
-}
-
-.dark-mode .game-title,
-.dark-mode .game-board {
-    background-color: var(--bg-secondary);
-}
-
-.dark-mode .game-win-message {
-    color: var(--accent-color);
-}
-
-.dark-mode .flip-card-front,
-.dark-mode .flip-card-back {
-    background-color: var(--bg-card);
-}
-
-/* Añadir después de los estilos existentes del juego de pares */
-
 .game-win-message {
     position: absolute;
     top: 50%;
@@ -3077,8 +2540,269 @@ body {
 }
 
 
+/* Estilo para el botón de cambio de tema */
+.theme-toggle {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 90px;
+    top: 20px;
+    z-index: 1001;
+}
 
+.theme-toggle:hover {
+    background-color: var(--accent-color-hover);
+    transform: translateY(-3px);
+}
 
+/* Reglas específicas para los colores de texto en modo oscuro */
+.dark-mode .about__title, 
+.dark-mode .brand-info__title, 
+.dark-mode .companyphilosophy__title, 
+.dark-mode .team__title, 
+.dark-mode .contact__title, 
+.dark-mode .faq__title, 
+.dark-mode .news__title, 
+.dark-mode .blog__title, 
+.dark-mode .Shop__title, 
+.dark-mode .Joinus__title, 
+.dark-mode .introduction__title, 
+.dark-mode .viewShop__title, 
+.dark-mode .checkout__title, 
+.dark-mode .join-intro-header h2 {
+    color: var(--accent-color);
+}
 
+.dark-mode .introduction__subtitle,
+.dark-mode .introduction__text,
+.dark-mode .viewShop__subtitle,
+.dark-mode .blog__subtitle,
+.dark-mode .blog__article-title,
+.dark-mode .news__subtitle,
+.dark-mode .news__card-title,
+.dark-mode .shop__filter-subtitle,
+.dark-mode .checkout__product-name,
+.dark-mode h1, 
+.dark-mode h2, 
+.dark-mode h3, 
+.dark-mode h4, 
+.dark-mode h5, 
+.dark-mode h6,
+.dark-mode p, 
+.dark-mode span,
+.dark-mode .faq__question h3 {
+    color: var(--text-color);
+}
 
+/* Excepciones para textos que deben mantener colores específicos */
+.dark-mode .header__nav-link,
+.dark-mode .Shop__Button,
+.dark-mode .viewShop__button,
+.dark-mode .checkout__submit-btn,
+.dark-mode .Joinus_button,
+.dark-mode .header__button,
+.dark-mode .footer__button,
+.dark-mode .theme-toggle,
+.dark-mode .blog__tag {
+    color: white !important;
+}
 
+.dark-mode .header__menu-icon,
+.dark-mode .header__menu-icon::before,
+.dark-mode .header__menu-icon::after {
+    background-color: var(--accent-color);
+}
+
+.dark-mode .blog__read-link,
+.dark-mode .news__card-link,
+.dark-mode .checkout__shop-link,
+.dark-mode .checkout__product-price {
+    color: var(--accent-color);
+}
+
+.dark-mode .blog__meta,
+.dark-mode .news__date,
+.dark-mode .checkout__product-details {
+    color: #aaa;
+}
+
+/* Ajustes específicos para la sección de preguntas frecuentes */
+.dark-mode .faq__item {
+    border-color: var(--accent-color);
+}
+
+.dark-mode .faq__question {
+    background-color: var(--bg-secondary);
+}
+
+.dark-mode .faq__answer {
+    background-color: var(--bg-card);
+}
+
+.dark-mode .faq__answer p {
+    color: var(--text-color);
+}
+
+.dark-mode .faq__icon {
+    color: var(--accent-color);
+}
+
+/* Estilos específicos para los filtros en modo oscuro */
+.dark-mode .Shop__filters-title,
+.dark-mode .Shop__filter-subtitle {
+    color: var(--text-color);
+}
+
+.dark-mode .Shop__filter-option {
+    color: var(--text-color);
+}
+
+.dark-mode .Shop__filter-checkbox {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+.dark-mode .Shop__price-labels {
+    color: var(--text-color);
+}
+
+.dark-mode .Shop__filter-reset {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+}
+
+.dark-mode .Shop__filter-reset:hover {
+    background-color: var(--bg-input);
+}
+
+/* Estilos para el carrito en modo oscuro */
+.dark-mode .header__empty p {
+    color: var(--text-color);
+}
+
+.dark-mode .header__empty-text {
+    color: #aaa;
+}
+
+.dark-mode .header__Name {
+    color: var(--text-color);
+}
+
+.dark-mode .header__Price {
+    color: var(--accent-color);
+}
+
+.dark-mode .header__total {
+    color: var(--text-color);
+}
+
+.dark-mode .checkout__label {
+    color: var(--text-color);
+}
+
+.dark-mode .checkout__subtitle {
+    color: var(--accent-color);
+    border-bottom-color: var(--border-color);
+}
+
+.dark-mode .checkout__payment-option {
+    border-color: var(--border-color);
+    background-color: var(--bg-secondary);
+}
+
+.dark-mode .checkout__payment-option:hover {
+    border-color: var(--accent-color);
+}
+
+.dark-mode .checkout__payment-label span {
+    color: var(--text-color);
+}
+
+.dark-mode .checkout__card-details {
+    background-color: rgba(42, 42, 42, 0.7);
+    border-color: var(--border-color);
+}
+
+.dark-mode .checkout__total-row {
+    color: var(--text-color);
+}
+
+.dark-mode .checkout__discount-row {
+    color: var(--accent-color);
+}
+
+.dark-mode .checkout__empty-cart p {
+    color: var(--text-color);
+}
+
+.dark-mode .checkout__input,
+.dark-mode .checkout__select {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.dark-mode .checkout__input::placeholder {
+    color: #999;
+}
+
+.dark-mode .game-container {
+    background-color: var(--bg-color);
+}
+
+.dark-mode .game-title,
+.dark-mode .game-board {
+    background-color: var(--bg-secondary);
+}
+
+.dark-mode .game-win-message {
+    color: var(--accent-color);
+}
+
+.dark-mode .flip-card-front,
+.dark-mode .flip-card-back {
+    background-color: var(--bg-card);
+}
+.dark-mode .footer {
+    background-color: #212322 !important;
+    color: white !important;
+}
+
+.dark-mode .footer__copyright {
+    color: white !important;
+}
+
+.dark-mode .footer__column-title {
+    color: white !important;
+}
+
+.dark-mode .footer__social-link {
+    color: white !important;
+}
+
+.dark-mode .footer__newsletter-subtitle {
+    color: white !important;
+}
+
+.dark-mode .footer__input {
+    background-color: #333 !important;
+    color: white !important;
+}
+
+.dark-mode .footer__legal-container {
+    border-top: 1px solid #444;
+}
+
+.dark-mode .footer__legal a {
+    color: white !important;
+}
