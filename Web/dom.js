@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initAccordions();
     initLoadMore();
     initLanguageSwitch();
-    initMemoryGame(); // Inicializar juego de pares
+    initMemoryGame(); 
     
-    // Inicializar el tema y el icono correspondiente
+    
     initTheme();
 });
 
@@ -27,7 +27,7 @@ function initNavMenu() {
         navMenu.classList.toggle('active');
     });
     
-    // Cerrar al hacer clic en enlaces o fuera del menú
+    // Cerrar al hacer click en enlaces o fuera del menú
     document.querySelectorAll('.header__nav-link').forEach(link => {
         link.addEventListener('click', () => {
             menuToggle.classList.remove('active');
@@ -106,14 +106,14 @@ function initShoppingCart() {
             } else {
                 cartItems[originalKey] = {
                     originalName: originalKey,
-                    displayName: originalKey, // Nombre a mostrar (se actualizará con la traducción)
+                    displayName: originalKey, 
                     price: productPrice,
                     quantity: 1,
                     image: productImage
                 };
             }
             
-            // Actualizar UI
+          
             updateCartUI(originalKey);
             saveCart();
         });
@@ -122,7 +122,7 @@ function initShoppingCart() {
     // Inicializar productos guardados
     renderCartItems();
     
-    // Funciones auxiliares
+    
     function updateCartCount() {
         let count = 0;
         for (const item in cartItems) {
@@ -135,7 +135,7 @@ function initShoppingCart() {
     function updateCartUI(productKey) {
         if (!cartContainer) return;
         
-        // Ocultar mensaje de carrito vacío
+        
         if (emptyCartMessage) {
             emptyCartMessage.style.display = 'none';
         }
@@ -199,7 +199,6 @@ function initShoppingCart() {
         if (removeAll || cartItems[productKey].quantity <= 1) {
             delete cartItems[productKey];
             
-            // Eliminar del DOM
             const productEl = Array.from(cartContainer.querySelectorAll('.header__product'))
                 .find(el => el.getAttribute('data-product-key') === productKey);
             
@@ -1635,56 +1634,20 @@ function initLanguageSwitch() {
 
     // Nueva función para actualizar los botones de leer más/menos según el idioma
     function updateReadMoreButtons(lang) {
-        // Actualizar botones de noticias
-        document.querySelectorAll('.news__card-link').forEach(link => {
-            // Comprobar si el botón tiene guardado su estado
-            const isExpanded = link.getAttribute('data-expanded') === 'true';
-            
-            if (isExpanded !== null) {  // Si tiene un estado guardado
-                link.textContent = isExpanded ? 
-                    (lang === 'en' ? 'Read less' : 'Leer menos') : 
-                    (lang === 'en' ? 'Read more' : 'Leer más');
-            } else {
-                // Método alternativo: verificar si el texto completo está visible
-                const card = link.closest('.news__card-content');
-                const fullText = card ? card.querySelector('.news__card-full-text') : null;
-                
-                if (fullText) {
-                    const isHidden = fullText.classList.contains('hidden');
-                    link.textContent = isHidden ? 
-                        (lang === 'en' ? 'Read more' : 'Leer más') : 
-                        (lang === 'en' ? 'Read less' : 'Leer menos');
-                    
-                    // Guardar el estado para futuras referencias
-                    link.setAttribute('data-expanded', !isHidden);
-                }
-            }
+        document.querySelectorAll('.news__card-link[data-expanded="true"]').forEach(link => {
+            link.textContent = lang === 'en' ? 'Read less' : 'Leer menos';
         });
         
-        // Actualizar botones de blog
-        document.querySelectorAll('.blog__read-link').forEach(link => {
-            // Comprobar si el botón tiene guardado su estado
-            const isExpanded = link.getAttribute('data-expanded') === 'true';
-            
-            if (isExpanded !== null) {  // Si tiene un estado guardado
-                link.textContent = isExpanded ? 
-                    (lang === 'en' ? 'Show less' : 'Mostrar menos') : 
-                    (lang === 'en' ? 'Read full article' : 'Leer artículo completo');
-            } else {
-                // Método alternativo: verificar si el texto completo está visible
-                const article = link.closest('.blog__article-content');
-                const fullText = article ? article.querySelector('.blog__article-full-text') : null;
-                
-                if (fullText) {
-                    const isHidden = fullText.classList.contains('hidden');
-                    link.textContent = isHidden ? 
-                        (lang === 'en' ? 'Read full article' : 'Leer artículo completo') : 
-                        (lang === 'en' ? 'Show less' : 'Mostrar menos');
-                    
-                    // Guardar el estado para futuras referencias
-                    link.setAttribute('data-expanded', !isHidden);
-                }
-            }
+        document.querySelectorAll('.news__card-link[data-expanded="false"], .news__card-link:not([data-expanded])').forEach(link => {
+            link.textContent = lang === 'en' ? 'Read more' : 'Leer más';
+        });
+        
+        document.querySelectorAll('.blog__read-link[data-expanded="true"]').forEach(link => {
+            link.textContent = lang === 'en' ? 'Show less' : 'Mostrar menos';
+        });
+        
+        document.querySelectorAll('.blog__read-link[data-expanded="false"], .blog__read-link:not([data-expanded])').forEach(link => {
+            link.textContent = lang === 'en' ? 'Show more' : 'Mostrar más';
         });
     }
 }
@@ -1707,7 +1670,6 @@ function initMemoryGame() {
     var tiempo = 0;
     var temporizadorInterval;
     var intentos = 0;
-    var clic = false;
     var juegoTerminado = false;
 
     // Mapeo de nombres de cartas a imágenes reales de productos
@@ -1728,13 +1690,13 @@ function initMemoryGame() {
         this.h = h;
         this.tipo = tipo;
         this.template = `
-            <div class="flip-card ctrlCartas" data-carta="${tipo}" 
+            <div class="game__card ctrlCartas" data-carta="${tipo}" 
                 style="left: ${x}px; top: ${y}px; width: ${w}px; height: ${h}px;">
-                <div class="flip-card-inner">
-                    <div class="flip-card-front">
+                <div class="game__card-inner">
+                    <div class="game__card-front">
                         <img src="Imagenes/Logonegro.png" alt="Spicy Gallery Logo">
                     </div>
-                    <div class="flip-card-back">
+                    <div class="game__card-back">
                         <img src="${imagenesPrendas[tipo]}" alt="${tipo}">
                     </div>
                 </div>

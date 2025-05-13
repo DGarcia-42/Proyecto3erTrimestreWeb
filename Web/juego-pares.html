@@ -31,30 +31,30 @@
     
 
 
-    <div class="game-container">
-        <h1 class="game-title" data-i18n="Juego de Pares - Spicy Gallery">
+    <div class="game">
+        <h1 class="game__title" data-i18n="Juego de Pares - Spicy Gallery">
             Juego de Pares - Spicy Gallery
         </h1>
-        <div id="pantalla" class="game-board">
-            <div id="ganaste" class="game-win-message" data-i18n="¡GANASTE!">
+        <div id="pantalla" class="game__board">
+            <div id="ganaste" class="game__win-message" data-i18n="¡GANASTE!">
                 ¡GANASTE!
             </div>
-            <div class="game-stats">
-                <p class="stat-item"><span data-i18n="Encontrados: ">Encontrados: </span>
-                    <span id="encontrados" class="stat-value">0</span>
+            <div class="game__stats">
+                <p class="game__stat-item"><span data-i18n="Encontrados: ">Encontrados: </span>
+                    <span id="encontrados" class="game__stat-value">0</span>
                 </p>
-                <p class="stat-item"><span data-i18n="Faltantes: ">Faltantes: </span>
-                    <span id="faltantes" class="stat-value">6</span>
+                <p class="game__stat-item"><span data-i18n="Faltantes: ">Faltantes: </span>
+                    <span id="faltantes" class="game__stat-value">6</span>
                 </p>
-                <p class="stat-item"><span data-i18n="Tiempo: ">Tiempo: </span>
-                    <span id="temporizador" class="stat-value">0</span>
+                <p class="game__stat-item"><span data-i18n="Tiempo: ">Tiempo: </span>
+                    <span id="temporizador" class="game__stat-value">0</span>
                 </p>
-                <p class="stat-item"><span data-i18n="Intentos: ">Intentos: </span>
-                    <span id="intentos" class="stat-value">0</span>
+                <p class="game__stat-item"><span data-i18n="Intentos: ">Intentos: </span>
+                    <span id="intentos" class="game__stat-value">0</span>
                 </p>
             </div>
         </div>
-        <button id="restart-btn" class="restart-button" data-i18n="Reiniciar Juego">Reiniciar Juego</button>
+        <button id="restart-btn" class="game__restart-button" data-i18n="Reiniciar Juego">Reiniciar Juego</button>
     </div>
 
     <footer class="footer">
@@ -91,10 +91,8 @@
                 </div>
             </div>
         </div>
-        <div class="footer__legal-container">
-        </div>
     </footer>
-
+    
     <script src="dom.js"></script>
 </body>
 </html> 

@@ -358,16 +358,6 @@ body {
     background-color: var(--accent-color-hover);
 }
 
-.footer__legal-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding-top: 20px;
-    border-top: 1px solid #444;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .footer__legal {
     display: flex;
     gap: 20px;
@@ -1773,7 +1763,7 @@ body {
     margin-right: auto;
 }
 
-.Joinus_container {
+.Joinus__container {
     max-width: 600px;
     margin: 0 auto;
     background-color: var(--bg-card);
@@ -1783,14 +1773,14 @@ body {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.Joinus_form {
+.Joinus__form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.Joinus_input,
-.Joinus_select {
+.Joinus__input,
+.Joinus__select {
     padding: 12px 15px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
@@ -1800,23 +1790,23 @@ body {
     color: var(--text-color);
 }
 
-.Joinus_input:focus,
-.Joinus_select:focus {
+.Joinus__input:focus,
+.Joinus__select:focus {
     border-color: var(--accent-color);
     outline: none;
 }
 
-.Joinus_input::placeholder {
+.Joinus__input::placeholder {
     color: var(--border-color);
 }
 
-.Joinus_input[type="file"] {
+.Joinus__input[type="file"] {
     padding: 10px;
     background-color: var(--bg-input-secondary);
     cursor: pointer;
 }
 
-.Joinus_label {
+.Joinus__label {
     font-weight: bold;
     margin-bottom: -15px;
     color: #444;
@@ -1824,20 +1814,20 @@ body {
 }
 
 
-.Joinus_group {
+.Joinus__group {
     display: flex;
     gap: 20px;
     margin-top: 5px;
 }
 
-.Joinus_option {
+.Joinus__option {
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
 }
 
-.Joinus_input[type="checkbox"] {
+.Joinus__input[type="checkbox"] {
     margin-right: 10px;
     margin-left: 20px;
     width: 16px;
@@ -1845,7 +1835,7 @@ body {
     accent-color: #72262C;
 }
 
-.Joinus_button {
+.Joinus__button {
     background-color: #72262C;
     color: white;
     padding: 15px;
@@ -1860,12 +1850,12 @@ body {
     letter-spacing: 1px;
 }
 
-.Joinus_button:hover {
+.Joinus__button:hover {
     background-color: #5a1e23;
     transform: translateY(-3px);
 }
 
-.Joinus_button:active {
+.Joinus__button:active {
     transform: translateY(1px);
 }
 
@@ -2322,7 +2312,7 @@ body {
 
 
 /* Estilos para la página del juego de pares */
-.game-container {
+.game {
     width: 500px;
     padding: 0px 10px;
     margin: 10px auto;
@@ -2334,7 +2324,7 @@ body {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.game-title {
+.game__title {
     color: var(--accent-color);
     background-color: var(--bg-secondary);
     box-shadow: 0 4px 8px var(--card-shadow);
@@ -2345,7 +2335,7 @@ body {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.game-board {
+.game__board {
     width: 500px;
     height: 420px;
     background-color: var(--bg-secondary);
@@ -2356,7 +2346,7 @@ body {
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.game-win-message {
+.game__win-message {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -2375,7 +2365,7 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.game-win-message h2 {
+.game__win-message h2 {
     color: #ff6b6b;
     margin-top: 0;
     font-size: 32px;
@@ -2390,7 +2380,7 @@ body {
     100% { transform: scale(1); }
 }
 
-.game-stats {
+.game__stats {
     position: absolute;
     left: 10px;
     top: 380px;
@@ -2399,18 +2389,18 @@ body {
     justify-content: space-around;
 }
 
-.stat-item {
+.game__stat-item {
     font-size: 16px;
     font-weight: bold;
     margin: 0 5px;
 }
 
-.stat-value {
+.game__stat-value {
     color: var(--accent-color);
     font-weight: bold;
 }
 
-.flip-card {
+.game__card {
     position: absolute;
     margin: 10px;
     perspective: 1000px;
@@ -2418,11 +2408,11 @@ body {
     transition: transform 0.3s ease;
 }
 
-.flip-card:hover {
+.game__card:hover {
     transform: translateY(-5px);
 }
 
-.flip-card-inner {
+.game__card-inner {
     position: relative;
     width: 100%;
     height: 100%;
@@ -2433,7 +2423,7 @@ body {
     border-radius: 8px;
 }
 
-.flip-card-front, .flip-card-back {
+.game__card-front, .game__card-back {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -2443,14 +2433,14 @@ body {
     overflow: hidden;
 }
 
-.flip-card-front {
+.game__card-front {
     background-color: var(--bg-card);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.flip-card-back {
+.game__card-back {
     background-color: var(--bg-card);
     transform: rotateY(180deg);
     display: flex;
@@ -2458,14 +2448,14 @@ body {
     justify-content: center;
 }
 
-.flip-card img {
+.game__card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: opacity 0.3s ease;
 }
 
-.restart-button {
+.game__restart-button {
     background-color: var(--accent-color);
     color: white;
     border: none;
@@ -2478,45 +2468,16 @@ body {
     margin-bottom: 20px;
 }
 
-.restart-button:hover {
+.game__restart-button:hover {
     background-color: var(--accent-color-hover);
     transform: translateY(-3px);
 }
 
-.restart-button:active {
+.game__restart-button:active {
     transform: translateY(-1px);
 }
 
-.game-win-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px 30px;
-    border-radius: 10px;
-    text-align: center;
-    z-index: 100;
-    font-size: 24px;
-    font-weight: bold;
-    display: none;
-    min-width: 300px;
-}
-
-.game-win-message h2 {
-    color: #ff6b6b;
-    margin-top: 0;
-    font-size: 32px;
-    margin-bottom: 15px;
-}
-
-.game-win-message p {
-    font-size: 18px;
-    margin: 10px 0;
-}
-
-.codigo-descuento {
+.game__codigo-descuento {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2526,7 +2487,7 @@ body {
     border-radius: 5px;
 }
 
-#codigo {
+.game__codigo {
     font-family: monospace;
     font-size: 24px;
     letter-spacing: 2px;
@@ -2534,7 +2495,7 @@ body {
     font-weight: bold;
 }
 
-.codigo-info {
+.game__codigo-info {
     font-size: 14px;
     color: #aaa;
 }
@@ -2609,7 +2570,7 @@ body {
 .dark-mode .Shop__Button,
 .dark-mode .viewShop__button,
 .dark-mode .checkout__submit-btn,
-.dark-mode .Joinus_button,
+.dark-mode .Joinus__button,
 .dark-mode .header__button,
 .dark-mode .footer__button,
 .dark-mode .theme-toggle,
@@ -2773,6 +2734,7 @@ body {
 .dark-mode .flip-card-back {
     background-color: var(--bg-card);
 }
+
 .dark-mode .footer {
     background-color: #212322 !important;
     color: white !important;
@@ -2799,10 +2761,20 @@ body {
     color: white !important;
 }
 
-.dark-mode .footer__legal-container {
-    border-top: 1px solid #444;
+.dark-mode .game {
+    background-color: var(--bg-color);
 }
 
-.dark-mode .footer__legal a {
-    color: white !important;
+.dark-mode .game__title,
+.dark-mode .game__board {
+    background-color: var(--bg-secondary);
+}
+
+.dark-mode .game__win-message {
+    color: var(--accent-color);
+}
+
+.dark-mode .game__card-front,
+.dark-mode .game__card-back {
+    background-color: var(--bg-card);
 }
