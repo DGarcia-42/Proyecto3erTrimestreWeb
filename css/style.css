@@ -2337,7 +2337,7 @@ body {
 
 .game__board {
     width: 500px;
-    height: 420px;
+    height: 550px;
     background-color: var(--bg-secondary);
     position: relative;
     box-shadow: 0 4px 8px var(--card-shadow);
@@ -2383,7 +2383,7 @@ body {
 .game__stats {
     position: absolute;
     left: 10px;
-    top: 380px;
+    top: 510px;
     width: calc(100% - 20px);
     display: flex;
     justify-content: space-around;
@@ -2793,15 +2793,15 @@ body {
     }
     
     .theme-toggle {
-        left: 70px;
+        left: 90px;
     }
     
     .header__carrito {
-        margin-right: 150px;
+        margin-right: 180px;
     }
     
     .header__count {
-        right: 140px;
+        right: 180px;
     }
     
     /* Postheader */
@@ -2902,6 +2902,71 @@ body {
         margin-bottom: 30px;
     }
     
+    /* Formularios*/
+    .checkout__form {
+        padding: 15px;
+    }
+    
+    .checkout__form-group {
+        margin-bottom: 10px;
+    }
+    
+    .checkout__label {
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+    }
+    
+    .checkout__input,
+    .checkout__select {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        height: 36px;
+    }
+    
+    .checkout__product {
+        padding: 10px 0;
+    }
+    
+    .checkout__product-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .checkout__product-name {
+        font-size: 1rem;
+    }
+    
+    .checkout__total-row {
+        font-size: 0.95rem;
+    }
+    
+    .checkout__final-total {
+        font-size: 1.1rem;
+    }
+    
+    .checkout__submit-btn {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+    
+    /* Formulario joinus en tablet */
+    .joinus__container {
+        padding: 20px;
+        max-width: 500px;
+    }
+    
+    .joinus__input,
+    .joinus__select {
+        padding: 8px;
+        font-size: 0.9rem;
+        height: 36px;
+    }
+    
+    .joinus__button {
+        padding: 10px 15px;
+        font-size: 1rem;
+    }
+    
     /* Juego */
     .game {
         width: 90%;
@@ -2925,8 +2990,8 @@ body {
     }
 }
 
-/* Móviles grandes */
-@media screen and (max-width: 768px) {
+/* Dispositivos móviles*/
+@media (300px <= width <= 768px) {
     /* Títulos */
     .about__title,
     .brand-info__title,
@@ -2937,39 +3002,173 @@ body {
     .news__title,
     .blog__title,
     .shop__title,
-    .Joinus__title,
+    .joinus__title,
     .viewshop__title,
     .checkout__title {
-        font-size: 2rem;
+        font-size: 1.8rem;
     }
     
     .introduction__title {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
     
     /* Header */
+    .header__logo {
+        height: 60px;
+        transform: translateX(-50%);
+        left: 50%;
+        position: absolute;
+        top: 5px;
+    }
+    
+    .theme-toggle {
+        left: 90px;
+        top: 20px;
+        width: 35px;
+        height: 35px;
+        z-index: 1001;
+    }
+    
+    .header__menu-toggle {
+        right: 15px;
+        top: 15px;
+        z-index: 1001;
+    }
+    
     .header__language {
+        top: 35px;
+        right: 5px;
+        z-index: 1001;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .header__language-flag {
+        width: 25px;
+        height: 16px;
+        margin: 0 3px;
+    }
+    
+    .header__carrito {
+        position: absolute;
         right: 60px;
+        top: 15px;
+        margin-right: 0;
+        height: 35px;
+        z-index: 1001;
+    }
+    
+    .header__count {
+        right: 55px;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        font-size: 11px;
+        z-index: 1002;
     }
     
     .header__hidden {
-        right: 50px;
+        width: 270px;
+        right: 10px;
+        top: 60px;
     }
     
-    .postheader__title {
-        font-size: 2rem;
-        padding: 8px 15px;
+    .header__nav {
+        width: 80%;
     }
     
-    /* shop */
+    /* Footer */
+    .footer {
+        padding: 30px 10px;
+    }
+    
+    .footer__left, 
+    .footer__right, 
+    .footer__center {
+        position: static;
+        width: 100%;
+        margin: 15px auto;
+        text-align: center;
+        align-items: center;
+    }
+    
+    .footer__container {
+        flex-direction: column;
+    }
+    
+    .footer__social {
+        justify-content: center;
+    }
+    
+    /* Shop */
+    .shop__container {
+        flex-direction: column;
+    }
+    
+    .shop__filters {
+        position: static;
+        width: 100%;
+        max-width: none;
+        flex: none;
+        margin-bottom: 30px;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+    
     .shop__products {
         grid-template-columns: 1fr;
+    }
+    
+    .shop__filters-title,
+    .shop__filter-subtitle {
+        font-size: 1rem;
+    }
+    
+    .shop__filter-option {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+    
+    .shop__filter-checkbox {
+        min-width: 18px;
+        min-height: 18px;
+        margin-right: 10px;
+    }
+    
+    .shop__filter-price {
+        margin-top: 10px;
+    }
+    
+    .shop__price-range {
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+    
+    .shop__filter-button, .shop__filter-reset {
+        margin-top: 15px;
     }
     
     /* Checkout */
     .checkout__form-row {
         flex-direction: column;
         gap: 15px;
+    }
+    
+    .checkout__form-section, 
+    .checkout__summary {
+        flex: 100%;
+        min-width: 100%;
+    }
+    
+    .checkout__summary {
+        order: -1;
+        position: static;
+        margin-bottom: 30px;
+    }
+    
+    .checkout__form {
+        padding: 15px;
     }
     
     /* Equipo */
@@ -2983,147 +3182,33 @@ body {
         gap: 5px;
     }
     
-    /* Game */
-    .game__card {
-        transform: scale(0.9);
-    }
-    
-    .game__card:hover {
-        transform: translateY(-3px) scale(0.9);
-    }
-    
-    /* Textos */
-    .introduction__text {
-        margin-left: 20px;
-        margin-right: 20px;
-        font-size: 1.2rem;
-    }
-    
-    .join-intro p {
-        padding: 15px;
-        font-size: 1rem;
-        line-height: 1.8;
-    }
-}
-
-/* Móviles pequeños */
-@media screen and (max-width: 480px) {
-    /* General */
-    body {
-        font-size: 14px;
-    }
-    
-    /* Header */
-    .header__logo {
-        height: 60px;
-        top: 5px;
-    }
-    
-    .theme-toggle {
-        left: 10px;
-        top: 15px;
-        width: 35px;
-        height: 35px;
-    }
-    
-    .header__language {
-        top: 60px;
-        right: 10px;
+    .blog__article {
         flex-direction: column;
     }
     
-    .header__language-flag {
-        margin: 2px;
-    }
-    
-    .header__carrito {
-        margin-right: 80px;
-    }
-    
-    .header__count {
-        right: 70px;
-    }
-    
-    .header__hidden {
-        width: 270px;
-        right: 5px;
-    }
-    
-    /* Footer */
-    .footer {
-        padding: 30px 10px;
-    }
-    
-    /* Títulos */
-    .about__title,
-    .brand-info__title,
-    .companyphilosophy__title,
-    .team__title,
-    .contact__title,
-    .faq__title,
-    .news__title,
-    .blog__title,
-    .shop__title,
-    .Joinus__title,
-    .viewshop__title,
-    .checkout__title {
-        font-size: 1.8rem;
-    }
-    
-    .introduction__title {
-        font-size: 1.9rem;
-    }
-    
-    /* Secciones */
-    .about,
-    .brand-info,
-    .companyphilosophy,
-    .team,
-    .contact,
-    .faq,
-    .news,
-    .blog,
-    .shop,
-    .Joinus,
-    .checkout {
-        padding: 40px 15px;
-    }
-    
-    /* Cards y elementos */
-    .contact__card {
-        min-width: 100%;
-    }
-    
-    .viewshop__card {
-        width: 100%;
-    }
-    
-    /* Formularios */
-    .Joinus__container {
-        padding: 20px 15px;
-    }
-    
-    .checkout__form {
-        padding: 15px;
+    .blog__article-image {
+        max-width: 100%;
     }
     
     /* Juego */
     .game {
         width: 95%;
+        max-width: 450px;
         padding: 5px;
     }
     
     .game__board {
-        height: 380px;
+        width: 100%;
+        height: 520px;
     }
     
     .game__stats {
-        top: 340px;
+        top: 480px;
     }
     
     .game__card {
         transform: scale(0.8);
-        margin: 5px;
+        margin: 4px;
     }
     
     .game__card:hover {
@@ -3131,19 +3216,21 @@ body {
     }
     
     .game__codigo {
-        font-size: 18px;
+        font-size: 16px;
     }
     
     /* Textos */
     .introduction__text {
-        margin-left: 10px;
-        margin-right: 10px;
+        margin-left: 15px;
+        margin-right: 15px;
         font-size: 1.1rem;
     }
     
     .postheader__title {
-        font-size: 1.6rem;
-        max-width: 280px;
+        font-size: 1.8rem;
+        padding: 10px 15px;
+        text-align: center;
+        max-width: 90%;
     }
     
     .join-intro-header h2 {
@@ -3157,6 +3244,186 @@ body {
     .join-intro p {
         padding: 15px;
         font-size: 1rem;
-        line-height: 1.8;
+        line-height: 1.6;
+    }
+    
+    /* Secciones */
+    .about,
+    .brand-info,
+    .companyphilosophy,
+    .team,
+    .contact,
+    .faq,
+    .news,
+    .blog,
+    .shop,
+    .joinus,
+    .checkout {
+        padding: 40px 15px;
+    }
+    
+    /* Cards y elementos */
+    .contact__card {
+        min-width: 100%;
+    }
+    
+    .viewshop__card {
+        width: 100%;
+    }
+    
+    .news__grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    /* Formularios */
+    .joinus__container {
+        padding: 20px 15px;
+    }
+    
+    /* General */
+    body {
+        font-size: 15px;
+    }
+    
+    /* Ajustes para el checkout/formulario de datos personales */
+    .checkout__subtitle,
+    .checkout__title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .checkout__form {
+        padding: 12px;
+    }
+    
+    .checkout__form-group {
+        margin-bottom: 10px;
+    }
+    
+    .checkout__label {
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+    }
+    
+    .checkout__input,
+    .checkout__select {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        height: 38px;
+    }
+    
+    .checkout__summary {
+        padding: 12px;
+    }
+    
+    .checkout__product {
+        padding: 8px 0;
+    }
+    
+    .checkout__product-image {
+        width: 60px;
+        height: 60px;
+        margin-right: 10px;
+    }
+    
+    .checkout__product-name {
+        font-size: 0.95rem;
+        margin-bottom: 3px;
+    }
+    
+    .checkout__product-details {
+        font-size: 0.85rem;
+    }
+    
+    .checkout__product-price {
+        font-size: 1rem;
+    }
+    
+    .checkout__total-row {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+    }
+    
+    .checkout__final-total {
+        font-size: 1.1rem;
+        margin-top: 12px;
+        padding-top: 12px;
+    }
+    
+    .checkout__submit-btn {
+        padding: 12px;
+        font-size: 1rem;
+    }
+    
+    /* Ajustes para todos los formularios */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="password"],
+    textarea,
+    select {
+        font-size: 16px; /* Evita zoom en iOS */
+        padding: 8px 10px;
+        height: 38px;
+    }
+    
+    /* Ajustes específicos para joinus (Unirse) */
+    .joinus__title {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+    
+    .joinus__subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+    }
+    
+    .joinus__container {
+        padding: 15px;
+    }
+    
+    .joinus__input,
+    .joinus__select {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+        height: 38px;
+        margin-bottom: 10px;
+    }
+    
+    .joinus__label {
+        font-size: 0.9rem;
+        margin-bottom: 3px;
+    }
+    
+    .joinus__button {
+        padding: 12px;
+        font-size: 1rem;
+        margin-top: 10px;
+    }
+    
+    /* Resumen de pedido */
+    .checkout__items {
+        max-height: 250px;
     }
 }
+
+@media (max-width: 375px) {
+    .game__board {
+        height: 560px;
+    }
+    
+    .game__stats {
+        top: 520px;
+    }
+    
+    .game__card {
+        transform: scale(0.7);
+    }
+    
+    .game__card:hover {
+        transform: translateY(-2px) scale(0.7);
+    }
+}
+

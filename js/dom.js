@@ -1764,8 +1764,9 @@ function initMemoryGame() {
         for (let i = 0; i < 12; i++) {
             // Actualizar posición Y según la fila
             if (i === 0) y = 10;
-            else if (i === 4) { y = 130; modificadorX = 10; }
-            else if (i === 8) { y = 250; modificadorX = 10; }
+            else if (i === 3) { y = 130; modificadorX = 10; }
+            else if (i === 6) { y = 250; modificadorX = 10; }
+            else if (i === 9) { y = 370; modificadorX = 10; }
             
             // Crear carta y añadirla al tablero
             let cartaNueva = new Carta(modificadorX, y, 100, 100, cartasDesordenadas[i]);
