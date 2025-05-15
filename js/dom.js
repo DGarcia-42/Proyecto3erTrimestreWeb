@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar todas las características
     initNavMenu();
-    initShoppingCart();
+    initshoppingCart();
     initReadMoreButtons();
     initFilters();
     initCheckoutPage();
@@ -58,8 +58,8 @@ function initAccordions() {
 }
 
 // Carrito de compra
-function initShoppingCart() {
-    const cartButtons = document.querySelectorAll('.Shop__Button');
+function initshoppingCart() {
+    const cartButtons = document.querySelectorAll('.shop__Button');
     const cartIcon = document.querySelector('.header__carrito');
     const cartContainer = document.querySelector('.header__hidden');
     const cartCount = document.getElementById('cartCount');
@@ -91,10 +91,10 @@ function initShoppingCart() {
     // Añadir producto al carrito
     cartButtons.forEach(button => {
         button.addEventListener('click', () => {
-            const product = button.closest('.Shop__product');
-            const productName = product.querySelector('.Shop__Name').textContent;
-            const productPrice = product.querySelector('.Shop__Price').textContent;
-            const productImage = product.querySelector('.Shop__Image')?.src || 'Imagenes/Logonegro.png';
+            const product = button.closest('.shop__product');
+            const productName = product.querySelector('.shop__Name').textContent;
+            const productPrice = product.querySelector('.shop__Price').textContent;
+            const productImage = product.querySelector('.shop__Image')?.src || 'Imagenes/Logonegro.png';
             
             // Guardar el nombre original para traducción
             const originalKey = productName;
@@ -507,12 +507,12 @@ function initCheckoutPage() {
 
 // Filtros de productos
 function initFilters() {
-    const filterBtn = document.querySelector('.Shop__filter-button');
-    const resetBtn = document.querySelector('.Shop__filter-reset');
+    const filterBtn = document.querySelector('.shop__filter-button');
+    const resetBtn = document.querySelector('.shop__filter-reset');
     const priceRange = document.getElementById('priceRange');
     const priceValue = document.getElementById('priceValue');
     const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
-    const products = document.querySelectorAll('.Shop__product');
+    const products = document.querySelectorAll('.shop__product');
     
     if (!filterBtn || !products.length) return;
     
@@ -536,8 +536,8 @@ function initFilters() {
             
             // Filtrar productos
             products.forEach(product => {
-                const productName = product.querySelector('.Shop__Name').textContent.toLowerCase();
-                const productPrice = parseInt(product.querySelector('.Shop__Price').textContent.replace('€', '').trim());
+                const productName = product.querySelector('.shop__Name').textContent.toLowerCase();
+                const productPrice = parseInt(product.querySelector('.shop__Price').textContent.replace('€', '').trim());
                 
                 // Determinar categoría
                 let productCategory = '';
@@ -572,26 +572,26 @@ function initFilters() {
 
 // Funcionalidad "Ver más"
 function initLoadMore() {
-    const moreBtn = document.querySelector('.Shop__Button--more');
+    const moreBtn = document.querySelector('.shop__Button--more');
     if (moreBtn) {
         moreBtn.addEventListener('click', () => {
-            const hiddenProducts = document.querySelectorAll('.Shop__product--hidden');
+            const hiddenProducts = document.querySelectorAll('.shop__product--hidden');
             
             if (hiddenProducts.length > 0) {
                 // Mostrar productos ocultos
                 hiddenProducts.forEach(product => {
-                    product.classList.remove('Shop__product--hidden');
-                    product.classList.add('Shop__product');
+                    product.classList.remove('shop__product--hidden');
+                    product.classList.add('shop__product');
                 });
                 // Usar traducción según el idioma
                 const lang = localStorage.getItem('language') || 'es';
                 moreBtn.textContent = lang === 'en' ? 'View less' : 'Ver menos';
             } else {
                 // Ocultar productos
-                const productsToHide = document.querySelectorAll('.Shop__product[id="hidden"]');
+                const productsToHide = document.querySelectorAll('.shop__product[id="hidden"]');
                 productsToHide.forEach(product => {
-                    product.classList.remove('Shop__product');
-                    product.classList.add('Shop__product--hidden');
+                    product.classList.remove('shop__product');
+                    product.classList.add('shop__product--hidden');
                 });
                 // Usar traducción según el idioma
                 const lang = localStorage.getItem('language') || 'es';
@@ -810,7 +810,7 @@ function initLanguageSwitch() {
             "Curriculum Vitae": "Curriculum Vitae",
             "Enviar solicitud": "Enviar solicitud",
             
-            // Shop
+            // shop
             "Nuestros productos": "Nuestros productos",
             "Filtros": "Filtros",
             "Categoría": "Categoría",
@@ -1137,7 +1137,7 @@ function initLanguageSwitch() {
             "Ningún archivo seleccionado": "No file selected",
             "Enviar solicitud": "Submit Application",
             
-            // Shop
+            // shop
             "Nuestros productos": "Our products",
             "Filtros": "Filters",
             "Categoría": "Category",
@@ -1582,8 +1582,8 @@ function initLanguageSwitch() {
         });
 
         // Tarjetas de productos, noticias, blog, etc.
-        // Shop
-        document.querySelectorAll('.Shop__Name, .Shop__Description, .viewShop__card-title, .viewShop__card-description').forEach(el => {
+        // shop
+        document.querySelectorAll('.shop__Name, .shop__Description, .viewshop__card-title, .viewshop__card-description').forEach(el => {
             const text = el.textContent.trim();
             if (text && (translations.es[text] || translations.en[text])) {
                 el.setAttribute('data-i18n', text);
