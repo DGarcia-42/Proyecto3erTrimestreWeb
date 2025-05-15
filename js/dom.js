@@ -1667,10 +1667,10 @@ function initMemoryGame() {
     const imagenesPrendas = {
         'camiseta1': 'Imagenes/camisetaCompra1.png',
         'camiseta2': 'Imagenes/camisetaCompra4.png',
-        'sudadera1': 'Imagenes/sudaderaCompra1.png',
-        'sudadera2': 'Imagenes/sudaderaCompra2.png',
-        'chaqueta1': 'Imagenes/chaquetaCompra1.png',
-        'chaqueta2': 'Imagenes/chaquetaCompra2.png'
+        'sudadera1': 'Imagenes/SudaderaCompra1.png',
+        'sudadera2': 'Imagenes/SudaderaCompra2.png',
+        'chaqueta1': 'Imagenes/ChaquetaCompra1.png',
+        'chaqueta2': 'Imagenes/ChaquetaCompra2.png'
     };
 
     // Constructor de cartas
