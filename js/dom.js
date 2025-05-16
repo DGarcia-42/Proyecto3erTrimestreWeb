@@ -381,7 +381,7 @@ function initCheckoutPage() {
             } else if (codigoJuego && codigo === codigoJuego) {
                 // Aplicar descuento del 50% (código ganado en el juego)
                 const subtotal = parseFloat(subtotalEl.textContent);
-                const descuento = subtotal * 0.5; // 50% de descuento
+                const descuento = subtotal * 0.5; 
                 
                 discountRow.style.display = 'flex';
                 discountEl.textContent = `${descuento.toFixed(2)}€`;
@@ -480,7 +480,6 @@ function initCheckoutPage() {
             const totalPrice = price * item.quantity;
             subtotal += totalPrice;
             
-            // Obtener el nombre a mostrar (nombre traducido o original)
             const displayName = item.displayName || item.originalName || productKey;
             
             const productEl = document.createElement('div');
@@ -497,7 +496,6 @@ function initCheckoutPage() {
             checkoutItems.appendChild(productEl);
         }
         
-        // Actualizar totales
         if (subtotalEl) subtotalEl.textContent = `${subtotal.toFixed(2)}€`;
         if (shippingEl) shippingEl.textContent = `${shippingCost.toFixed(2)}€`;
         if (discountRow) discountRow.style.display = 'none';
@@ -1404,9 +1402,8 @@ function initLanguageSwitch() {
     function applyTranslations(lang) {
         const elements = document.querySelectorAll('[data-i18n]');
         
-        // Si los elementos no tienen el atributo data-i18n, añadirlo primero
         if (!elements.length) {
-            // Navegar por todos los textos traducibles y añadir el atributo
+        
             addI18nAttributes();
         }
         
@@ -1497,17 +1494,15 @@ function initLanguageSwitch() {
         }
     }
     
-    // Añadir atributos data-i18n a elementos traducibles
+
     function addI18nAttributes() {
-        // Navegación
         document.querySelectorAll('.header__nav-link').forEach(link => {
             const text = link.textContent.trim();
             link.setAttribute('data-i18n', text);
         });
         
-        // Títulos y subtítulos principales
         document.querySelectorAll('h1, h2, h3, h4').forEach(el => {
-            if (el.children.length === 0) { // Solo si no tiene hijos
+            if (el.children.length === 0) { 
                 const text = el.textContent.trim();
                 if (translations.es[text] || translations.en[text]) {
                     el.setAttribute('data-i18n', text);
@@ -1515,9 +1510,8 @@ function initLanguageSwitch() {
             }
         });
         
-        // Párrafos
         document.querySelectorAll('p').forEach(el => {
-            if (el.children.length === 0) { // Solo si no tiene hijos
+            if (el.children.length === 0) { 
                 const text = el.textContent.trim();
                 if (translations.es[text] || translations.en[text]) {
                     el.setAttribute('data-i18n', text);
@@ -1525,9 +1519,8 @@ function initLanguageSwitch() {
             }
         });
         
-        // Botones
         document.querySelectorAll('button').forEach(button => {
-            if (button.children.length === 0) { // Solo si no tiene hijos
+            if (button.children.length === 0) { 
                 const text = button.textContent.trim();
                 if (translations.es[text] || translations.en[text]) {
                     button.setAttribute('data-i18n', text);
@@ -1537,7 +1530,7 @@ function initLanguageSwitch() {
         
         // Enlaces
         document.querySelectorAll('a').forEach(link => {
-            if (link.children.length === 0) { // Solo si no tiene hijos
+            if (link.children.length === 0) { 
                 const text = link.textContent.trim();
                 if (translations.es[text] || translations.en[text]) {
                     link.setAttribute('data-i18n', text);
@@ -1547,7 +1540,7 @@ function initLanguageSwitch() {
         
         // Etiquetas
         document.querySelectorAll('label').forEach(label => {
-            if (label.children.length === 0) { // Solo si no tiene hijos
+            if (label.children.length === 0) { 
                 const text = label.textContent.trim();
                 if (translations.es[text] || translations.en[text]) {
                     label.setAttribute('data-i18n', text);
@@ -1565,7 +1558,7 @@ function initLanguageSwitch() {
 
         // Spans
         document.querySelectorAll('span').forEach(span => {
-            if (span.children.length === 0) { // Solo si no tiene hijos
+            if (span.children.length === 0) { 
                 const text = span.textContent.trim();
                 if (translations.es[text] || translations.en[text]) {
                     span.setAttribute('data-i18n', text);

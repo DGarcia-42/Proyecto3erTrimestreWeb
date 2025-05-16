@@ -1632,7 +1632,6 @@ body {
 }
 
 
-/* Mejorar interacción con las cartas de noticias */
 .news__card, .blog__article {
     transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -1642,7 +1641,6 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Animación para las secciones de texto desplegables */
 .news__card-full-text, .blog__article-full-text, .news__full-text {
     max-height: 0;
     overflow: hidden;
@@ -1652,7 +1650,7 @@ body {
 .news__card-full-text:not(.hidden), 
 .blog__article-full-text:not(.hidden), 
 .news__full-text:not(.hidden) {
-    max-height: 2000px; /* valor alto para asegurar que todo el contenido se muestre */
+    max-height: 2000px;
     transition: max-height 1s ease-in;
 }
 
@@ -3286,7 +3284,7 @@ body {
         font-size: 15px;
     }
     
-    /* Ajustes para el checkout/formulario de datos personales */
+
     .checkout__subtitle,
     .checkout__title {
         font-size: 1.5rem;
@@ -3364,12 +3362,11 @@ body {
     input[type="password"],
     textarea,
     select {
-        font-size: 16px; /* Evita zoom en iOS */
+        font-size: 16px; 
         padding: 8px 10px;
         height: 38px;
     }
-    
-    /* Ajustes específicos para joinus (Unirse) */
+
     .joinus__title {
         font-size: 1.5rem;
         margin-bottom: 15px;
