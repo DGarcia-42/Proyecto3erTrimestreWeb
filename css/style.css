@@ -268,8 +268,8 @@ body {
 .footer__right {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    text-align: right;
+    align-items: center;
+    text-align: center;
     position: absolute;
     right: 40px;
     top: 80px;
@@ -292,6 +292,7 @@ body {
     margin-bottom: 20px;
     font-size: 1.3rem;
     font-weight: bold;
+    
 }
 
 
@@ -333,6 +334,7 @@ body {
     flex-direction: column;
     gap: 10px;
     width: 100%;
+    max-width: 100%;
 }
 
 .footer__input {
@@ -342,6 +344,7 @@ body {
     background-color: #333 !important;
     color: white !important;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .footer__button {
@@ -352,6 +355,8 @@ body {
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .footer__button:hover {
@@ -368,7 +373,7 @@ body {
 .footer__legal a {
     color: white !important;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     transition: color 0.3s ease;
 }
 
@@ -2311,7 +2316,7 @@ body {
 
 /* Estilos para la página del juego de pares */
 .game {
-    width: 500px;
+    width: 400px;
     padding: 0px 10px;
     margin: 10px auto;
     text-align: center;
@@ -2334,7 +2339,7 @@ body {
 }
 
 .game__board {
-    width: 500px;
+    width: 380px;
     height: 550px;
     background-color: var(--bg-secondary);
     position: relative;
@@ -2967,12 +2972,12 @@ body {
     
     /* Juego */
     .game {
-        width: 90%;
+        width: 400px;
         max-width: 500px;
     }
     
     .game__board {
-        width: 100%;
+        width: 380px;
     }
     
     /* Intro y textos */
